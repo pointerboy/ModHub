@@ -4,12 +4,14 @@ from flask import render_template, flash, redirect, url_for, request, g, \
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
-from app import db
+from werkzeug import secure_filename
+from app import db, current_app
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
 from app.models import User, Post, Message, Notification
 from app.translate import translate
 from app.main import bp
 
+import os
 
 @bp.before_app_request
 def before_request():
@@ -26,6 +28,11 @@ def before_request():
 def index():
     form = PostForm()
     if form.validate_on_submit():
+        f = form.upload.data
+        filename = secure_filename(f.filename)
+        f.save(os.path.join(
+            current_app.instance_path, 'photos', filename
+        ))
         language = guess_language(form.post.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
