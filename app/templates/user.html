@@ -5,7 +5,7 @@
         <tr>
             <td width="256px"><img src="{{ user.avatar(236) }}"></td>
             <td>
-                <h1>{{ _('User') }}: {{ user.username }}</h1>
+                <h1>{{ user.username }}</h1>
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}
                 <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('LLL') }}</p>
@@ -18,6 +18,7 @@
                 {% else %}
                 <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{ _('Unfollow') }}</a></p>
                 {% endif %}
+                <p>{{ _('Numbers of posts made: %(count)d', count=user.posts.count())}}</p>
                 {% if user != current_user %}
                 <p><a href="{{ url_for('main.send_message', recipient=user.username) }}">{{ _('Send private message') }}</a></p>
                 {% endif %}
