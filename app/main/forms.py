@@ -1,17 +1,21 @@
 from flask import request
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField
-from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms.validators import ValidationError, DataRequired, Length
 from flask_babel import _, lazy_gettext as _l
+from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from wtforms import StringField, SubmitField, TextAreaField
+from wtforms.validators import ValidationError, DataRequired, Length
+
 from app.models import User
-from werkzeug.utils import secure_filename
 
 
 class EditProfileForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About me'),
                              validators=[Length(min=0, max=140)])
+
+    profile_pic = FileField(_l('New profile picture'), validators=[FileRequired(),
+                                                                   FileAllowed(['jpg', 'png'], 'Images only!'
+                                                                               )])
     submit = SubmitField(_l('Submit'))
 
     def __init__(self, original_username, *args, **kwargs):
@@ -28,8 +32,8 @@ class EditProfileForm(FlaskForm):
 class PostForm(FlaskForm):
     post = TextAreaField(_l('Say something'), validators=[DataRequired()])
     upload = FileField(_l('image'), validators=[FileRequired(),
-       FileAllowed(['jpg', 'png'], 'Images only!'
-       )])
+                                                FileAllowed(['jpg', 'png'], 'Images only!'
+                                                            )])
     submit = SubmitField(_l('Submit'))
 
 

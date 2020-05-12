@@ -8,19 +8,21 @@
                 <h1>{{ user.username }}</h1>
                 {% if user.about_me %}<p>{{ user.about_me }}</p>{% endif %}
                 {% if user.last_seen %}
-                <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('LLL') }}</p>
+                    <p>{{ _('Last seen on') }}: {{ moment(user.last_seen).format('LLL') }}</p>
                 {% endif %}
                 <p>{{ _('%(count)d followers', count=user.followers.count()) }}, {{ _('%(count)d following', count=user.followed.count()) }}</p>
                 {% if user == current_user %}
-                <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
+                    <p><a href="{{ url_for('main.edit_profile') }}">{{ _('Edit your profile') }}</a></p>
                 {% elif not current_user.is_following(user) %}
-                <p><a href="{{ url_for('main.follow', username=user.username) }}">{{ _('Follow') }}</a></p>
+                    <p><a href="{{ url_for('main.follow', username=user.username) }}">{{ _('Follow') }}</a></p>
                 {% else %}
-                <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{ _('Unfollow') }}</a></p>
+                    <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{ _('Unfollow') }}</a></p>
                 {% endif %}
-                <p>{{ _('Numbers of posts made: %(count)d', count=user.posts.count())}}</p>
+                <p>{{ _('Numbers of posts made: %(count)d', count=user.posts.count()) }}</p>
                 {% if user != current_user %}
-                <p><a href="{{ url_for('main.send_message', recipient=user.username) }}">{{ _('Send private message') }}</a></p>
+                    <p>
+                        <a href="{{ url_for('main.send_message', recipient=user.username) }}">{{ _('Send private message') }}</a>
+                    </p>
                 {% endif %}
             </td>
         </tr>

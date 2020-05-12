@@ -1,17 +1,19 @@
+import os
 from datetime import datetime
+
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
-from flask_login import current_user, login_required
+    jsonify
 from flask_babel import _, get_locale
+from flask_login import current_user, login_required
 from guess_language import guess_language
 from werkzeug import secure_filename
+
 from app import db, current_app
+from app.main import bp
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
 from app.models import User, Post, Message, Notification
 from app.translate import translate
-from app.main import bp
 
-import os
 
 @bp.before_app_request
 def before_request():
@@ -98,6 +100,15 @@ def edit_profile():
     if form.validate_on_submit():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
+
+        picture_data_file = form.profile_pic.data
+        filename = secure_filename(picture_data_file.filename)
+        picture_data_file.save(os.path.join(
+            current_app.instance_path, 'userphotos', filename
+        ))
+
+        current_user.picture_id = '/instance/userphotos/' + current_user.username + picture_data_file.filename
+
         db.session.commit()
         flash(_('Your changes have been saved.'))
         return redirect(url_for('main.edit_profile'))
@@ -190,7 +201,7 @@ def messages():
     page = request.args.get('page', 1, type=int)
     messages = current_user.messages_received.order_by(
         Message.timestamp.desc()).paginate(
-            page, current_app.config['POSTS_PER_PAGE'], False)
+        page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.messages', page=messages.next_num) \
         if messages.has_next else None
     prev_url = url_for('main.messages', page=messages.prev_num) \
