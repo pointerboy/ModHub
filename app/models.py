@@ -127,7 +127,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         return check_password_hash(self.password_hash, password)
 
     def avatar(self, size):
-        return self.picture_id
+        return url_for('static', filename='profile_pics/' + self.picture_id) 
         digest = md5(self.email.lower().encode('utf-8')).hexdigest()
         return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
             digest, size)

@@ -40,6 +40,7 @@
                                 <span id="message_count" class="badge"
                                       style="visibility: {% if new_messages %}visible
                                       {% else %}hidden{% endif %};">
+                                      <span id="audio"></span>
                                 {{ new_messages }}
                             </span>
                             </a>
@@ -148,6 +149,7 @@
         function set_task_progress(task_id, progress) {
             $('#' + task_id + '-progress').text(progress);
         }
+
         {% if current_user.is_authenticated %}
             $(function () {
                 var since = 0;

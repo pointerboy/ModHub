@@ -1,19 +1,20 @@
-import os
 from datetime import datetime
-
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify
-from flask_babel import _, get_locale
+    jsonify, current_app
 from flask_login import current_user, login_required
+from flask_babel import _, get_locale
 from guess_language import guess_language
 from werkzeug import secure_filename
-
 from app import db, current_app
-from app.main import bp
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
 from app.models import User, Post, Message, Notification
 from app.translate import translate
+from app.main import bp
 
+import os
+from os import urandom
+import binascii
+from PIL import Image
 
 @bp.before_app_request
 def before_request():
@@ -93,6 +94,20 @@ def user_popup(username):
     return render_template('user_popup.html', user=user)
 
 
+def save_picture(form_picture):
+    random_hex = binascii.hexlify(os.urandom(8))
+    _, f_ext = os.path.splitext(form_picture.filename)
+    picture_fn = random_hex + f_ext
+    picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn)
+
+    output_size = (125, 125)
+    i = Image.open(form_picture)
+    i.thumbnail(output_size)
+    i.save(picture_path)
+
+    return picture_fn
+
+
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -101,13 +116,9 @@ def edit_profile():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
 
-        picture_data_file = form.profile_pic.data
-        filename = secure_filename(picture_data_file.filename)
-        picture_data_file.save(os.path.join(
-            current_app.instance_path, 'userphotos', filename
-        ))
-
-        current_user.picture_id = '/instance/userphotos/' + current_user.username + picture_data_file.filename
+        if form.profile_pic.data:
+            picture_file = save_picture(form.profile_pic.data)
+            current_user.picture_id = picture_file
 
         db.session.commit()
         flash(_('Your changes have been saved.'))
@@ -201,7 +212,7 @@ def messages():
     page = request.args.get('page', 1, type=int)
     messages = current_user.messages_received.order_by(
         Message.timestamp.desc()).paginate(
-        page, current_app.config['POSTS_PER_PAGE'], False)
+            page, current_app.config['POSTS_PER_PAGE'], False)
     next_url = url_for('main.messages', page=messages.next_num) \
         if messages.has_next else None
     prev_url = url_for('main.messages', page=messages.prev_num) \
