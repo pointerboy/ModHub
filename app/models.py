@@ -128,9 +128,10 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
 
     def avatar(self, size):
         return url_for('static', filename='profile_pics/' + self.picture_id) 
-        digest = md5(self.email.lower().encode('utf-8')).hexdigest()
-        return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
-            digest, size)
+        
+        #digest = md5(self.email.lower().encode('utf-8')).hexdigest()
+        #return 'https://www.gravatar.com/avatar/{}?d=identicon&s={}'.format(
+          #  digest, size)
 
     def follow(self, user):
         if not self.is_following(user):
