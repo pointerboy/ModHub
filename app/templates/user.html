@@ -18,7 +18,12 @@
                 {% else %}
                     <p><a href="{{ url_for('main.unfollow', username=user.username) }}">{{ _('Unfollow') }}</a></p>
                 {% endif %}
+
                 <p>{{ _('Numbers of posts made: %(count)d', count=user.posts.count()) }}</p>
+                {% if user.posts.count() < 5 %}
+                <span class="badge badge-warning">Newbie</span>
+                {% endif %}
+                
                 {% if user != current_user %}
                     <p>
                         <a href="{{ url_for('main.send_message', recipient=user.username) }}">{{ _('Send private message') }}</a>
