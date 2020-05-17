@@ -8,13 +8,14 @@ from time import time
 import jwt
 import redis
 import rq
-from flask import current_app, url_for
+from flask import current_app, url_for, send_file
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
 
+from zipfile import ZipFile
 
 class SearchableMixin(object):
     @classmethod
@@ -253,6 +254,26 @@ class Post(SearchableMixin, db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     language = db.Column(db.String(5))
+
+    mod_file = db.Column(db.String(23+1))
+
+    def download_file(self, file):
+        upload = os.path.join(current_app.root_path, 'static/moduploads', file)
+        return send_file(upload, as_attachment=True, attachment_filename=file)
+        
+    def list_contents(self):
+        if self.mod_file:
+            contents = ""
+        
+            file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
+            print(file_loc)
+            with ZipFile(file_loc, 'r') as obj:
+                listOfFiles = obj.namelist()
+                for element in listOfFiles:
+                    print(element)
+                    contents += element
+            return contents
+        return ""
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

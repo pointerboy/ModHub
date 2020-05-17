@@ -34,10 +34,15 @@ def index():
         language = guess_language(form.post.data)
         if language == 'UNKNOWN' or len(language) > 5:
             language = ''
+        
         title = form.title.data
-        print(title)
+        modArchive = form.modFile.data
+        if modArchive:
+            data = save_mod(modArchive) 
+            
         post = Post(body=form.post.data, author=current_user,
-                    title = title, language=language)
+                    title = title, mod_file = data, language=language)
+
         db.session.add(post)
         db.session.commit()
         flash(_('Your post is now live!'))
@@ -90,15 +95,23 @@ def user_popup(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_popup.html', user=user)
 
+def save_mod(modData):
+    save_hex = binascii.hexlify(os.urandom(8))
+    secur_filename = secure_filename(modData.filename)
+    _, f_ext = os.path.splitext(modData.filename)
+    data_fn = save_hex + f_ext
+    modData.save(os.path.join(current_app.root_path, 'static/moduploads', data_fn))
+
+    return data_fn
 
 def save_picture(form_picture):
     random_hex = binascii.hexlify(os.urandom(8))
+    secur_filename = secure_filename(form_picture.filename)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_fn)
 
     return picture_fn
-
 
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
