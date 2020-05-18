@@ -1,8 +1,12 @@
+
 <div class="card mb-1" >
   <div class="navbar-brand">
       <img src="{{ post.author.avatar(70) }}" width="30" height="30" class="d-inline-block align-top" alt="">
       <a href="{{ url_for('main.user', username=post.author.username) }}">{{post.author.username}} </a>
       {{post.body}} <small class="text-muted">{{ _('%(username)s messaged %(when)s',
         username=user_link, when=moment(post.timestamp).fromNow()) }}.</small>
+
+        <a href="{{ url_for('main.send_message', recipient=post.author.username) }}"><button id="button" class="btn btn-primary btn-sm">Reply back</button></a>
   </div>
 </div>
+
