@@ -145,8 +145,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         if self.is_following(user):
             self.followed.remove(user)
 
-    def is_admin(self):
-        if self.admin == 1:
+    def is_admin(self, val):
+        if val == 1:
             return True
         
         return False
