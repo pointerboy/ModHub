@@ -9,7 +9,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                <a class="navbar-brand" href="">
                     <img src="https://support.vanilla-remastered.com/assets/logo-fbtuvjyk.png" width="30" height="30" class="d-inline-block align-top" alt="<logo>">
                     ModHub
                   </a>
@@ -30,14 +30,14 @@
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ url_for('main.messages') }}">{{ _('Messages') }}
                                 {% set new_messages = current_user.new_messages() %}
-                                <span id="message_count" class="badge"
-                                      style="visibility: {% if new_messages %}visible
-                                      {% else %}hidden{% endif %};">
-                                {{ new_messages }}
+                                <button type="button" class="btn btn-primary">
+                                    <a style="color: white" href="{{ url_for('main.messages') }}">{{ _('Messages') }}</a>
+                                    {% if new_messages %}
+                                    <span class="badge badge-light">{{new_messages}}</span>
+                                    {% endif %}
+                                  </button>
                             </span>
-                            </a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('main.user', username=current_user.username) }}">{{ _('Profile') }}</a>
                         </li>
