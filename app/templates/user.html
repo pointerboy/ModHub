@@ -23,8 +23,8 @@
                 <span class="badge badge-warning">Newbie</span>
                 {% endif %}
 
-                {% if current_user.admin == 1 %}
-                <span class="badge badge-danger">Admin</span>
+                {% if current_user.is_admin() == 1 %}
+                <span class="badge badge-danger">ModHub Administrator</span>
                 {% endif %}
                 
                 {% if user != current_user %}
