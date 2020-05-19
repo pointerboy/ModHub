@@ -268,13 +268,14 @@ class Post(SearchableMixin, db.Model):
     def list_contents(self):
         if self.mod_file:
             print(self.mod_file)
-            contents = ""
+            contents = []
+
             file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
             with ZipFile(file_loc, 'r') as obj:
                 listOfFiles = obj.namelist()
                 for element in listOfFiles:
                     print(element)
-                    contents += element
+                    contents.append(element)
             return contents
         return "File not found."
 

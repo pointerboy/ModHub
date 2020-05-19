@@ -13,7 +13,9 @@
             username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
 
             {% for elemnt in post.list_contents() %}
-            {{elemnt}}
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{elemnt}}</li>
+            </ul>
             {%endfor%}
 
             <a href="{{url_for('main.download', filename=post.mod_file) }}"><h4>Download mod</h4></a>
