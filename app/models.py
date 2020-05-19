@@ -265,9 +265,6 @@ class Post(SearchableMixin, db.Model):
 
     mod_file = db.Column(db.String(23+1))
 
-    def download_file(self):
-        return send_from_directory('./static/moduploads', self.mod_file, as_attachment=True)
-        
     def list_contents(self):
         if self.mod_file:
             print(self.mod_file)
