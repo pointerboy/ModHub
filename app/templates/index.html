@@ -21,25 +21,25 @@
           </div>
           <div class="col-6">
                 <div class="row">
-                        <h4>Posting 101</h4>
+                        <h4>{{_('Posting 101')}}</h4>
                         <ul class="timeline">
                             <li>
-                                <b>Meaningful title</b>
-                                <p>Add a meaningful title to your posts in order to hook users up. 
+                                <b>{{_('Meaningful title')}}</b>
+                                <p>{{_("Add a meaningful title to your posts in order to hook users up. 
                                     Avoid random title names such as 'mod0', 'lsmod', 'skin1'. 
-                                    Save user's time by providing a userful title.
+                                    Save user's time by providing a userful title.")}}
                                 </p>
                             </li>
                             <li>
-                                <b>Add a proper brief</b>
-                                <p>Feel free to give a short description of the modification that you're presenting.
-                                    It can be information on further development status, installation guide and much more.
+                                <b>{{_('Add a proper brief')}}</b>
+                                <p>{{_('Feel free to give a short description of the modification that you are presenting.
+                                    It can be information on further development status, installation guide and much more.')}}
                                 </p>
                             </li>
                             <li>
-                                <b>Dress to impress</b>
-                                <p>Be sure to include a good looking screenshot or preview of your modification. 
-                                    Make it straight to the point. Also make sure that you organize your compressed (ZIP'd) file properly.
+                                <b>{{_('Dress to impress')}}</b>
+                                <p>{{_('Be sure to include a good looking screenshot or preview of your modification. 
+                                    Make it straight to the point. Also make sure that you organize your compressed (ZIPd) file properly.')}}
                                 </p>
                             </li>
                         </ul>
@@ -52,6 +52,7 @@
     </div>
 
     <div class="container">
+        <h2>{{_('Your precious posts')}}</h2>
         {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
