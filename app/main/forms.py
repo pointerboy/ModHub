@@ -30,7 +30,7 @@ class EditProfileForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    title = TextAreaField(_l('Title'), validators=[DataRequired()])
+    title = StringField(_l('Title'), validators=[DataRequired()])
     post = TextAreaField(_l('Say something'), validators=[DataRequired()])
     modFile = FileField(_('Upload mod file'), validators=[FileRequired(),
         FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
