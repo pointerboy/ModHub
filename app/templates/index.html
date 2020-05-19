@@ -6,16 +6,17 @@
 
 </br>
     <h1>{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
-    {% if form %}
     <div class="container">
         <div class="row justify-content">
             {% if request.MOBILE %}
             <p>Mobile uploads disabled.</p>
             {% else %}
           <div class="col-4">
-            <form method="POST" enctype="multipart/form-data">
-                {{ wtf.quick_form(form) }}
-            </form>
+                {% if form %}
+                <form method="POST" enctype="multipart/form-data">
+                    {{ wtf.quick_form(form) }}
+                </form>
+                {%endif%}
             {% endif %}
           </div>
           <div class="col-6">
@@ -49,9 +50,7 @@
         </div>
       </div>
     </div>
-</div>
 
-    {% endif %}
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
