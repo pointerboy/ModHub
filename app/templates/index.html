@@ -1,14 +1,46 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
-
 {% block app_content %}
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+
 </br>
     <h1>{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
     {% if form %}
-        <form method="POST" enctype="multipart/form-data">
-            {{ wtf.quick_form(form) }}
-        </form>
-        <br>
+    <div class="container">
+        <div class="row justify-content">
+          <div class="col-4">
+            <form method="POST" enctype="multipart/form-data">
+                {{ wtf.quick_form(form) }}
+            </form>
+          </div>
+          <div class="col-6">
+                <div class="row">
+                        <h4>Post tips</h4>
+                        <ul class="timeline">
+                            <li>
+                                <a target="_blank" href="https://www.totoprayogo.com/#">New Web Design</a>
+                                <a href="#" class="float-right">21 March, 2014</a>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque scelerisque diam non nisi semper, et elementum lorem ornare. Maecenas placerat facilisis mollis. Duis sagittis ligula in sodales vehicula....</p>
+                            </li>
+                            <li>
+                                <a href="#">21 000 Job Seekers</a>
+                                <a href="#" class="float-right">4 March, 2014</a>
+                                <p>Curabitur purus sem, malesuada eu luctus eget, suscipit sed turpis. Nam pellentesque felis vitae justo accumsan, sed semper nisi sollicitudin...</p>
+                            </li>
+                            <li>
+                                <a href="#">Awesome Employers</a>
+                                <a href="#" class="float-right">1 April, 2014</a>
+                                <p>Fusce ullamcorper ligula sit amet quam accumsan aliquet. Sed nulla odio, tincidunt vitae nunc vitae, mollis pharetra velit. Sed nec tempor nibh...</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
     {% endif %}
     {% for post in posts %}
         {% include '_post.html' %}
