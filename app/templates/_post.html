@@ -13,13 +13,7 @@
             username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
 
             {% for elemnt in post.list_contents() %}
-            {{if elemnt.count() > 0}}
-            <p>data ok</p>
-            {%elseif%}
-            <p>
-              ddfdf
-            </p>
-            {%endif%}
+            {{elemnt}}
             {%endfor%}
         </div>
       </div>
