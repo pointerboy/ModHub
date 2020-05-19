@@ -271,17 +271,16 @@ class Post(SearchableMixin, db.Model):
         
     def list_contents(self):
         if self.mod_file:
+            print(self.mod_file)
             contents = ""
-        
             file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
-            print(file_loc)
             with ZipFile(file_loc, 'r') as obj:
                 listOfFiles = obj.namelist()
                 for element in listOfFiles:
                     print(element)
                     contents += element
             return contents
-        return ""
+        return "File not found."
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

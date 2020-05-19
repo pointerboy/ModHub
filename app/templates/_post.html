@@ -11,6 +11,16 @@
           {% endset %}
           <p class="card-text"><small class="text-muted">{{ _('%(username)s posted %(when)s',
             username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
+
+            {% for elemnt in post.list_contents() %}
+            {{if elemnt.count() > 0}}
+            <p>data ok</p>
+            {%elseif%}
+            <p>
+              ddfdf
+            </p>
+            {%endif%}
+            {%endfor%}
         </div>
       </div>
     </div>

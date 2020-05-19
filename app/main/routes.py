@@ -39,6 +39,7 @@ def index():
         modArchive = form.modFile.data
         if modArchive:
             data = save_mod(modArchive) 
+            print(data)
             
         post = Post(body=form.post.data, author=current_user,
                     title = title, mod_file = data, language=language)
