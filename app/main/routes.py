@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app
+    jsonify, current_app, send_file
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
@@ -59,6 +59,12 @@ def index():
                            posts=posts.items, next_url=next_url,
                            prev_url=prev_url)
 
+
+@bp.route('/download/<filename>')
+@login_required
+def download(filename):
+    file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
+    return send_file(file_loc, as_attachment=True)
 
 @bp.route('/explore')
 @login_required

@@ -8,7 +8,7 @@ from time import time
 import jwt
 import redis
 import rq
-from flask import current_app, url_for, send_file
+from flask import current_app, url_for, send_from_directory
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -265,9 +265,8 @@ class Post(SearchableMixin, db.Model):
 
     mod_file = db.Column(db.String(23+1))
 
-    def download_file(self, file):
-        upload = os.path.join(current_app.root_path, 'static/moduploads', file)
-        return send_file(upload, as_attachment=True, attachment_filename=file)
+    def download_file(self):
+        return send_from_directory('./static/moduploads', self.mod_file, as_attachment=True)
         
     def list_contents(self):
         if self.mod_file:
