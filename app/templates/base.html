@@ -31,7 +31,7 @@
                     {% else %}
                         <li class="nav-item">
                                 {% set new_messages = current_user.new_messages() %}
-                                <button type="button" class="btn btn-primary">
+                                <button type="button" class="btn btn-success">
                                     <a style="color: white" href="{{ url_for('main.messages') }}">{{ _('Messages') }}</a>
                                     {% if new_messages %}
                                     <span class="badge badge-light">{{new_messages}}</span>
