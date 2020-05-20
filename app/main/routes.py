@@ -73,7 +73,6 @@ def index():
 
 @bp.route('/download/<filename>')
 @login_required
-@has_role('admin')
 def download(filename):
     file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
     return send_file(file_loc, as_attachment=True)
