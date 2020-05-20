@@ -105,6 +105,13 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
 
     admin = db.Column(db.Integer, default=0)
 
+    roles = db.Table(
+        'role_users',
+        db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+        db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
+    )
+
+
     followed = db.relationship(
         'User', secondary=followers,
         primaryjoin=(followers.c.follower_id == id),
@@ -120,6 +127,12 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     notifications = db.relationship('Notification', backref='user',
                                     lazy='dynamic')
     tasks = db.relationship('Task', backref='user', lazy='dynamic')
+
+    roles = db.relationship(
+        'Role',
+        secondary=roles,
+        backref=db.backref('users', lazy='dynamic')
+    )
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -248,11 +261,31 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             return None
         return user
 
+    def __init__(self, username=""):
+        default = Role.query.filter_by(name="default").one()
+        self.roles.append(default)
+        self.username = username
+
+    def has_role(self, name):
+        for role in self.roles:
+            if role.name == name:
+                return True
+        return False
 
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
 
+class Role(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    name = db.Column(db.String(80), unique=True)
+    description = db.Column(db.String(255))
+
+    def __init__(self, name):
+        self.name = name
+
+    def __repr__(self):
+        return '<Role {}'.format(self.name)
 
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
