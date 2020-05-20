@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask import render_template, flash, redirect, url_for, request, g, \
-    jsonify, current_app, send_file
+    jsonify, current_app, send_file, abort
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
@@ -23,7 +23,7 @@ def has_role(name):
             if current_user.has_role(name):
                 return f(*args, **kwargs)
             else:
-                abort(403)
+                abort(405)
         return functools.update_wrapper(wraps, f)
     return real_decorator
 
@@ -73,6 +73,7 @@ def index():
 
 @bp.route('/download/<filename>')
 @login_required
+@has_role('admin')
 def download(filename):
     file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
     return send_file(file_loc, as_attachment=True)
