@@ -23,6 +23,14 @@
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
             <small>{{_('File signature: ' + post.mod_file)}}</small>
+
+            {% if current_user.has_role('admin') %}
+              <hr><small>Administrative commands:</small>
+
+              <a style="color:white" type="button" class="badge badge-danger" href="{{url_for('main.deletepost', id=post.id)}}">
+                Delete post
+              </a>
+            {% endif %}
         </div>
       </div>
     </div>

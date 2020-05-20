@@ -305,6 +305,11 @@ class Post(SearchableMixin, db.Model):
             return contents
         return "File not found."
 
+    def delete_post(self):
+        deleteObj = Post.query.filter(Post.id == self.id).first()
+        db.session.delete(deleteObj)
+        return db.session.commit(deleteObj)
+
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 

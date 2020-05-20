@@ -77,6 +77,16 @@ def download(filename):
     file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
     return send_file(file_loc, as_attachment=True)
 
+@bp.route('/admin/deletepost/<id>', methods=['POST', 'GET'])
+@login_required
+@has_role('admin')
+def deletepost(id):
+    deleteObj = Post.query.filter(Post.id == id).first()
+    db.session.delete(deleteObj)
+    db.session.commit()
+
+    return redirect(url_for('main.explore'))
+
 @bp.route('/explore')
 @login_required
 def explore():
