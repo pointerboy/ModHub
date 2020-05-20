@@ -23,7 +23,7 @@
                 <span class="badge badge-warning">Newbie</span>
                 {% endif %}
 
-                {% if current_user.is_admin(user.admin) %}
+                {% if current_user.has_role('admin') %}
                 <span class="badge badge-danger">ModHub Administrator</span>
                 {% endif %}
                 

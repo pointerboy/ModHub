@@ -103,14 +103,11 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
-    admin = db.Column(db.Integer, default=0)
-
     roles = db.Table(
         'role_users',
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
         db.Column('role_id', db.Integer, db.ForeignKey('role.id'))
     )
-
 
     followed = db.relationship(
         'User', secondary=followers,
@@ -158,10 +155,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         if self.is_following(user):
             self.followed.remove(user)
 
-    def is_admin(self, val):
-        if val == 1:
-            return True
-        
         return False
     def is_following(self, user):
         return self.followed.filter(
