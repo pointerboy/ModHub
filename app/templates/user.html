@@ -26,6 +26,10 @@
                 {% if current_user.has_role('admin') %}
                 <span class="badge badge-danger">ModHub Administrator</span>
                 {% endif %}
+
+                {% if current_user.has_role('premium') %}
+                <span class="badge badge-dark">Premium ModHub User</span>
+                {% endif %}
                 
                 {% if user != current_user %}
                     <p>
