@@ -303,7 +303,7 @@ class Post(SearchableMixin, db.Model):
                         print(element)
                         contents.append(element)
             except IOError:
-                contents.append("File was modified or deleted. We can't find it on our side.")
+                contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
             return contents
         return "Error setting the file up"
 
