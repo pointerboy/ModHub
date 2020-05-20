@@ -85,6 +85,7 @@ def deletepost(id):
     db.session.delete(deleteObj)
     db.session.commit()
 
+    print("DELETE DUMP", deleteObj, id, current_user.username)
     return redirect(url_for('main.explore'))
 
 @bp.route('/explore')
