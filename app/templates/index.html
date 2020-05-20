@@ -56,7 +56,6 @@
         {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
-    </div>
     <nav aria-label="...">
         <ul class="pager">
             <li class="previous{% if not prev_url %} disabled{% endif %}">
@@ -71,4 +70,5 @@
             </li>
         </ul>
     </nav>
+    </div>
 {% endblock %}
