@@ -295,15 +295,17 @@ class Post(SearchableMixin, db.Model):
         if self.mod_file:
             print(self.mod_file)
             contents = []
-
-            file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
-            with ZipFile(file_loc, 'r') as obj:
-                listOfFiles = obj.namelist()
-                for element in listOfFiles:
-                    print(element)
-                    contents.append(element)
+            try:
+                file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
+                with ZipFile(file_loc, 'r') as obj:
+                    listOfFiles = obj.namelist()
+                    for element in listOfFiles:
+                        print(element)
+                        contents.append(element)
+            except IOError:
+                contents.append("File was modified or deleted. We can't find it on our side.")
             return contents
-        return "File not found."
+        return "Error setting the file up"
 
     def delete_post(self):
         deleteObj = Post.query.filter(Post.id == self.id).first()

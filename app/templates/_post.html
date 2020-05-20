@@ -19,8 +19,6 @@
             </ul>
             {%endfor%}
           </br>
-
-
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
             <small>{{_('File signature: ' + post.mod_file)}}</small>
 
