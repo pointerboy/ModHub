@@ -16,6 +16,17 @@ from os import urandom
 import binascii
 from PIL import Image
 
+import functools
+def has_role(name):
+    def real_decorator(f):
+        def wraps(*args, **kwargs):
+            if current_user.has_role(name):
+                return f(*args, **kwargs)
+            else:
+                abort(403)
+        return functools.update_wrapper(wraps, f)
+    return real_decorator
+
 @bp.before_app_request
 def before_request():
     if current_user.is_authenticated:
