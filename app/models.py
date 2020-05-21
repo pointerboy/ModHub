@@ -254,11 +254,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
             return None
         return user
 
-    def __init__(self, username=""):
-        default = Role.query.filter_by(name="default").one()
-        self.roles.append(default)
-        self.username = username
-
     def has_role(self, name):
         for role in self.roles:
             if role.name == name:
