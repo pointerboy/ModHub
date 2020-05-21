@@ -28,11 +28,21 @@
           <img class="avatar" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
           <h4 class="card-title">{{post.author.username}}</h4>
           {% if post.author.has_role('admin') %}
-          <h6 class="card-subtitle mb-2 text-muted"> ModHub Administrator</h6>
+            <h6 class="card-subtitle mb-2 text-muted"> ModHub Administrator</h6>
           {%endif%}
-          <p class="card-text">{{post.author.about}}</p>
-          <a href="#" class="btn btn-success">Follow</a>
-          <a href="#" class="btn btn-outline-success">Message</a>
+            <p class="card-text">{{post.author.about}}</p>
+            {% if post.author != current_user %}
+                {% if not current_user.is_following(post.author) %}
+                    <a href="{{ url_for('main.follow', username=post.author.username) }}" class="btn btn-success">Follow</a>
+                        {% elif current_user.is_following(post.author) %}
+                         <a href="{{ url_for('main.unfollow', username=post.author.username) }}" class="btn btn-success">Unfollow</a>
+                        {%endif%}
+                <a href="#" class="btn btn-outline-success">Message</a>
+         {%endif%}
+
+         {% if post.author == current_user %}
+         <p>{{_("Oh look! It is me! Welcome to your post "+post.author.username)}}.</p>
+         {%endif%}
         </div>
       </div></br>
       <h2 class="font-weight-light">Modification Content</h2>
