@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block app_content %}
+
+<style>
+    .masthead {
+  height: 13vh;
+  background-image: url('https://media.discordapp.net/attachments/695438113174192169/710950044014215179/Untitled_design_19.png');
+  background-position: center;
+}
+</style>
+<header class="masthead">
+    <div class="container h-100">
+      <div class="row h-100 align-items-center">
+        <div class="col-12 text-center">
+          <h1 class="font-weight-light">Vertically Centered Masthead Content</h1>
+          <p class="lead">A great starter layout for a landing page</p>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Page Content -->
+  <section class="py-5">
+    <div class="card">
+        <img class="card-img-top" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/oslo.jpg" alt="Bologna">
+        <div class="card-body text-center">
+          <img class="avatar" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
+          <h4 class="card-title">{{post.author.username}}</h4>
+          {% if post.author.has_role('admin') %}
+          <h6 class="card-subtitle mb-2 text-muted"> ModHub Administrator</h6>
+          {%endif%}
+          <p class="card-text">{{post.author.about}}</p>
+          <a href="#" class="btn btn-success">Follow</a>
+          <a href="#" class="btn btn-outline-success">Message</a>
+        </div>
+      </div></br>
+      <h2 class="font-weight-light">Modification Content</h2>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+          <p class="card-text">{{post.body}}</p>
+          <p class="card-text"><small class="text-muted">{{ _('%(username)s Modification was uploaded %(when)s',
+            username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
+        </div>
+      </div>
+  </section>
+{%endblock%}

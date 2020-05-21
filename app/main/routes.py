@@ -166,7 +166,9 @@ def edit_profile():
 @bp.route('/post/<postid>', methods=['GET', 'POST'])
 @login_required
 def post_view(postid):
-    return None
+    profileObj = Post.query.filter(Post.id == postid).first()
+    db.session.commit()
+    return render_template('post.html', post=profileObj)
 
 
 @bp.route('/follow/<username>')
