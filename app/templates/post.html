@@ -13,8 +13,7 @@
     <div class="container h-100">
       <div class="row h-100 align-items-center">
         <div class="col-12 text-center">
-          <h1 class="font-weight-light">Vertically Centered Masthead Content</h1>
-          <p class="lead">A great starter layout for a landing page</p>
+          <h1 class="font-weight-light">Vanilla Remastered ModHub</h1>
         </div>
       </div>
     </div>
@@ -55,6 +54,14 @@
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
             <small>{{_('File signature: ' + post.mod_file)}}</small>
+
+            {% if current_user.has_role('admin') %}
+              <hr><small>Administrative commands:</small>
+
+              <a style="color:white" type="button" class="badge badge-danger" href="{{url_for('main.deletepost', id=post.id)}}">
+                Delete post
+              </a>
+            {% endif %}
         </div>
       </div>
   </section>
