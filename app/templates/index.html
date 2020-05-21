@@ -54,8 +54,8 @@
     <div class="container">
         <h2>{{_('Your previous posts')}}</h2>
         {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
+            {% include '_post.html' %}
+        {% endfor %}
     <nav aria-label="...">
         <ul class="pager">
             <li class="previous{% if not prev_url %} disabled{% endif %}">

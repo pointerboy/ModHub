@@ -163,6 +163,12 @@ def edit_profile():
                            form=form)
 
 
+@bp.route('/post/<postid>', methods=['GET', 'POST'])
+@login_required
+def post_view(postid):
+    return None
+
+
 @bp.route('/follow/<username>')
 @login_required
 def follow(username):

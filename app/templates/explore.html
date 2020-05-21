@@ -2,4 +2,41 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
 
+<style>
+.img-container{
+  position:relative;
+  display:inline-block;
+}
+.img-container .overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:#00ff7f;
+  opacity:0;
+  transition:opacity 500ms ease-in-out;
+}
+.img-container:hover .overlay{
+  opacity:0.9;
+}
+.overlay span{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  color:#fff;
+}
+</style>
+<div class="container">
+    <h1 class="font-weight-light text-center text-lg-left mt-4 mb-0">Explore User Mods</h1>
+    <p class="font-weight-light">Pro tip: Hover over the image to get more information about the mod.</p>
+    <hr class="mt-2 mb-5">
+  
+    <div class="row text-center text-lg-left">
+    {% for post in posts %}
+        {% include '_explore_post.html' %}
+    {% endfor %}
+    </div>
+</div>
 {% endblock %}
