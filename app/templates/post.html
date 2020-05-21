@@ -55,10 +55,10 @@
             <h5>{{_('File contents:')}}</h5>
                 {% for elemnt in post.list_contents() %}
                 <ul class="list-group list-group-flush"> <li class="list-group-item">{{elemnt}}</li></ul>
-            {%endfor%}
+            {%endfor%}</br>
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
-            <small>{{_('File signature: ' + post.mod_file)}}</small></br>
+            <small>{{_('File signature: ' + post.mod_file)}}</small>
 
             {% if current_user.has_role('admin') %}
               <hr><small>Administrative commands:</small>
