@@ -52,6 +52,9 @@
           <p class="card-text">{{post.body}}</p>
           <p class="card-text"><small class="text-muted">{{ _('%(username)s Modification was uploaded %(when)s',
             username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
+
+            <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
+            <small>{{_('File signature: ' + post.mod_file)}}</small>
         </div>
       </div>
   </section>
