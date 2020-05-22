@@ -89,7 +89,6 @@ def deletepost(id):
     return redirect(url_for('main.explore'))
 
 @bp.route('/explore')
-@login_required
 def explore():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
