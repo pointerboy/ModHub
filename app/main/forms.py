@@ -34,6 +34,7 @@ class PostForm(FlaskForm):
     post = TextAreaField(_l('Say something'), validators=[DataRequired()])
     modFile = FileField(_('Upload mod file'), validators=[FileRequired(),
         FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
+    previewFile = FileField(_('Upload a nice preview'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'])])
     submit = SubmitField(_l('Submit'))
 
 

@@ -48,12 +48,17 @@ def index():
         
         title = form.title.data
         modArchive = form.modFile.data
+        modPreview = form.previewFile.data
+
         if modArchive:
             data = save_mod(modArchive) 
             print(data)
+
+        if modPreview:
+            mod_preview = save_picture(modPreview, 'modprev')
             
         post = Post(body=form.post.data, author=current_user,
-                    title = title, mod_file = data, language=language)
+                    title = title, mod_file = data, photo_mod = mod_preview, language=language)
 
         db.session.add(post)
         db.session.commit()
@@ -89,6 +94,7 @@ def deletepost(id):
     return redirect(url_for('main.explore'))
 
 @bp.route('/explore')
+@login_required
 def explore():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.order_by(Post.timestamp.desc()).paginate(
@@ -122,6 +128,7 @@ def user_popup(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_popup.html', user=user)
 
+
 def save_mod(modData):
     save_hex = binascii.hexlify(os.urandom(8))
     secur_filename = secure_filename(modData.filename)
@@ -131,12 +138,12 @@ def save_mod(modData):
 
     return data_fn
 
-def save_picture(form_picture):
+def save_picture(form_picture, adr):
     random_hex = binascii.hexlify(os.urandom(8))
     secur_filename = secure_filename(form_picture.filename)
     _, f_ext = os.path.splitext(form_picture.filename)
     picture_fn = random_hex + f_ext
-    form_picture.save(os.path.join(current_app.root_path, 'static/profile_pics', picture_fn))
+    form_picture.save(os.path.join(current_app.root_path, 'static/'+adr, picture_fn))
 
     return picture_fn
 
@@ -149,7 +156,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
 
         if form.profile_pic.data:
-            picture_file = save_picture(form.profile_pic.data)
+            picture_file = save_picture(form.profile_pic.data, 'profile_pics')
             current_user.picture_id = picture_file
 
         db.session.commit()

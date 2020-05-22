@@ -285,6 +285,7 @@ class Post(SearchableMixin, db.Model):
     language = db.Column(db.String(5))
 
     mod_file = db.Column(db.String(23+1))
+    photo_mod = db.Column(db.String(23+1))
 
     def list_contents(self):
         if self.mod_file:
@@ -301,6 +302,9 @@ class Post(SearchableMixin, db.Model):
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
             return contents
         return "Error setting the file up"
+
+    def get_preview(self):
+        return url_for('static', filename='modprev/' + str(self.photo_mod))
 
     def delete_post(self):
         deleteObj = Post.query.filter(Post.id == self.id).first()
