@@ -1,3 +1,10 @@
 {
-    "python.pythonPath": "C:\\Python27\\python.exe"
+    "python.pythonPath": "C:\\Python27\\python.exe",
+    "sqltools.connections": [
+        {
+            "database": "${workspaceFolder}\\app.db",
+            "dialect": "SQLite",
+            "name": "Datatest"
+        }
+    ]
 }
