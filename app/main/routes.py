@@ -14,7 +14,6 @@ from app.main import bp
 import os
 from os import urandom
 import binascii
-from PIL import Image
 
 import functools
 def has_role(name):
