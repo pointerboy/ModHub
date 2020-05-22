@@ -2,27 +2,18 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
 
-<style>
-    .masthead {
-  height: 13vh;
-  background-image: url('https://media.discordapp.net/attachments/695438113174192169/710950044014215179/Untitled_design_19.png');
-  background-position: center;
-}
-</style>
-<header class="masthead">
-    <div class="container h-100">
-      <div class="row h-100 align-items-center">
-        <div class="col-12 text-center">
-          <h1 class="font-weight-light">Vanilla Remastered ModHub</h1>
-        </div>
+  <div class="container h-100">
+    <div class="row h-100 align-items-center">
+      <div class="col-12 text-center">
+        <h1 class="font-weight-light">Vanilla Remastered ModHub</h1>
       </div>
     </div>
-  </header>
+  </div>
   
   <!-- Page Content -->
   <section class="py-5">
     <div class="card">
-        <img class="card-img-top" src="https://s3.eu-central-1.amazonaws.com/bootstrapbaymisc/blog/24_days_bootstrap/oslo.jpg" alt="Bologna">
+        <img class="card-img-top" width="90%" src="{{post.get_preview()}}" alt="Mod Preview">
         <div class="card-body text-center">
           <img class="avatar" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
           <h4 class="card-title">{{post.author.username}}</h4>

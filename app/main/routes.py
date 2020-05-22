@@ -171,9 +171,9 @@ def edit_profile():
 @bp.route('/post/<postid>', methods=['GET', 'POST'])
 @login_required
 def post_view(postid):
-    profileObj = Post.query.filter(Post.id == postid).first()
+    post_object = Post.query.filter(Post.id == postid).first()
     db.session.commit()
-    return render_template('post.html', post=profileObj)
+    return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title)
 
 
 @bp.route('/follow/<username>')
@@ -264,7 +264,7 @@ def messages():
     prev_url = url_for('main.messages', page=messages.prev_num) \
         if messages.has_prev else None
     return render_template('messages.html', messages=messages.items,
-                           next_url=next_url, prev_url=prev_url)
+                           next_url=next_url, prev_url=prev_url, title=_('Inbox'))
 
 
 @bp.route('/export_posts')
