@@ -21,6 +21,7 @@ from zipfile import ZipFile
 import os
 from os import urandom
 import binascii
+import bleach
 
 
 class SearchableMixin(object):
@@ -281,6 +282,26 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role {}'.format(self.name)
 
+class Comment(db.Model):
+    __tablename__ = 'comments'
+
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+
+    body_html = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    disabled = db.Column(db.Boolean)
+    author_id = db.COlumn(db.Integer, db.ForeignKey('users.id')
+    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
+        'strong']
+        target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'),
+            tags=allowed_tags, strip=True))
+    
+    db.event.listen(Comment.body, 'set', Comment.on_body_changed)
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)

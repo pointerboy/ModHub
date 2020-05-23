@@ -32,7 +32,11 @@
                             </div>
                             <div class="col-12 col-lg-4">
                                 <h3 class="mb-0">{{ _('%(count)d', count=user.followers.count()) }}</h3>
-                                <small>Followers</small>
+                                <small>Followers
+                                    {%if user != current_user and user.is_following(current_user)%}
+                                       <b>- follows you.</b>
+                                    {%endif%}
+                                </small>
                                 {% if not current_user.is_following(user) and user != current_user%}
                                 <a href="{{ url_for('main.follow', username=user.username) }}">
                                     <button class="btn btn-block btn-outline-success"><span class="fa fa-plus-circle"></span>{{_('Follow')}}</button></a>
