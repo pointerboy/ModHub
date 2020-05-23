@@ -158,9 +158,11 @@ def post_view(postid):
         new_comment = Comment()
 
         new_comment.author_id = current_user.id
-
+        
         new_comment.body = form.body.data
         new_comment.post_id = postid
+
+        new_comment.timestamp = datetime.utcnow()
 
         try:
             db.session.add(new_comment)
@@ -172,7 +174,7 @@ def post_view(postid):
             flash("comment added", 'info')
         return redirect(url_for('main.post_view', postid=postid))
     
-    comments = post_object.comments.all()
+    comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
 
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,
     form=form, comments=comments)
