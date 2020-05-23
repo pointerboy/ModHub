@@ -170,7 +170,7 @@ def edit_profile():
 @bp.route('/post/<postid>', methods=['GET', 'POST'])
 @login_required
 def post_view(postid):
-    post_object = Post.query.filter(Post.id == postid).first()
+    post_object = Post.query.filter(Post.id == postid).first_or_404()
     db.session.commit()
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title)
 
