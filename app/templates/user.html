@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block app_content %}
     <div class="container">
-    </br>
+    <br>
         <div class="row">
                 <div class="card">
                     <div class="card-body">
@@ -62,11 +62,11 @@
                     <!--/card-block-->
                 </div>
             </div>
-        </div>
+        </div><br>
+        {% for post in posts %}
+            {% include '_post.html' %}
+        {% endfor %}
+        
+        {%include 'nextprev.html'%}
     </div>
-    {% for post in posts %}
-        {% include '_post.html' %}
-    {% endfor %}
-    
-    {%include 'nextprev.html'%}
 {% endblock %}
