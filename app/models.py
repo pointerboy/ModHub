@@ -138,8 +138,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         backref=db.backref('users', lazy='dynamic')
     )
 
-    comments = db.relationship('Comment', backref='author', lazy='dynamic')
-
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -331,8 +329,6 @@ class Post(SearchableMixin, db.Model):
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
             return contents
         return "Error setting the file up"
-
-    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def get_preview(self):
         return url_for('static', filename='modprev/' + str(self.photo_mod))

@@ -91,20 +91,6 @@ def deletepost(id):
     print("DELETE DUMP", deleteObj, id, current_user.username)
     return redirect(url_for('main.explore'))
 
-@bp.route('/postcomment/<int:id>', methods=['GET', 'POST'])
-@login_required
-def post_comment(id):
-    post = Post.query.get_or_404(id)
-    form = CommentForm()
-
-    if form.validate_on_submit:
-        comment = Comment(body=form.body.data, 
-                            post=post,
-                            author=current_user._get_current_object())
-        db.session.add(comment)
-        flash('Comment added')
-        return redirect(url_for('index'))
-
 @bp.route('/explore')
 def explore():
     page = request.args.get('page', 1, type=int)
