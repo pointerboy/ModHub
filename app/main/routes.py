@@ -169,7 +169,7 @@ def post_view(postid):
             db.session.rollback()
         else:
             flash("comment added", 'info')
-        return redirect(url_for('post', postid=postid))
+        return redirect(url_for('main.post_view', postid=postid))
     
     comments = post_object.comments.all()
 
