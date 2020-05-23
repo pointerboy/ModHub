@@ -137,6 +137,12 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         backref=db.backref('users', lazy='dynamic')
     )
 
+    comments = db.relationship(
+        'Comment',
+        backref='author',
+        lazy='dynamic'
+        )
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -290,7 +296,9 @@ class Comment(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     disabled = db.Column(db.Boolean)
+
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']

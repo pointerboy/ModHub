@@ -158,6 +158,7 @@ def post_view(postid):
         new_comment = Comment()
 
         new_comment.author_id = current_user.id
+
         new_comment.body = form.body.data
         new_comment.post_id = postid
 
