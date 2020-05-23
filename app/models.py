@@ -138,6 +138,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         backref=db.backref('users', lazy='dynamic')
     )
 
+    comments = db.relationship('Comment', backref='author', lazy='dynamic')
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
@@ -301,7 +303,7 @@ class Comment(db.Model):
         target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'),
             tags=allowed_tags, strip=True))
     
-    db.event.listen(Comment.body, 'set', Comment.on_body_changed)
+db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)
@@ -329,6 +331,8 @@ class Post(SearchableMixin, db.Model):
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
             return contents
         return "Error setting the file up"
+
+    comments = db.relationship('Comment', backref='post', lazy='dynamic')
 
     def get_preview(self):
         return url_for('static', filename='modprev/' + str(self.photo_mod))
