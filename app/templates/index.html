@@ -55,9 +55,17 @@
         </div>
       </div>
     </div>
-
+    <hr>
     <div class="container">
         <h2 class="font-weight-light">{{_('Your feed')}}</h2>
+        {% if post | length == 0%}
+            <p class="font-weight-light">{{_('Looks like your feed is empty! Try following someone')}}/p>
+        {%else%}
+            {% for post in posts %}
+                {% include '_post.html' %}
+            {% endfor %}
+        {%endif%}
+
         {% for post in posts %}
             {% include '_post.html' %}
         {% endfor %}
