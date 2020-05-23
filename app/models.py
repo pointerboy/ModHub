@@ -17,6 +17,11 @@ from app.search import add_to_index, remove_from_index, query_index
 
 from zipfile import ZipFile
 
+import os
+from os import urandom
+import binascii
+
+
 class SearchableMixin(object):
     @classmethod
     def search(cls, expression, page, per_page):
@@ -354,3 +359,15 @@ class Task(db.Model):
     def get_progress(self):
         job = self.get_rq_job()
         return job.meta.get('progress', 0) if job is not None else 100
+
+class Misc(db.Model):
+    @staticmethod
+    def save_and_get_picture(picture_data, location):
+        secure_hex =  binascii.hexlify(os.urandom(8))
+        secure_filename(picture_data.filename)
+
+        _, f_ext = os.path.splitext(picture_data.filename)
+        picture_file = secure_hex + f_ext
+
+        picture_data.save(os.path.join(current_app.root_path, 'static'+location, picture_file))
+        return picture_fn
