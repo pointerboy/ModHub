@@ -267,7 +267,13 @@ ul {
                                         {%endif%}
                                     </i>
                                 </div>
-                                <div class="comment-content">{{comment.body}}</div>
+                                <div class="comment-content">
+                                    {% if comment.post_html %}
+                                        {{ comment.body_html | safe }}
+                                    {%else%}
+                                        {{comment.body}}
+                                    {%endif%}                                    
+                                </div>
                             </div>
                         </div>
                     </li>

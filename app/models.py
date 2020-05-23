@@ -23,6 +23,8 @@ from os import urandom
 import binascii
 import bleach
 
+from markdown import markdown
+
 class SearchableMixin(object):
     @classmethod
     def search(cls, expression, page, per_page):
@@ -299,6 +301,16 @@ class Comment(db.Model):
 
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    @staticmethod
+    def on_changed_body(target, value, oldvalue, initiator):
+        allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
+        'strong']
+        target.body_html = bleach.linkify(bleach.clean(
+        markdown(value, output_format='html'),
+        tags=allowed_tags, strip=True))
+
+db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
