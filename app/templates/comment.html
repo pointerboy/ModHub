@@ -268,7 +268,7 @@ ul {
                                     </i>
                                 </div>
                                 <div class="comment-content">
-                                    {% if comment.post_html %}
+                                    {% if comment.body_html %}
                                         {{ comment.body_html | safe }}
                                     {%else%}
                                         {{comment.body}}
