@@ -5,7 +5,13 @@
     <h1>{{ _('Edit Profile') }}</h1>
     <div class="row">
         <div class="col-md-4">
+            {% for field, errors in form.errors.iteritems() %}
+                <div class="alert alert-danger alert-dismissible fade show">
+                    {{ ', '.join(errors) }}
+                </div>
+            {% endfor %}
             {{ wtf.quick_form(form) }}
         </div>
     </div>
+    <br>
 {% endblock %}
