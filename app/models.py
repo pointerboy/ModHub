@@ -291,7 +291,7 @@ class Comment(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     disabled = db.Column(db.Boolean)
-    author_id = db.COlumn(db.Integer, db.ForeignKey('users.id')
+    author_id = db.COlumn(db.Integer, db.ForeignKey('users.id'))
     post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
 
     @staticmethod
