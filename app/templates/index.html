@@ -11,7 +11,7 @@
             {% if request.MOBILE %}
             <p>Mobile uploads disabled.</p>
             {% else %}
-          <div class="col-4">
+          <div class="col-5">
                 {% if form %}
                     {% for field, errors in form.errors.iteritems() %}
                         <div class="alert alert-danger alert-dismissible fade show">
