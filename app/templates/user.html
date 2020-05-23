@@ -67,18 +67,6 @@
     {% for post in posts %}
         {% include '_post.html' %}
     {% endfor %}
-    <nav aria-label="...">
-        <div class="container">
-        <ul class="pagination">
-          <li class="page-item {% if not next_url %} disabled{% endif %}">
-            <a href="{{ next_url or '#' }}">
-                <span class="page-link">&larr; {{_('Older posts')}}</span>
-            </a>
-          </li>
-          <li class="page-item {% if not prev_url %} disabled{% endif %}">
-            <a class="page-link" href="{{ next_url or '#' }}">{{ _('Older posts') }} &rarr;</a>
-          </li>
-        </ul>
-        </div>
-    </nav>
+    
+    {%include 'nextprev.html'%}
 {% endblock %}
