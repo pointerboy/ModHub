@@ -11,6 +11,7 @@ import rq
 from flask import current_app, url_for, send_from_directory
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug import secure_filename
 
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
@@ -360,7 +361,7 @@ class Task(db.Model):
         job = self.get_rq_job()
         return job.meta.get('progress', 0) if job is not None else 100
 
-class Misc(db.Model):
+class Misc():
     @staticmethod
     def save_and_get_picture(picture_data, location):
         secure_hex =  binascii.hexlify(os.urandom(8))
@@ -369,5 +370,16 @@ class Misc(db.Model):
         _, f_ext = os.path.splitext(picture_data.filename)
         picture_file = secure_hex + f_ext
 
-        picture_data.save(os.path.join(current_app.root_path, 'static'+location, picture_file))
-        return picture_fn
+        picture_data.save(os.path.join(current_app.root_path, 'static/'+location, picture_file))
+        return picture_file
+
+    @staticmethod
+    def save_and_get_mod(mod_data):
+        secure_hex =  binascii.hexlify(os.urandom(12))
+        secure_filename(mod_data.filename)
+
+        _, f_ext = os.path.splitext(mod_data.filename)
+        mod_file = secure_hex + f_ext
+
+        mod_data.save(os.path.join(current_app.root_path, 'static/moduploads', mod_file))
+        return mod_file

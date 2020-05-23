@@ -4,10 +4,9 @@ from flask import render_template, flash, redirect, url_for, request, g, \
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
-from werkzeug import secure_filename
 from app import db, current_app
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm
-from app.models import User, Post, Message, Notification
+from app.models import User, Post, Message, Notification, Misc
 from app.translate import translate
 from app.main import bp
 
@@ -50,11 +49,11 @@ def index():
         modPreview = form.previewFile.data
 
         if modArchive:
-            data = save_mod(modArchive) 
+            data = Misc.save_and_get_mod(modArchive) 
             print(data)
 
         if modPreview:
-            mod_preview = save_picture(modPreview, 'modprev')
+            mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
             
         post = Post(body=form.post.data, author=current_user,
                     title = title, mod_file = data, photo_mod = mod_preview, language=language)
@@ -126,25 +125,6 @@ def user_popup(username):
     user = User.query.filter_by(username=username).first_or_404()
     return render_template('user_popup.html', user=user)
 
-
-def save_mod(modData):
-    save_hex = binascii.hexlify(os.urandom(8))
-    secur_filename = secure_filename(modData.filename)
-    _, f_ext = os.path.splitext(modData.filename)
-    data_fn = save_hex + f_ext
-    modData.save(os.path.join(current_app.root_path, 'static/moduploads', data_fn))
-
-    return data_fn
-
-def save_picture(form_picture, adr):
-    random_hex = binascii.hexlify(os.urandom(8))
-    secur_filename = secure_filename(form_picture.filename)
-    _, f_ext = os.path.splitext(form_picture.filename)
-    picture_fn = random_hex + f_ext
-    form_picture.save(os.path.join(current_app.root_path, 'static/'+adr, picture_fn))
-
-    return picture_fn
-
 @bp.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
 def edit_profile():
@@ -154,7 +134,7 @@ def edit_profile():
         current_user.about_me = form.about_me.data
 
         if form.profile_pic.data:
-            picture_file = save_picture(form.profile_pic.data, 'profile_pics')
+            picture_file = Misc.save_and_get_picture(form.profile_pic.data, 'profile_pics')
             current_user.picture_id = picture_file
 
         db.session.commit()
