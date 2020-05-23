@@ -13,6 +13,11 @@
             {% else %}
           <div class="col-4">
                 {% if form %}
+                    {% for field, errors in form.errors.iteritems() %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ ', '.join(errors) }}
+                        </div>
+                    {% endfor %}
                 <form method="POST" enctype="multipart/form-data">
                     {{ wtf.quick_form(form) }}
                 </form>
