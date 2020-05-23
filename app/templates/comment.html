@@ -1,0 +1,6 @@
+{% if post.comments.count() > 0 %}
+    {% for comment in post.comments %}
+    {% endfor %}
+{%else%}
+    <p>No comments yet.</p>
+{% endif %}

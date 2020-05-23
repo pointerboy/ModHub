@@ -64,17 +64,7 @@
       <h1 class="font-weight-light">Comment section:</h1>
 
       {{ wtf.quick_form(form) }}
-
-         {% if post.comments.count() > 0 %}
-                    <h2>Comments</h2>
-                    <p>
-                    {% for comment in post.comments %}
-                        <p>{{ comment.body }} by {{comment.author.username}}</p>
-                    {% endfor %}
-                    </p>
-          {%else%}
-          <p>No comments yet.</p>
-         {% endif %}
+      {% include "comment.html" %}
       </div>  
   </section>
 {%endblock%}
