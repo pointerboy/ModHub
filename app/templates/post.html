@@ -69,7 +69,9 @@
                         <p>{{ comment.body }} by {{comment.author.username}}</p>
                     {% endfor %}
                     </p>
-          {% endif %}
-      </div>
+          {%else%}
+          <p>No comments yet.</p>
+         {% endif %}
+      </div>  
   </section>
 {%endblock%}
