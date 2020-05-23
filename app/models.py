@@ -291,8 +291,7 @@ class Comment(db.Model):
     body_html = db.Column(db.Text)
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     disabled = db.Column(db.Boolean)
-    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    post_id = db.Column(db.Integer, db.ForeignKey('posts.id'))
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
 
     @staticmethod
     def on_changed_body(target, value, oldvalue, initator):
@@ -337,6 +336,13 @@ class Post(SearchableMixin, db.Model):
         deleteObj = Post.query.filter(Post.id == self.id).first()
         db.session.delete(deleteObj)
         return db.session.commit(deleteObj)
+
+    comments = db.relationship(
+        'Comment',
+        backref='post',
+        lazy='dynamic'
+        )
+
 
     def __repr__(self):
         return '<Post {}>'.format(self.body)

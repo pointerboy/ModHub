@@ -59,6 +59,17 @@
               </a>
             {% endif %}
         </div>
+
+        {{ wtf.quick_form(form) }}
+
+         {% if post.comments.count() > 0 %}
+                    <h2>Comments</h2>
+                    <p>
+                    {% for comment in post.comments %}
+                        <p>{{ comment.body }}</p>
+                    {% endfor %}
+                    </p>
+          {% endif %}
       </div>
   </section>
 {%endblock%}

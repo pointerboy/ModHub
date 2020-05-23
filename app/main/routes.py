@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db, current_app
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm
-from app.models import User, Post, Message, Notification, Misc
+from app.models import User, Post, Message, Notification, Misc, Comment
 from app.translate import translate
 from app.main import bp
 
@@ -152,7 +152,29 @@ def edit_profile():
 def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
     db.session.commit()
-    return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title)
+
+    form = CommentForm()
+    if form.validate_on_submit():
+        new_comment = Comment()
+
+        new_comment.author_id = current_user.id
+        new_comment.body = form.body.data
+        new_comment.post_id = postid
+
+        try:
+            db.session.add(new_comment)
+            db.session.commit()
+        except Exception as e:
+            flash('Error adding your comment: %s' % str(e), 'error')
+            db.session.rollback()
+        else:
+            flash("comment added", 'info')
+        return redirect(url_for('post', postid=postid))
+    
+    comments = post_object.comments.all()
+
+    return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,
+    form=form, comments=comments)
 
 
 @bp.route('/follow/<username>')
