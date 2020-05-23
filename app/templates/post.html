@@ -59,8 +59,11 @@
               </a>
             {% endif %}
         </div>
+      </br>
+    </div>
+      <h1 class="font-weight-light">Comment section:</h1>
 
-        {{ wtf.quick_form(form) }}
+      {{ wtf.quick_form(form) }}
 
          {% if post.comments.count() > 0 %}
                     <h2>Comments</h2>
