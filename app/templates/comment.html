@@ -268,11 +268,17 @@ ul {
                                     </i>
                                 </div>
                                 <div class="comment-content">
-                                    {% if comment.body_html %}
-                                        {{ comment.body_html | safe }}
-                                    {%else%}
-                                        {{comment.body}}
-                                    {%endif%}                                    
+									{% if comment.disabled %}
+										<div class="alert alert-danger alert-dismissible fade show">
+											{{_('This post has been disabled by an administrator.')}}
+										</div>
+									{% else%}
+										{% if comment.body_html %}
+											{{ comment.body_html | safe }}
+										{%else%}
+											{{comment.body}}
+										{%endif%}        
+									{%endif%}                            
                                 </div>
                             </div>
                         </div>
