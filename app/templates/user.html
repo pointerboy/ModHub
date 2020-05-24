@@ -2,11 +2,10 @@
 {% block app_content %}
     <div class="container">
     <br>
-        <div class="row">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 col-lg-8 col-md-7">
+                            <div class="col-12 col-lg-8 col-md-3">
                                 <h3 class="mb-0 text-truncated">{{ user.username }}</h3>
                                 <p class="lead">{{ _('%(username)s was last seen %(when)s',
                                     username=user_link, when=moment(user.last_seen).fromNow()) }}.</p>
@@ -59,12 +58,13 @@
                                     <a href="{{ url_for('main.edit_profile') }}"><button type="button" class="btn btn-outline-primary btn-block"><span class="fa fa-gear"></span>{{_('Edit')}}</button></a>
                                 {%endif%}
                             </div>
-                            <!--/col-->
+
+                            <div class="col-12 col-lg-4">
+                                <h3 class="mb-0">{{ _('%(count)d', count=user.comments.count()) }}</h3>
+                                <small>Comments made</small>
+                            </div>
                         </div>
-                        <!--/row-->
                     </div>
-                    <!--/card-block-->
-                </div>
             </div>
         </div><br>
         {% for post in posts %}
