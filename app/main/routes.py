@@ -180,6 +180,17 @@ def post_view(postid):
     form=form, comments=comments)
 
 
+@bp.route('/moderation/commentregulation/<int:id>')
+@login_required
+@has_role('admin')
+def commentregulation(id):
+    comment = Comment.query.get_or_404(id)
+    
+    comment.disabled = not comment.disabled
+    db.session.add(comment)
+    db.session.commit()
+    return redirect(url_for('main.post_view', postid=comment.post_id))
+
 @bp.route('/follow/<username>')
 @login_required
 def follow(username):
