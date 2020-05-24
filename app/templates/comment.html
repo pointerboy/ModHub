@@ -1,3 +1,5 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
 <style>
     /**
  * Oscuro: #283035
@@ -244,9 +246,7 @@ ul {
 {% if post.comments.count() > 0 %}
     {% for comment in post.comments %}
     <div class="container">
-        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
             <div class="row">
-            <!-- Contenedor Principal -->
             <div class="comments-container">
                 <ul id="comments-list" class="comments-list">
                     <li>
@@ -255,7 +255,7 @@ ul {
                             <div class="comment-box">
                                 <div class="comment-head">
                                     <h6 class="comment-name by-author">
-                                        <a href="http://creaticode.com/blog">{{comment.author.username}}</a>
+                                        <a href="{{url_for('main.user', username=comment.author.username)}}">{{comment.author.username}}</a>
                                     </h6>
                                     {% if comment.author.id == post.author.id %}
                                         <span style="color:white" class="badge badge-success">Author</span>
@@ -278,7 +278,7 @@ ul {
                                         {%endif%}
                                     </i>
                                 </div>
-                                <div class="comment-content">
+                                <div id="{{comment.id}}" class="comment-content">
 									{% if comment.disabled %}
 										<div class="alert alert-danger alert-dismissible fade show">
 											{{_('This post has been disabled by an administrator.')}}
