@@ -171,7 +171,7 @@ def post_view(postid):
             flash('Error adding your comment: %s' % str(e), 'error')
             db.session.rollback()
         else:
-            flash("comment added", 'info')
+            flash("Comment has been added.")
         return redirect(url_for('main.post_view', postid=postid))
     
     comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
