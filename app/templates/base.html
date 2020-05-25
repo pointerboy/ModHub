@@ -1,7 +1,9 @@
+
 {% extends 'bootstrap/base.html' %}
 {% block title %}
     {% if title %}{{ title }} - ModHub{% else %}{{ _('Welcome to ModHub') }}{% endif %}
 {% endblock %}
+
 {% block navbar %}
 {% include 'meta/meta_dsc.html' %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
@@ -46,8 +48,8 @@
                                 {{ _('Profile') }}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}">View</a>
-                              <a class="dropdown-item" href="#">Link 2</a>
+                              <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}">Preview</a>
+                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}">Edit</a>
                             </div>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.logout') }}">{{ _('Logout') }}</a></li>

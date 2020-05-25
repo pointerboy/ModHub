@@ -46,9 +46,7 @@
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">{{post.body}}</p>
-          <p class="card-text"><small class="text-muted">{{ _('%(username)s Modification was uploaded %(when)s',
-            username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
-
+          <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
             <h5>{{_('File contents:')}}</h5>
                 {% for elemnt in post.list_contents() %}
                 <ul class="list-group list-group-flush"> <li class="list-group-item">{{elemnt}}</li></ul>

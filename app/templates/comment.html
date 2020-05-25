@@ -35,6 +35,10 @@
 										</a>
                                         {%endif%}
                                     </i>
+
+                                    <i>
+                                        {{ _('%(when)s', when=moment(comment.timestamp).fromNow()) }}.
+                                    </i>
                                 </div>
                                 <div id="{{comment.id}}" class="comment-content">
 									{% if comment.disabled %}
