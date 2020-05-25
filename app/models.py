@@ -10,6 +10,7 @@ import redis
 import rq
 from flask import current_app, url_for, send_from_directory
 from flask_login import UserMixin
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug import secure_filename
 
@@ -308,7 +309,7 @@ class Comment(db.Model):
         comment.disabled = not comment.disabled
         db.session.add(comment)
         db.session.commit()
-        
+
         return comment.post_id
 
     @staticmethod
