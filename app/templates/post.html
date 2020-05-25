@@ -6,6 +6,12 @@
     <div class="row h-100 align-items-center">
       <div class="col-12 text-center">
         <h1 class="font-weight-light">Vanilla Remastered ModHub</h1>
+
+        {% for field, errors in form.errors.iteritems() %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ ', '.join(errors) }}
+        </div>
+      {% endfor %}
       </div>
     </div>
   </div>
@@ -62,6 +68,11 @@
       </br>
     </div>
       <h1 class="font-weight-light">Comment section:</h1>
+      {% for field, errors in form.errors.iteritems() %}
+        <div class="alert alert-danger alert-dismissible fade show">
+            {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+      {% endfor %}
       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentModal">
         Add a comment
       </button>
