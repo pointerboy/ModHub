@@ -303,6 +303,15 @@ class Comment(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     @staticmethod
+    def moderate_comment(comment_id):
+        comment = Comment.query.get_or_404(comment_id)
+        comment.disabled = not comment.disabled
+        db.session.add(comment)
+        db.session.commit()
+        
+        return comment.post_id
+
+    @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'code', 'em', 'i',
         'strong']
@@ -365,6 +374,15 @@ class Message(db.Model):
     recipient_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+
+    @staticmethod
+    def send_sys_message(recipient):
+        user = User.query.filter_by(username=recipient).first_or_404()
+
+        message = Message(author='system', recipient=user, body='Nice.')
+        db.session.add(message)
+        user.add_notification('unread_message_count', user.new_messages())
+        db.session.commit()
 
     def __repr__(self):
         return '<Message {}>'.format(self.body)
