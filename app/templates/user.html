@@ -1,76 +1,70 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
+
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+
+</br>
+    <h1 class="font-weight-light">{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
     <div class="container">
-    <br>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 col-lg-8 col-md-3">
-                                <h3 class="mb-0 text-truncated">{{ user.username }}</h3>
-                                <p class="lead">{{ _('%(username)s was last seen %(when)s',
-                                    username=user_link, when=moment(user.last_seen).fromNow()) }}.</p>
-                                <p>
-                                {{user.about_me}}
-                                </p>
-                                <p> 
-                                    {% if user.posts.count() < 5 %}
-                                        <span class="badge badge-warning">Newbie</span>
-                                    {% endif %}
-
-                                    {% if user.has_role('admin') %}
-                                        <span class="badge badge-danger">ModHub Administrator</span>
-                                    {% endif %}
-
-                                    {% if user.has_role('premium') %}
-                                    <span class="badge badge-dark">Premium ModHub User</span>
-                                    {% endif %}
-                                </p>
-                            </div>
-                            <div class="col-12 col-lg-4 col-md-6 text-center">
-                                <img width="100%" src="{{user.avatar(5)}}" alt="" class="mx-auto rounded-circle img-fluid">
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <h3 class="mb-0">{{ _('%(count)d', count=user.followers.count()) }}</h3>
-                                <small>Followers
-                                    {%if user != current_user and user.is_following(current_user)%}
-                                       <b>- follows you.</b>
-                                    {%endif%}
-                                </small>
-                                {% if not current_user.is_following(user) and user != current_user%}
-                                <a href="{{ url_for('main.follow', username=user.username) }}">
-                                    <button class="btn btn-block btn-outline-success"><span class="fa fa-plus-circle"></span>{{_('Follow')}}</button></a>
-                                {%elif user!=current_user%}
-                                    <a href="{{ url_for('main.unfollow', username=user.username) }}">
-                                        <button class="btn btn-block btn-outline-success"><span class="fa fa-plus-circle"></span>{{_('Unfollow')}}</button></a>
-                                {%endif%}
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <h3 class="mb-0">{{ _('%(count)d', count=user.followed.count()) }}</h3>
-                                <small>Following</small>
-                                {% if user != current_user%}
-                                    <a href="{{ url_for('main.send_message', recipient=user.username) }}"><button class="btn btn-outline-info btn-block"><span class="fa fa-user"></span>{{_('Send private message')}}</button></a>
-                                {%endif%}
-                            </div>
-                            <div class="col-12 col-lg-4">
-                                <h3 class="mb-0">{{ _('%(count)d', count=user.posts.count()) }}</h3>
-                                <small>Posts made</small>
-                                {% if user==current_user%}
-                                    <a href="{{ url_for('main.edit_profile') }}"><button type="button" class="btn btn-outline-primary btn-block"><span class="fa fa-gear"></span>{{_('Edit')}}</button></a>
-                                {%endif%}
-                            </div>
-
-                            <div class="col-12 col-lg-4">
-                                <h3 class="mb-0">{{ _('%(count)d', count=user.comments.count()) }}</h3>
-                                <small>Comments made</small>
-                            </div>
+        <div class="row justify-content">
+            {% if request.MOBILE %}
+            <p>Mobile uploads disabled.</p>
+            {% else %}
+          <div class="col-5">
+                {% if form %}
+                    {% for field, errors in form.errors.iteritems() %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ form[field].label }}: {{ ', '.join(errors) }}
                         </div>
+                    {% endfor %}
+                <form method="POST" enctype="multipart/form-data">
+                    {{ wtf.quick_form(form) }}
+                </form>
+                {%endif%}
+            {% endif %}
+          </div>
+          <div class="col-6">
+                <div class="row">
+                        <h4 class="font-weight-light">{{_('Posting 101')}}</h4>
+                        <ul class="timeline">
+                            <li>
+                                <b>{{_('Meaningful title')}}</b>
+                                <p>{{_("Add a meaningful title to your posts in order to hook users up. 
+                                    Avoid random title names such as 'mod0', 'lsmod', 'skin1'. 
+                                    Save user's time by providing a userful title.")}}
+                                </p>
+                            </li>
+                            <li>
+                                <b>{{_('Add a proper brief')}}</b>
+                                <p>{{_('Feel free to give a short description of the modification that you are presenting.
+                                    It can be information on further development status, installation guide and much more.')}}
+                                </p>
+                            </li>
+                            <li>
+                                <b>{{_('Dress to impress')}}</b>
+                                <p>{{_('Be sure to include a good looking screenshot or preview of your modification. 
+                                    Make it straight to the point. Also make sure that you organize your compressed (ZIPd) file properly.')}}
+                                </p>
+                            </li>
+                        </ul>
                     </div>
+                </div>
             </div>
-        </div><br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="container">
+        <h2 class="font-weight-light">{{_('Your feed')}}</h2>
+        {% if posts | length == 0%}
+            <p class="font-weight-light">{{_('Looks like your feed is empty! Try following someone')}}</p>
+        {%endif%}
+
         {% for post in posts %}
             {% include '_post.html' %}
         {% endfor %}
-        
+    </div>  
         {%include 'nextprev.html'%}
-    </div>
 {% endblock %}
