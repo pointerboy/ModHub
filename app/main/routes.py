@@ -153,7 +153,7 @@ def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
     db.session.commit()
 
-    edit_form = PostForm()
+    edit_form = PostForm(obj=post_object)
     if edit_form.validate_on_submit():
         if post_object.author == current_user:
 
@@ -164,15 +164,15 @@ def post_view(postid):
 
             if modArchive:
                 data = Misc.save_and_get_mod(modArchive) 
+                post_object.mod_file = data
                 print(data)
 
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
+                post_object.photo_mod = mod_preview
                 
             post_object.body = body
             post_object.title = title
-            post_object.mod_file = data
-            post_object.photo_mod = mod_preview
 
             db.session.add(post_object)
             db.session.commit()
@@ -180,26 +180,27 @@ def post_view(postid):
             return redirect(url_for('main.post_view', postid=postid))
 
     form = CommentForm()
-    if form.validate_on_submit():
-        new_comment = Comment()
+    if form.validate_on_submit() and form.submit_comment.data:
+        if form.validate():
+            new_comment = Comment()
 
-        new_comment.author_id = current_user.id
+            new_comment.author_id = current_user.id
+            
+            new_comment.body = form.body.data
+            new_comment.post_id = postid
+
+            new_comment.timestamp = datetime.utcnow()
+
+            try:
+                db.session.add(new_comment)
+                db.session.commit()
+            except Exception as e:
+                flash('Error adding your comment: %s' % str(e))
+                db.session.rollback()
+            else:
+                flash("Comment has been added.")
+            return redirect(url_for('main.post_view', postid=postid))
         
-        new_comment.body = form.body.data
-        new_comment.post_id = postid
-
-        new_comment.timestamp = datetime.utcnow()
-
-        try:
-            db.session.add(new_comment)
-            db.session.commit()
-        except Exception as e:
-            flash('Error adding your comment: %s' % str(e), 'error')
-            db.session.rollback()
-        else:
-            flash("Comment has been added.")
-        return redirect(url_for('main.post_view', postid=postid))
-    
     comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
 
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,

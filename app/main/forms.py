@@ -30,10 +30,17 @@ class EditProfileForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField(_l('Title of Modification'), validators=[DataRequired()])
     post = TextAreaField(_l('Description of the modification.'), validators=[DataRequired()])
-    modFile = FileField(_('Mod File'), validators=[FileRequired(),
-        FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
-    previewFile = FileField(_('Thumbnail'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'], 
-    "Invalid file format. We only allow following image formats: jpg, png and gif.")])
+
+    if FlaskForm:
+        modFile = FileField(_('Reupload Modification file'), validators=[FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
+        previewFile = FileField(_('Thumbnail'), validators=[FileAllowed(['jpg', 'png', 'gif'], 
+        "Invalid file format. We only allow following image formats: jpg, png and gif.")])
+    else:
+        modFile = FileField(_('Mod File'), validators=[FileRequired(),
+            FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
+        previewFile = FileField(_('New Tnumbnail'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'], 
+        "Invalid file format. We only allow following image formats: jpg, png and gif.")])
+
     submit = SubmitField(_l('Submit'))
 
 
@@ -56,4 +63,4 @@ class MessageForm(FlaskForm):
 class CommentForm(FlaskForm):
     body = TextAreaField('Comment', validators=[DataRequired(),
                                 Length(min=4, max=140)])
-    submit = SubmitField('Submit')
+    submit_comment = SubmitField('Submit')
