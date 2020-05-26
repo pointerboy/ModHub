@@ -125,6 +125,9 @@
             </div>
             <div class="modal-body">
               <form method="POST" enctype="multipart/form-data">
+                <div class="alert alert-error">
+                  <strong>{{_('Watch out!')}}!</strong> {{_('You're admin-editing this.')}}
+                </div>
                 <div class="alert alert-warning">
                   <strong>{{_('Warning')}}!</strong> {{_('Leave file upload fields empty unless to update then.')}}
                 </div>
