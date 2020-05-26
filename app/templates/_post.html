@@ -18,7 +18,15 @@
             <h5>{{_('File contents:')}}</h5>
             {% for elemnt in post.list_contents() %}
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">{{elemnt}}</li>
+              <li class="list-group-item">
+                {% if ".exe" in elemnt %}
+                  <i class="fas fa-running"></i>{{elemnt | lower}}
+                {%elif ".dll" or ".asi" in elemnt%}
+                  <i class="fas fa-book"></i>{{elemnt | lower}}
+                {%else%}
+                  {{elemnt | lower}}
+                {% endif %}
+              </li>
             </ul>
             {%endfor%}
           </br>
