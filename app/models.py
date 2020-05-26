@@ -290,7 +290,9 @@ class Role(db.Model):
     def __repr__(self):
         return '<Role {}'.format(self.name)
 
-class Comment(db.Model):
+class Comment(SearchableMixin, db.Model):
+    __searchable__ = ['body']
+    
     __tablename__ = 'comments'
 
     id = db.Column(db.Integer, primary_key=True)

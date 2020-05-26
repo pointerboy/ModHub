@@ -3,7 +3,14 @@
         <div class="card-body">
             {% set user_link %}
             <h3 class="card-title">Title: {{post.title}}</h3> <a href="{{ url_for('main.user', username=post.author.username) }}">{{post.author.username}}</a>
-            <p id="post{{post.id}}"class="card-text">Description: {{post.body}}.</p>
+            <p id="post{{post.id}}"class="card-text">Description: 
+              {% if post.body_html %}
+                {{ post.body_html | safe}}
+            {%else%}
+              {{post.body}}
+            
+              {%endif%}
+            </p>
           {% endset %}
           <p class="card-text"><small class="text-muted">{{ _('%(username)s posted %(when)s',
             username=user_link, when=moment(post.timestamp).fromNow()) }}.</small></p>
