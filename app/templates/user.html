@@ -55,7 +55,7 @@
                                 <h3 class="mb-0">{{ _('%(count)d', count=user.posts.count()) }}</h3>
                                 <small>Posts made</small>
                                 {% if user==current_user%}
-                                    <a href="{{ url_for('main.edit_profile') }}"><button type="button" class="btn btn-outline-primary btn-block"><span class="fa fa-gear"></span>{{_('Edit')}}</button></a>
+                                    <a href="{{ url_for('main.edit_profile') }}"><button type="button" class="btn btn-outline-primary btn-block"><span class="fas fa-users-cog"></span>{{_('Edit')}}</button></a>
                                 {%endif%}
                             </div>
 

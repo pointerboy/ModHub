@@ -42,13 +42,13 @@
         </div>
       </div></br>
       
-      {% if post.author == current_user %}
-      <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#editModel">Edit</button>
-      {% endif %}
-
       <h2 class="font-weight-light">Modification Content</h2>
       <div id="post-card"  class="card mb-3">
         <div class="card-body">
+          {% if post.author == current_user %}
+          <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
+          {% endif %}
+
           <h5 class="card-title">{{post.title}}</h5>
           <p class="card-text">
              {% if post.body_html %}
