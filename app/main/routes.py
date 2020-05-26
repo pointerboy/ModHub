@@ -153,6 +153,32 @@ def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
     db.session.commit()
 
+    edit_form = PostForm()
+    if edit_form.validate_on_submit():
+        if post_object.author == current_user:
+
+            body = edit_form.post.data
+            title = edit_form.title.data
+            modArchive = edit_form.modFile.data
+            modPreview = edit_form.previewFile.data
+
+            if modArchive:
+                data = Misc.save_and_get_mod(modArchive) 
+                print(data)
+
+            if modPreview:
+                mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
+                
+            post_object.body = body
+            post_object.title = title
+            post_object.mod_file = data
+            post_object.photo_mod = mod_preview
+
+            db.session.add(post_object)
+            db.session.commit()
+
+            return redirect(url_for('main.post_view', postid=postid))
+
     form = CommentForm()
     if form.validate_on_submit():
         new_comment = Comment()
@@ -177,7 +203,7 @@ def post_view(postid):
     comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
 
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,
-    form=form, comments=comments)
+    form=form, comments=comments, edit_form=edit_form)
 
 
 @bp.route('/moderation/commentregulation/<int:id>')

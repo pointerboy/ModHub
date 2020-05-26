@@ -112,6 +112,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
+    dark_theme = db.Column(db.Boolean)
+
     roles = db.Table(
         'role_users',
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -275,6 +277,11 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
                 return True
         return False
 
+    def apply_theme(self):
+        if self.dark_theme:
+            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/dark_bs4.css') }}'>"
+        return 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -368,7 +375,7 @@ class Post(SearchableMixin, db.Model):
         )
 
     @staticmethod
-    def on_changed_body(target, value, oldvalue, initator):
+    def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'addr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i',
                             'em','li', 'ol', 'pre', 'strong', 'ul', 'h1', 'h2', 'h3', 'p']
         
