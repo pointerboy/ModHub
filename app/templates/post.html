@@ -45,7 +45,13 @@
       <div class="card mb-3">
         <div class="card-body">
           <h5 class="card-title">{{post.title}}</h5>
-          <p class="card-text">{{post.body}}</p>
+          <p class="card-text">
+             {% if post.body_html %}
+              {{ post.body_html | safe }}
+            {%else%}
+              {{post.body}}
+             {%endif%}
+          </p>
           <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
             <h5>{{_('File contents:')}}</h5>
                 {% for elemnt in post.list_contents() %}
