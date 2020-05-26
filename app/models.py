@@ -112,8 +112,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     token = db.Column(db.String(32), index=True, unique=True)
     token_expiration = db.Column(db.DateTime)
 
-    dark_theme = db.Column(db.Boolean)
-
     roles = db.Table(
         'role_users',
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -147,6 +145,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         backref='author',
         lazy='dynamic'
         )
+
+    user_theme = db.Column(db.String(6), default="default_theme")
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -278,9 +278,12 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         return False
 
     def apply_theme(self):
-        if self.dark_theme:
+        if self.user_theme == "dark":
             return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/dark_bs4.css') }}'>"
-        return 
+        elif self.user_theme == "def":
+            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/mainpage.css') }}'>"
+        elif self.user_theme == "vanilla":
+            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/new_theme.css') }}'>"
 
 @login.user_loader
 def load_user(id):

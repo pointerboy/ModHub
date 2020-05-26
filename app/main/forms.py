@@ -2,7 +2,7 @@ from flask import request
 from flask_babel import _, lazy_gettext as _l
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, SubmitField, TextAreaField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField
 from wtforms.validators import ValidationError, DataRequired, Length
 
 from app.models import User
@@ -14,8 +14,14 @@ class EditProfileForm(FlaskForm):
                              validators=[Length(min=10, max=250)])
 
     profile_pic = FileField(_l('New profile picture'), validators=[FileAllowed(['jpg', 'png'], 'Invalid file set for the profile picture. We support jpg and png.')])
-    submit = SubmitField(_l('Submit'))
 
+    theme = SelectField('Theme', choices=[
+        ('dark', '(Beta)Dark Theme'),
+        ('def', 'Default'),
+        ('vanilla', 'Vanilla')
+    ])
+
+    submit = SubmitField(_l('Submit'))
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
         self.original_username = original_username
