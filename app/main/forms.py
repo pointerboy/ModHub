@@ -11,7 +11,7 @@ from app.models import User
 class EditProfileForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     about_me = TextAreaField(_l('About me'),
-                             validators=[Length(min=10, 250)])
+                             validators=[Length(min=10, max=250)])
 
     profile_pic = FileField(_l('New profile picture'), validators=[FileAllowed(['jpg', 'png'], 'Invalid file set for the profile picture. We support jpg and png.')])
     submit = SubmitField(_l('Submit'))
