@@ -39,3 +39,6 @@ venv
 app.db
 microblog.log*
 instance/*.*
+
+static/moduploads/*.*
+static/modprev/*.*
