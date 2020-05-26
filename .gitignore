@@ -40,5 +40,5 @@ app.db
 microblog.log*
 instance/*.*
 
-static/moduploads/*.*
-static/modprev/*.*
+app/static/moduploads/*.*
+app/static/modprev/*.*
