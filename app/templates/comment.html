@@ -25,7 +25,7 @@
                                         {%endif%}
 									</i>
 									<i>
-										{% if comment.author.has_role('admin')%}
+										{% if current_user.has_role('admin')%}
 										<a href="{{url_for('main.commentregulation', id=comment.id)}}">
 											{% if comment.disabled %}
 												Enable Post
