@@ -45,7 +45,7 @@
       <h2 class="font-weight-light">Modification Content</h2>
       <div id="post-card"  class="card mb-3">
         <div class="card-body">
-          {% if post.author == current_user or current_user.has_roles('admin') %}
+          {% if post.author == current_user or current_user.has_role('admin') %}
           <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
           {% endif %}
 
@@ -126,7 +126,7 @@
             <div class="modal-body">
               <form method="POST" enctype="multipart/form-data">
                 <div class="alert alert-error">
-                  <strong>{{_('Watch out!')}}!</strong> {{_('You're admin-editing this.')}}
+                  <strong>{{_('Watch out!')}}!</strong> {{_('Youre admin-editing this.')}}
                 </div>
                 <div class="alert alert-warning">
                   <strong>{{_('Warning')}}!</strong> {{_('Leave file upload fields empty unless to update then.')}}
