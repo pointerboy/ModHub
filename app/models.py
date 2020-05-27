@@ -157,6 +157,7 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+
     def avatar(self, size):
         return url_for('static', filename='profile_pics/' + self.picture_id) 
         
@@ -277,13 +278,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
                 return True
         return False
 
-    def apply_theme(self):
-        if self.user_theme == "dark":
-            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/dark_bs4.css') }}'>"
-        elif self.user_theme == "def":
-            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/mainpage.css') }}'>"
-        elif self.user_theme == "vanilla":
-            return "<link rel='stylesheet' type= 'text/css' href= '{{ url_for('static',filename='styles/new_theme.css') }}'>"
 
 @login.user_loader
 def load_user(id):

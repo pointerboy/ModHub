@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "f:\\vanillaModHub\\venv\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\Luka\\AppData\\Local\\Programs\\Python\\Python36-32\\python.exe",
     "sqltools.connections": [
         {
             "database": "${workspaceFolder}\\app.db",

@@ -60,20 +60,22 @@
           <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
           <h5>{{_('File contents:')}}</h5>
 
-          {% for elemnt in post.list_contents() %}
-          <ul class="list-group list-group-flush">
-              {% if ".exe" in elemnt %}
+          <h5>{{_('File contents:')}}</h5>
+            {% for elemnt in post.list_contents() %}
+            <ul class="list-group list-group-flush">
+                {% if ".exe" in elemnt %}
                 <li class="list-group-item list-group-item-warning">
                   <i class="fas fa-running"></i>{{elemnt | lower}}
                 </li>
-              {%elif ".dll" or ".asi" in elemnt%}
-              <li class="list-group-item"><i class="fas fa-book"></i>{{elemnt | lower}}
-              {%else%}
-                {{elemnt | lower}}
-              {% endif %}
+                {%elif ".dll" or ".asi" in elemnt%}
+                <li class="list-group-item">
+                  <i class="fas fa-book"></i>{{elemnt}}
+                {%else%}
+                  {{elemnt}}
+                {% endif %}
               </li>
             </ul>
-          {%endfor%}
+            {%endfor%}
           </br>
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
