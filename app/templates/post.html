@@ -59,8 +59,6 @@
           </p>
           <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
           <h5>{{_('File contents:')}}</h5>
-
-          <h5>{{_('File contents:')}}</h5>
             {% for elemnt in post.list_contents() %}
             <ul class="list-group list-group-flush">
                 {% if ".exe" in elemnt %}
