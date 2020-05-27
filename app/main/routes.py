@@ -21,7 +21,7 @@ def has_role(name):
             if current_user.has_role(name):
                 return f(*args, **kwargs)
             else:
-                abort(405)
+                abort(403)
         return functools.update_wrapper(wraps, f)
     return real_decorator
 

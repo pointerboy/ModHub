@@ -23,3 +23,7 @@ def internal_error(error):
     if wants_json_response():
         return api_error_response(500)
     return render_template('errors/500.html'), 500
+
+@bp.app_errorhandler(403)
+def access_denied(error):
+    return render_template('errors/403.html'), 403
