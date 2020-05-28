@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db, current_app
-from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm
+from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm, PostEditForm
 from app.models import User, Post, Message, Notification, Misc, Comment
 from app.translate import translate
 from app.main import bp
@@ -153,7 +153,7 @@ def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
     db.session.commit()
 
-    edit_form = PostForm(obj=post_object)
+    edit_form = PostEditForm()
     if edit_form.validate_on_submit():
         if post_object.author == current_user:
 
