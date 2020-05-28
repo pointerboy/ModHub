@@ -11197,7 +11197,8 @@ a.text-dark:focus {
 }
 
 p {
-	font-family: Georgia, Cambria, "Times New Roman", Times, serif
+    margin-top: 0;
+    margin-bottom: 1rem;
 }
 
 blockquote {
