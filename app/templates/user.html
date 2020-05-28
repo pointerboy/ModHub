@@ -10,7 +10,11 @@
                                 <p class="lead">{{ _('%(username)s was last seen %(when)s',
                                     username=user_link, when=moment(user.last_seen).fromNow()) }}.</p>
                                 <p>
-                                {{user.about_me}}
+                                {% if user.about_me %}
+                                    {{user.about_me}}
+                                {% else %}
+                                    {{_('No bio added.')}}
+                                {%endif%}
                                 </p>
                                 <p> 
                                     {% if user.posts.count() < 5 %}
