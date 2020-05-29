@@ -84,6 +84,7 @@ def download(filename):
 @has_role('admin')
 def deletepost(id):
     Post.delete_post(id)
+    flash(_('The post is now deleted!'))
     return redirect(url_for('main.explore'))
 
 @bp.route('/admin/postverif/<id>', methods=['GET', 'POST'])
@@ -91,6 +92,7 @@ def deletepost(id):
 @has_role('admin')
 def verifpost(id):
     Post.verif_post(id)
+    flash(_('This post is now verified!'))
     return redirect(url_for('main.post_view', postid=id))
 
 @bp.route('/explore')
