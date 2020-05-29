@@ -363,10 +363,11 @@ class Post(SearchableMixin, db.Model):
     def get_preview(self):
         return url_for('static', filename='modprev/' + str(self.photo_mod))
 
-    def delete_post(self):
-        deleteObj = Post.query.filter(Post.id == self.id).first()
+    @staticmethod
+    def delete_post(id):
+        deleteObj = Post.query.filter(Post.id == id).first()
         db.session.delete(deleteObj)
-        return db.session.commit(deleteObj)
+        db.session.commit()
 
     comments = db.relationship(
             'Comment',

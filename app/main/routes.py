@@ -83,11 +83,7 @@ def download(filename):
 @login_required
 @has_role('admin')
 def deletepost(id):
-    deleteObj = Post.query.filter(Post.id == id).first()
-    db.session.delete(deleteObj)
-    db.session.commit()
-
-    print("DELETE DUMP", deleteObj, id, current_user.username)
+    Post.delete_post(id)
     return redirect(url_for('main.explore'))
 
 @bp.route('/explore')
