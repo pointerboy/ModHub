@@ -49,15 +49,14 @@ def index():
         modPreview = form.previewFile.data
 
         if modArchive:
-            data = Misc.save_and_get_mod(modArchive) 
-            print(data)
-
+            data = Misc.save_and_get_mod(modArchive)
+            
         if modPreview:
             mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
-            
+
         post = Post(body=form.post.data, author=current_user,
                     title = title, mod_file = data, photo_mod = mod_preview, language=language)
-
+                
         db.session.add(post)
         db.session.commit()
         flash(_('Your post is now live!'))

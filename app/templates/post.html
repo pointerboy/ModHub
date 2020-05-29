@@ -18,7 +18,6 @@
     </div>
   </div>
   
-  <!-- Page Content -->
   <section class="py-5">
     <div class="card">
         <img class="card-img-top" width="90%" src="{{post.get_preview()}}" alt="Mod Preview">
@@ -61,7 +60,18 @@
           </p>
           <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
           <h5>{{_('File contents:')}}</h5>
-            {% for elemnt in post.list_contents() %}
+            {% set files = post.list_contents()%}
+            {% if files | length > 25 %}
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{_('Mod preview has been stopped from rendering because the list of files is too big. If you wish to see mod contents click on a button bellow.')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#previewAllMods"><i class="fas fa-eye"></i> Peek</button>
+            {%else%}
+            {% for elemnt in files %}
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <ul class="list-group list-group-flush">
                 {% if ".exe" in elemnt %}
                 <li class="list-group-item list-group-item-warning">
@@ -71,11 +81,13 @@
                 <li class="list-group-item">
                   <i style="float: right" class="fas fa-book"></i>{{elemnt}}
                 {%else%}
-                  {{elemnt}}
+                <div style="display:none">{{elemnt}}</div>
                 {% endif %}
               </li>
             </ul>
+          </div>
             {%endfor%}
+            {%endif%}
           </br>
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
@@ -142,4 +154,30 @@
       {% include "comment.html" %}
       </div>  
   </section>
+
+  <!-- Modal -->
+  <div class="modal fade" id="previewAllMods" tabindex="-1" role="dialog" aria-labelledby="previewAllMods" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="previewAllMods">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div data-toggle="tooltip" title="Files flagged with yellow may be dangerous." data-placement="bottom" class="alert alert-warning alert-dismissible fade show" role="alert">
+            Some files might be flagged. 
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 {%endblock%}
