@@ -71,7 +71,6 @@
                 <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#previewAllMods"><i class="fas fa-eye"></i> Peek</button>
             {%else%}
             {% for elemnt in files %}
-            <div class="table-wrapper-scroll-y my-custom-scrollbar">
             <ul class="list-group list-group-flush">
                 {% if ".exe" in elemnt %}
                 <li class="list-group-item list-group-item-warning">
@@ -85,7 +84,6 @@
                 {% endif %}
               </li>
             </ul>
-          </div>
             {%endfor%}
             {%endif%}
           </br>
