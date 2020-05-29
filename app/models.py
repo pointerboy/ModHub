@@ -341,6 +341,9 @@ class Post(SearchableMixin, db.Model):
     mod_file = db.Column(db.String(23+1))
     photo_mod = db.Column(db.String(23+1))
 
+    verified = db.Column(db.Integer)
+    disabled = db.Column(db.Integer)
+
     def list_contents(self):
         if self.mod_file:
             print(self.mod_file)
