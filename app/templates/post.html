@@ -64,11 +64,11 @@
             <ul class="list-group list-group-flush">
                 {% if ".exe" in elemnt %}
                 <li class="list-group-item list-group-item-warning">
-                  <i class="fas fa-running"></i>{{elemnt | lower}}
+                  <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
                 </li>
-                {%elif ".dll" or ".asi" in elemnt%}
+                {%elif".dll" or ".asi" in elemnt%}
                 <li class="list-group-item">
-                  <i class="fas fa-book"></i>{{elemnt}}
+                  <i style="float: right" class="fas fa-book"></i>{{elemnt}}
                 {%else%}
                   {{elemnt}}
                 {% endif %}
