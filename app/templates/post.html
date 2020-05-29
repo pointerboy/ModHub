@@ -142,9 +142,12 @@
             </div>
             <div class="modal-body">
               <form method="POST" enctype="multipart/form-data">
+
+                {% if post.author.has_role('admin') and post.author != current_user %}
                 <div class="alert alert-error">
                   <strong>{{_('Watch out!')}}</strong> {{_('Youre admin-editing this.')}}
                 </div>
+                {%endif%}
                 <div class="alert alert-warning">
                   <strong>{{_('Warning')}}!</strong> {{_('Leave file upload fields empty unless to update then.')}}
                 </div>
