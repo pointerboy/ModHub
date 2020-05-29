@@ -28,9 +28,9 @@
 										{% if current_user.has_role('admin')%}
 										<a href="{{url_for('main.commentregulation', id=comment.id)}}">
 											{% if comment.disabled %}
-												Enable Post
+												Enable Comment
 											{% else %}
-												Disable Post 
+												Disable Comment 
 											{% endif %}
 										</a>
                                         {%endif%}
