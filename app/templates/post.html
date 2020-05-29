@@ -86,7 +86,7 @@
             </ul>
             {%endfor%}
             {%endif%}
-          </br>
+          </br><br>
 
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
             <small>{{_('File signature: ' + post.mod_file)}}</small>
@@ -157,7 +157,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="previewAllMods">Modal title</h5>
+          <h5 class="modal-title" id="previewAllMods">Mod Content List</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -184,10 +184,9 @@
                   <div style="display:none">{{elemnt}}</div>
                   {% endif %}
                 </li>
+                {%endfor%}
               </ul>
-            {%endfor%}
           </div>
-        </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
