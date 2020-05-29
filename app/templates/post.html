@@ -155,7 +155,6 @@
       </div>  
   </section>
 
-  <!-- Modal -->
   <div class="modal fade" id="previewAllMods" tabindex="-1" role="dialog" aria-labelledby="previewAllMods" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -172,10 +171,27 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
+
+            {% set files = post.list_contents()%}
+            {% for elemnt in files %}
+              <ul class="list-group list-group-flush">
+                  {% if ".exe" in elemnt %}
+                  <li class="list-group-item list-group-item-warning">
+                    <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
+                  </li>
+                  {%elif".dll" or ".asi" in elemnt%}
+                  <li class="list-group-item">
+                    <i style="float: right" class="fas fa-book"></i>{{elemnt}}
+                  {%else%}
+                  <div style="display:none">{{elemnt}}</div>
+                  {% endif %}
+                </li>
+              </ul>
+            {%endfor%}
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
         </div>
       </div>
     </div>
