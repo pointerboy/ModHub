@@ -372,9 +372,11 @@ class Post(SearchableMixin, db.Model):
     @staticmethod
     def verif_post(id):
         postObj = Post.query.filter(Post.id == id).first()
-        postObj.verified = True
+        postObj.verified = not postObj.verified
         db.session.add(postObj)
         db.session.commit()
+        return postObj.verified
+
 
     comments = db.relationship(
             'Comment',

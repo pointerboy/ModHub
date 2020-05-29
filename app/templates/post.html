@@ -97,6 +97,11 @@
               <a style="color:white" type="button" class="badge badge-danger" href="{{url_for('main.deletepost', id=post.id)}}">
                 Delete post
               </a>
+              <a style="color:white" type="button" class="badge badge-success" href="{{url_for('main.verifpost', id=post.id)}}">
+                {% if not post.verified %} {{_('Verify')}}
+                {%else%} {{_('Revoke verification')}}
+                {%endif%}
+              </a>
             {% endif %}
         </div>
       </br>

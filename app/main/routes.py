@@ -91,8 +91,10 @@ def deletepost(id):
 @login_required
 @has_role('admin')
 def verifpost(id):
-    Post.verif_post(id)
-    flash(_('This post is now verified!'))
+    if Post.verif_post(id):
+        flash(_('This post is now verified!'))
+    else:
+        flash(_('Post verification token has been removed!'))
     return redirect(url_for('main.post_view', postid=id))
 
 @bp.route('/explore')
