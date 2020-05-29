@@ -365,8 +365,15 @@ class Post(SearchableMixin, db.Model):
 
     @staticmethod
     def delete_post(id):
-        deleteObj = Post.query.filter(Post.id == id).first()
+        delete = Post.query.filter(Post.id == id).first()
         db.session.delete(deleteObj)
+        db.session.commit()
+    
+    @staticmethod
+    def verif_post(id):
+        postObj = Post.query.filter(Post.id == id).first()
+        postObj.verified = True
+        db.session.add(postObj)
         db.session.commit()
 
     comments = db.relationship(

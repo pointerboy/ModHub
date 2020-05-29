@@ -86,6 +86,13 @@ def deletepost(id):
     Post.delete_post(id)
     return redirect(url_for('main.explore'))
 
+@bp.route('/admin/postverif/<id>', methods=['GET', 'POST'])
+@login_required
+@has_role('admin')
+def verifpost(id):
+    Post.verif_post(id)
+    return redirect(url_for('main.post_view', postid=id))
+
 @bp.route('/explore')
 def explore():
     page = request.args.get('page', 1, type=int)
