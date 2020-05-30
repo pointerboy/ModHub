@@ -328,6 +328,10 @@ class Comment(SearchableMixin, db.Model):
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
 
+tags = db.Table('post_tags',
+    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
+    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
+)
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)
@@ -384,6 +388,12 @@ class Post(SearchableMixin, db.Model):
             lazy='dynamic'
         )
 
+    tags = db.relationship(
+        'Tag',
+        secondary=tags,
+        backref=db.backref('posts', lazy='dynamic')
+    )
+
     @staticmethod
     def on_changed_body(target, value, oldvalue, initiator):
         allowed_tags = ['a', 'addr', 'acronym', 'b', 'blockquote', 'code', 'em', 'i',
@@ -396,6 +406,15 @@ class Post(SearchableMixin, db.Model):
         return '<Post {}>'.format(self.body)
 
 db.event.listen(Post.body, 'set', Post.on_changed_body)
+
+class Tag(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    title = db.Column(db.String(64))
+
+    def __init__(self, title):
+        self.title = title
+    def __repr__(self):
+        return "<Tag '{}'>".format(self.title)
 class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
