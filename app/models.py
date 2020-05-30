@@ -410,6 +410,7 @@ db.event.listen(Post.body, 'set', Post.on_changed_body)
 class Tag(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
     title = db.Column(db.String(64))
+    thumbnail = db.Column(db.String(64))
 
     def __init__(self, title):
         self.title = title
