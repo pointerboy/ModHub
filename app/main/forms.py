@@ -14,12 +14,6 @@ class EditProfileForm(FlaskForm):
 
     profile_pic = FileField(_l('New profile picture'), validators=[FileAllowed(['jpg', 'png'], 'Invalid file set for the profile picture. We support jpg and png.')])
 
-    theme = SelectField('Theme', choices=[
-        ('dark', '(Beta)Dark Theme'),
-        ('def', 'Default'),
-        ('vanilla', 'Vanilla')
-    ])
-
     submit = SubmitField(_l('Submit'))
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
