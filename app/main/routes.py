@@ -104,7 +104,7 @@ def explore_all():
                            tags=tags)
 @bp.route('/explore/<tag_name>')
 def explore(tag_name):
-    posts = Post.query.filter(Tag.url_name == tag_name).all() or 404
+    posts = Post.query.order_by(Tag.Post.url_name==tag_name)
     return render_template('explore.html', title=_('Explore'),
                       posts=posts)
 
