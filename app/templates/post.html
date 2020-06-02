@@ -46,6 +46,9 @@
       <h2 class="font-weight-light">Modification Content</h2>
       <div id="post-card"  class="card mb-3">
         <div class="card-body">
+          {% if post.verified %}
+            <img width="30%" style="float: right" src="{{url_for('static', filename='verified.jpg')}}">
+          {%endif%}
           {% if post.author == current_user or current_user.has_role('admin') %}
           <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
           {% endif %}
