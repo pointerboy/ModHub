@@ -68,7 +68,6 @@ class SearchableMixin(object):
 db.event.listen(db.session, 'before_commit', SearchableMixin.before_commit)
 db.event.listen(db.session, 'after_commit', SearchableMixin.after_commit)
 
-
 class PaginatedAPIMixin(object):
     @staticmethod
     def to_collection_dict(query, page, per_page, endpoint, **kwargs):
@@ -98,7 +97,6 @@ followers = db.Table(
     db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
     db.Column('followed_id', db.Integer, db.ForeignKey('user.id'))
 )
-
 
 class User(UserMixin, PaginatedAPIMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -156,7 +154,6 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-
 
     def avatar(self, size):
         return url_for('static', filename='profile_pics/' + str(self.picture_id)) 
@@ -327,23 +324,6 @@ class Comment(SearchableMixin, db.Model):
         tags=allowed_tags, strip=True))
 
 db.event.listen(Comment.body, 'set', Comment.on_changed_body)
-
-
-class Tag(db.Model):
-    id = db.Column(db.Integer(), primary_key=True)
-    title = db.Column(db.String(64))
-    thumbnail = db.Column(db.String(64))
-    url_name = db.Column(db.String(16))
-
-    def return_thumbnail(self):
-        return url_for('static', filename='tagthumb/' + str(self.thumbnail)) 
-    def __repr__(self):
-        return "<Tag '{}'>".format(self.title)
-
-tags = db.Table('post_tags',
-    db.Column('post_id', db.Integer, db.ForeignKey('post.id')),
-    db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'))
-)
 class Post(SearchableMixin, db.Model):
     __searchable__ = ['body']
     id = db.Column(db.Integer, primary_key=True)
@@ -397,12 +377,6 @@ class Post(SearchableMixin, db.Model):
             'Comment',
             backref='post',
             lazy='dynamic'
-    )
-
-    tags = db.relationship(
-        'Tag',
-        secondary='post_tags',
-        backref=db.backref('posts', lazy='dynamic')
     )
 
     @staticmethod

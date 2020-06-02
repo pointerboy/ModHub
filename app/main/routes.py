@@ -97,18 +97,19 @@ def verifpost(id):
         flash(_('Post verification token has been removed!'))
     return redirect(url_for('main.post_view', postid=id))
 
-@bp.route('/explore/', methods=['GET', 'POST'])
-def explore_all():
-    tags = Tag.query.all()
+@bp.route('/explore')
+def explore():
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.timestamp.desc()).paginate(
+        page, current_app.config['POSTS_PER_PAGE'], False)
+    next_url = url_for('main.explore', page=posts.next_num) \
+        if posts.has_next else None
+    prev_url = url_for('main.explore', page=posts.prev_num) \
+        if posts.has_prev else None
     return render_template('explore.html', title=_('Explore'),
-                           tags=tags)
-@bp.route('/explore/<tag_name>')
-def explore(tag_name):
-    posts = Post.query.order_by(Tag.Post.url_name==tag_name)
-    return render_template('explore.html', title=_('Explore'),
-                      posts=posts)
-
-
+                           posts=posts.items, next_url=next_url,
+                           prev_url=prev_url)
+                           
 @bp.route('/user/<username>')
 @login_required
 def user(username):
