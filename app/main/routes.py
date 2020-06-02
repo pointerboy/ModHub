@@ -77,7 +77,11 @@ def index():
 @login_required
 def download(filename):
     file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
-    return send_file(file_loc, as_attachment=True)
+
+    if os.path.isfile(file_loc):
+        return send_file(file_loc, as_attachment=True)
+    else:
+        return abort(404)
 
 @bp.route('/admin/deletepost/<id>', methods=['POST', 'GET'])
 @login_required
