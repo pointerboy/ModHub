@@ -356,11 +356,16 @@ class Post(SearchableMixin, db.Model):
             return contents
         return "Error setting the file up"
 
+    def does_preview_exist(self):
+        if os.path.isfile(url_for('static', filename='modprev/'+str(self.photo_mod))):
+            return True
+        return False
+
     def get_preview(self):
         filename = str(self.photo_mod)
         path_to_thumb = url_for('static', filename='modprev/' + filename)
 
-        if not os.path.isfile(path_to_thumb):
+        if not self.does_preview_exist():
             filename = "no_preview.png"
             path_to_thumb = url_for('static', filename='modprev/' + filename)
         
