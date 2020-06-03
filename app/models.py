@@ -375,7 +375,7 @@ class Post(SearchableMixin, db.Model):
 
     @staticmethod
     def delete_post(id):
-        delete = Post.query.filter(Post.id == id).first()
+        deleteObj = Post.query.filter(Post.id == id).first()
         db.session.delete(deleteObj)
         db.session.commit()
     
