@@ -51,7 +51,8 @@
           <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
           {% endif %}
 
-          <h5 class="card-title">{{post.title}}</h5>
+          <h5 class="card-title">{{post.title}}</h5> 
+          {% if post.version %} <span class="badge badge-dark">{{post.version}}</span> {%endif%}
           <p class="card-text">
              {% if post.body_html %}
               {{ post.body_html | safe }}
