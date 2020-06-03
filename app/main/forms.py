@@ -49,6 +49,12 @@ class PostEditForm(FlaskForm):
     previewFile = FileField(_('Thumbnail'), validators=[FileAllowed(['jpg', 'png', 'gif'], 
         "Invalid file format. We only allow following image formats: jpg, png and gif.")])
     
+    branchField = SelectField('Branch', choices=[
+        ('Release', 'Release'),
+        ('Beta Release', 'Beta'),
+        ('Lost and Found', 'Lost and Found',)
+    ])
+
     submit = SubmitField(_('Edit'))
 
 class SearchForm(FlaskForm):
