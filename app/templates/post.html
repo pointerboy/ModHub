@@ -43,6 +43,11 @@
       
       <h2 class="font-weight-light">Modification Content</h2>
       <div id="post-card"  class="card mb-3">
+        {% if post.branch == "Release" or post.branch == "Beta Release"%}
+        <div class="alert alert-info" role="alert">
+          {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}} 
+        </div>
+        {%endif%}
         <div class="card-body">
           {% if post.verified %}
             <img width="30%" style="float: right" src="{{url_for('static', filename='verified.jpg')}}">
