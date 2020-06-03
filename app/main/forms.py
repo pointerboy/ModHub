@@ -2,7 +2,7 @@ from flask import request
 from flask_babel import _, lazy_gettext as _l
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileRequired, FileAllowed
-from wtforms import StringField, SubmitField, TextAreaField, SelectField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, DecimalField
 from wtforms.validators import ValidationError, DataRequired, Length
 
 from app.models import User
@@ -34,6 +34,7 @@ class PostForm(FlaskForm):
     previewFile = FileField(_('Thumbnail'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'], 
         "Invalid file format. We only allow following image formats: jpg, png and gif.")])
 
+    versionField = DecimalField(_('Version'), validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
 
 class PostEditForm(FlaskForm):
