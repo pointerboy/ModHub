@@ -34,7 +34,11 @@ class PostForm(FlaskForm):
     previewFile = FileField(_('Thumbnail'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'], 
         "Invalid file format. We only allow following image formats: jpg, png and gif.")])
 
-    versionField = DecimalField(_('Version'), validators=[DataRequired()])
+    branchField = SelectField('Branch', choices=[
+        ('Release', 'Release'),
+        ('Beta Release', 'Beta'),
+        ('Lost and Found', 'Lost and Found')
+    ])
     submit = SubmitField(_l('Submit'))
 
 class PostEditForm(FlaskForm):

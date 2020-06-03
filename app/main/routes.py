@@ -47,7 +47,7 @@ def index():
         title = form.title.data
         modArchive = form.modFile.data
         modPreview = form.previewFile.data
-        version = form.versionField.data
+        branch = form.branchField.data
 
         if modArchive:
             data = Misc.save_and_get_mod(modArchive)
@@ -57,7 +57,7 @@ def index():
 
         post = Post(body=form.post.data, author=current_user,
                     title = title, mod_file = data, photo_mod = mod_preview, language=language,
-                    version = version)
+                    branch = branch)
                 
         db.session.add(post)
         db.session.commit()

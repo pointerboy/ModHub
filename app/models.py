@@ -340,7 +340,7 @@ class Post(SearchableMixin, db.Model):
     verified = db.Column(db.Integer)
     disabled = db.Column(db.Integer)
 
-    version = db.Column(db.Float, default=0.0)
+    branch = db.Column(db.String(8))
 
     def list_contents(self):
         if self.mod_file:
