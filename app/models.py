@@ -357,7 +357,14 @@ class Post(SearchableMixin, db.Model):
         return "Error setting the file up"
 
     def get_preview(self):
-        return url_for('static', filename='modprev/' + str(self.photo_mod))
+        filename = str(self.photo_mod)
+        path_to_thumb = url_for('static', filename='modprev/' + filename)
+
+        if not os.path.isfile(path_to_thumb):
+            filename = "no_preview.png"
+            path_to_thumb = url_for('static', filename='modprev/' + filename)
+        
+        return path_to_thumb
 
     @staticmethod
     def delete_post(id):
