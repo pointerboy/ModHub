@@ -2,6 +2,10 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
 
+<meta name="description" content="{{post.body}}">
+<meta name="theme-color" content="#20ba6d">
+<meta name="application-name" content="Vanilla Remastered - {{post.title}}">
+
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
   <div class="container h-100">
     <div class="row h-100 align-items-center">
