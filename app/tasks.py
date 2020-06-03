@@ -7,7 +7,7 @@ from rq import get_current_job
 
 from app import create_app, db
 from app.email import send_email
-from app.models import User, Post, Task
+from app.models import User, Post, Task, Message
 
 app = create_app()
 app.app_context().push()
@@ -25,7 +25,20 @@ def _set_task_progress(progress):
             task.complete = True
         db.session.commit()
 
+def suggest_edits(user_id):
+    try:
+        posts = Post.query.filter(Post.author == user_id).all()
+        _set_task_progress(0)
+        
+        for post in posts:
+            if not post.does_preview_exist():
+                Message.send_sys_message(user_id)
 
+        _set_task_progress(100)
+    except: 
+        _set_task_progress(0)
+        app.logger.error('Unhandled exception', exc_info=sys.exc_info())
+        
 def export_posts(user_id):
     try:
         user = User.query.get(user_id)
