@@ -37,8 +37,8 @@ class PostForm(FlaskForm):
     branchField = SelectField('Branch', choices=[
         ('Release', 'Release'),
         ('Beta Release', 'Beta'),
-        ('Lost and Found', 'Lost and Found')
-    ])
+        ('Lost and Found', 'Lost and Found',)
+    ], validators=[DataRequired()])
     submit = SubmitField(_l('Submit'))
 
 class PostEditForm(FlaskForm):
