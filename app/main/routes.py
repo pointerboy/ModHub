@@ -75,12 +75,15 @@ def index():
                            prev_url=prev_url)
 
 
-@bp.route('/download/<filename>')
+@bp.route('/download/<filename>', methods=['GET', 'POST'])
 @login_required
 def download(filename):
     file_loc = os.path.join(current_app.root_path, 'static/moduploads', filename)
-
     if os.path.isfile(file_loc):
+        post = Post.query.filter(Post.mod_file == filename).first_or_404()
+        post.number_of_downloads += 1
+        db.session.add(post)
+        db.session.commit()
         return send_file(file_loc, as_attachment=True)
     else:
         return abort(404)

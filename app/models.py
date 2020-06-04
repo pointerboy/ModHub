@@ -341,6 +341,7 @@ class Post(SearchableMixin, db.Model):
     disabled = db.Column(db.Integer)
 
     branch = db.Column(db.String(8))
+    number_of_downloads = db.Column(db.Integer, default=0)
 
     def list_contents(self):
         if self.mod_file:
