@@ -14,6 +14,8 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_dropzone import Dropzone
 
+from flask_ipban import IpBan
+
 from redis import Redis
 
 from config import Config
@@ -28,6 +30,7 @@ bootstrap = Bootstrap()
 moment = Moment()
 babel = Babel()
 dropzone = Dropzone()
+ip_ban = IpBan(ban_seconds=100)
 
 
 def create_app(config_class=Config):
@@ -43,6 +46,7 @@ def create_app(config_class=Config):
     babel.init_app(app)
     
     dropzone.init_app(app)
+    ip_ban.init_app(app)
 
     app.elasticsearch = Elasticsearch([app.config['ELASTICSEARCH_URL']]) \
         if app.config['ELASTICSEARCH_URL'] else None
