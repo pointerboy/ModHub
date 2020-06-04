@@ -103,6 +103,8 @@
             <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
             <small>{{_('File signature: ' + post.mod_file)}}</small>
 
+            <br><i class="fas fa-download"></i>{{_(' <b>Downloads</b>: ' + post.number_of_downloads|string)}}
+
             {% if current_user.has_role('admin') %}
               <hr><small>Administrative commands:</small>
 
