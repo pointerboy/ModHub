@@ -25,7 +25,7 @@
     <div class="card">
         <img class="card-img-top" width="90%" src="{{post.get_preview()}}" alt="Mod Preview">
         <div class="card-body text-center">
-          <img class="avatar" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
+          <img width="50%" class="img-fluid mx-auto" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
           <h4 class="card-title">{{post.author.username}}</h4>
           {% if post.author.has_role('admin') %}
             <h6 class="card-subtitle mb-2 text-muted"> ModHub Administrator</h6>
