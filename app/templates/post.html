@@ -62,7 +62,7 @@
 
           <h5 class="card-title">{{post.title}}</h5> 
           {% if post.branch %} <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
-          {% if post.branch %} <span class="badge badge-success">Verified</span> {%endif%}
+          {% if post.verified %} <span class="badge badge-success">Verified</span> {%endif%}
           <p class="card-text">
              {% if post.body_html %}
               {{ post.body_html | safe }}
