@@ -176,6 +176,7 @@ def post_view(postid):
             title = edit_form.title.data
             modArchive = edit_form.modFile.data
             modPreview = edit_form.previewFile.data
+            branch = edit_form.branchField.data
 
             if modArchive:
                 data = Misc.save_and_get_mod(modArchive) 
@@ -185,9 +186,10 @@ def post_view(postid):
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
                 post_object.photo_mod = mod_preview
-                
+            
             post_object.body = body
             post_object.title = title
+            post_object.branch = branch
 
             db.session.add(post_object)
             db.session.commit()
