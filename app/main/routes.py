@@ -169,6 +169,7 @@ def post_view(postid):
     db.session.commit()
 
     edit_form = PostEditForm()
+    
     if edit_form.validate_on_submit():
         if post_object.author == current_user:
 
@@ -187,9 +188,12 @@ def post_view(postid):
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
                 post_object.photo_mod = mod_preview
             
-            post_object.body = body
-            post_object.title = title
-            post_object.branch = branch
+            if body:
+                post_object.body = body
+            if title: 
+                post_object.title = title
+            if branch:
+                post_object.branch = branch
 
             db.session.add(post_object)
             db.session.commit()
