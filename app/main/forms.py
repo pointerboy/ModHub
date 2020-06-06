@@ -42,8 +42,8 @@ class PostForm(FlaskForm):
     submit = SubmitField(_l('Submit'))
 
 class PostEditForm(FlaskForm):
-    title = StringField(_l('Title of Modification'), validators=[Length(min=6,max=360)])
-    post = TextAreaField(_l('Description of the modification.'), validators=[Length(min=6,max=360)])
+    title = StringField(_l('Title of Modification'))
+    post = TextAreaField(_l('Description of the modification.'))
 
     modFile = FileField(_('Reupload Modification file'), validators=[FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
     previewFile = FileField(_('Thumbnail'), validators=[FileAllowed(['jpg', 'png', 'gif'], 
