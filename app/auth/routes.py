@@ -46,6 +46,7 @@ def register():
         user.set_password(form.password.data)
 
         user.picture_id = 'default.png'
+        user.ip = request.remote_addr
         
         db.session.add(user)
         db.session.commit()
