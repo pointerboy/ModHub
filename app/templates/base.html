@@ -50,10 +50,20 @@
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
                                 <i class="fas fa-user"></i>
                                 {{ _('Profile') }}
+
+                                {% if current_user.about_me == None %}
+                                {% set usr_no_bio = True %}
+                                    <span class="badge badge-pill badge-warning">1</span>
+                                {%endif%}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}"><i class="fas fa-eye"></i> {{_('Preview')}}</a>
-                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i> {{_('Edit')}}</a>
+                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i> 
+                                {{_('Edit')}}
+                                {% if usr_no_bio %}
+                                <span class="badge badge-pill badge-warning">{{_('Recommendations')}}</span>
+                                {%endif%}
+                            </a>
                               <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-power-off"></i> {{_('Log out')}}</a>
                             </div>
                         </li>

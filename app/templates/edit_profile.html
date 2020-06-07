@@ -3,15 +3,29 @@
 
 {% block app_content %}
     <h1>{{ _('Edit Profile') }}</h1>
-    <div class="row">
-        <div class="col-md-4">
             {% for field, errors in form.errors.iteritems() %}
                 <div class="alert alert-danger alert-dismissible fade show">
                     {{ ', '.join(errors) }}
                 </div>
             {% endfor %}
+
+            {% if current_user.about_me == None %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{_('Recommendation!')}}</strong> {{_('You should fill about me section so people get to know you better!')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {%endif%}
+
+            {% if current_user.picture_id == 'default.png' %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{_('Recommendation!')}}</strong> {{_('Change your profile picture to something new.')}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {%endif%}
             {{ wtf.quick_form(form) }}
-        </div>
-    </div>
     <br>
 {% endblock %}
