@@ -1,218 +1,207 @@
 {% extends "base.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 {% block app_content %}
-
 <meta name="description" content="{{post.body}}">
 <meta name="theme-color" content="#20ba6d">
 <meta name="application-name" content="Vanilla Remastered - {{post.title}}">
-
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
-  <div class="container h-100">
-    <div class="row h-100 align-items-center">
+<div class="container h-100">
+   <div class="row h-100 align-items-center">
       <div class="col-12 text-center">
-        <br>
-        <h1 class="font-weight-light">ModHub - {{post.title}}
-          {% if post.branch %}-{{post.branch}}{%endif%}</h1>
-        {% for field, errors in form.errors.iteritems() %}
-        <div class="alert alert-danger alert-dismissible fade show">
-          {{ form[field].label }}: {{ ', '.join(errors) }}
-        </div>
-      {% endfor %}
-      </div>
-    </div>
-  </div>
-  <section class="py-5">
-    <div class="card">
-        <img class="card-img-top" width="90%" src="{{post.get_preview()}}" alt="Mod Preview">
-        <div class="card-body text-center">
-          <img width="50%" class="img-fluid mx-auto" src="{{ post.author.avatar(-1) }}" alt="Dude's avatar">
-          <h4 class="card-title">{{post.author.username}}</h4>
-          {% if post.author.has_role('admin') %}
-            <h6 class="card-subtitle mb-2 text-muted"> ModHub Administrator</h6>
-          {%endif%}
-            <p class="card-text">{{post.author.about}}</p>
-            {% if post.author != current_user %}
-                {% if not current_user.is_following(post.author) %}
-                    <a href="{{ url_for('main.follow', username=post.author.username) }}" class="btn btn-success">Follow</a>
-                        {% elif current_user.is_following(post.author) %}
-                         <a href="{{ url_for('main.unfollow', username=post.author.username) }}" class="btn btn-success">Unfollow</a>
-                        {%endif%}
-                <a href="{{ url_for('main.send_message', recipient=post.author.username) }}" class="btn btn-outline-success">Message</a>
-            {%endif%}
-         {% if post.author == current_user %}
-         <p>{{_("Oh look! It is me! Welcome to your post "+post.author.username)}}.</p>
-         {%endif%}
-        </div>
-      </div></br>
-      
-      <h2 class="font-weight-light">Modification Content</h2>
-      <div id="post-card"  class="card mb-3">
-        {% if post.branch == "Release" or post.branch == "Beta Release"%}
-        <div class="alert alert-info" role="alert">
-          {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}} 
-        </div>
-        {%endif%}
-        <div class="card-body">
-          {% if post.verified %}
-            <img width="30%" style="float: right" src="{{url_for('static', filename='verified.jpg')}}">
-          {%endif%}
-          {% if post.author == current_user or current_user.has_role('admin') %}
-          <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
-          {% endif %}
-
-          <h5 class="card-title">{{post.title}}</h5> 
-          {% if post.branch %} <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
-          {% if post.verified %} <span class="badge badge-success">Verified</span> {%endif%}
-          <p class="card-text">
-             {% if post.body_html %}
-              {{ post.body_html | safe }}
-            {%else%}
-              {{post.body}}
-             {%endif%}
-          </p>
-          <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
-          <h5>{{_('File contents:')}}</h5>
-            {% set files = post.list_contents()%}
-            {% if files | length > 25 %}
-              <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                {{_('Mod preview has been stopped from rendering because the list of files is too big. If you wish to see mod contents click on a button bellow.')}}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-                <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#previewAllMods"><i class="fas fa-eye"></i> Peek</button>
-            {%else%}
-            {% for elemnt in files %}
-            <ul class="list-group list-group-flush">
-                {% if ".exe" in elemnt %}
-                <li class="list-group-item list-group-item-warning">
-                  <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
-                </li>
-                {%elif".dll" or ".asi" in elemnt%}
-                <li class="list-group-item">
-                  <i style="float: right" class="fas fa-book"></i>{{elemnt}}
-                {%else%}
-                <div style="display:none">{{elemnt}}</div>
-                {% endif %}
-              </li>
-            </ul>
-            {%endfor%}
-            {%endif%}
-          </br><br>
-
-            <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
-            <small>{{_('File signature: ' + post.mod_file)}}</small>
-
-            <br><i class="fas fa-download"></i>{{_(' <b>Downloads</b>: ' + post.number_of_downloads|string)}}
-
-            {% if current_user.has_role('admin') %}
-              <hr><small>Administrative commands:</small>
-
-              <a style="color:white" type="button" class="badge badge-danger" href="{{url_for('main.deletepost', id=post.id)}}">
-                Delete post
-              </a>
-              <a style="color:white" type="button" class="badge badge-success" href="{{url_for('main.verifpost', id=post.id)}}">
-                {% if not post.verified %} {{_('Verify')}}
-                {%else%} {{_('Revoke verification')}}
-                {%endif%}
-              </a>
-            {% endif %}
-        </div>
-      </br>
-    </div>
-      <h1 class="font-weight-light">Comment section:</h1>
-      {% for field, errors in form.errors.iteritems() %}
-        <div class="alert alert-danger alert-dismissible fade show">
+         <br>
+         <h1 class="font-weight-light">ModHub - {{post.title}}
+            {% if post.branch %}-{{post.branch}}{%endif%}
+         </h1>
+         {% for field, errors in form.errors.iteritems() %}
+         <div class="alert alert-danger alert-dismissible fade show">
             {{ form[field].label }}: {{ ', '.join(errors) }}
-        </div>
-      {% endfor %}
-      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentModal">
-        Add a comment
-      </button>
-      <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Comment content</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+         </div>
+         {% endfor %}
+      </div>
+   </div>
+</div>
+<div class="container">
+   <div class="row">
+      <div class="col-lg-8">
+         <h1 class="mt-4">{{post.title}}</h1>
+         <p class="lead">
+            by <a class="mt-0" href="#">{{post.author.username}}</a>
+         </p>
+         <hr>
+         <p>Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}</p>
+         <hr>
+         <img width="90%" class="img-fluid rounded" src="{{post.get_preview()}}" alt="">
+         <hr>
+         <div id="post-card"  class="card mb-3">
+            {% if post.branch == "Release" or post.branch == "Beta Release"%}
+            <div class="alert alert-info" role="alert">
+               {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}} 
             </div>
-            <div class="modal-body">
-              {{ wtf.quick_form(form) }}
-            </div>
-          </div>
-        </div>
-      </div>     
-
-      <div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="editModel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Edit your post</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form method="POST" enctype="multipart/form-data">
-
-                {% if post.author.has_role('admin') and post.author != current_user %}
-                <div class="alert alert-error">
-                  <strong>{{_('Watch out!')}}</strong> {{_('Youre admin-editing this.')}}
-                </div>
-                {%endif%}
-                <div class="alert alert-warning">
-                  <strong>{{_('Warning')}}!</strong> {{_('Leave file upload fields empty unless to update them.')}}
-                </div>
-                {{wtf.quick_form(edit_form)}}
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>     
-      {% include "comment.html" %}
-      </div>  
-  </section>
-
-  <div class="modal fade" id="previewAllMods" tabindex="-1" role="dialog" aria-labelledby="previewAllMods" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="previewAllMods">Mod Content List</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div data-toggle="tooltip" title="Files flagged with yellow may be dangerous." data-placement="bottom" class="alert alert-warning alert-dismissible fade show" role="alert">
-            Some files might be flagged. 
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-            {% set files = post.list_contents()%}
-            {% for elemnt in files %}
-              <ul class="list-group list-group-flush">
+            {%endif%}
+            <div class="card-body">
+               {% if post.verified %}
+               <img width="30%" style="float: right" src="{{url_for('static', filename='verified.jpg')}}">
+               {%endif%}
+               {% if post.author == current_user or current_user.has_role('admin') %}
+               <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
+               {% endif %}
+               <h5 class="card-title">{{post.title}}</h5>
+               {% if post.branch %} <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
+               {% if post.verified %} <span class="badge badge-success">Verified</span> {%endif%}
+               <p class="card-text">
+                  {% if post.body_html %}
+                  {{ post.body_html | safe }}
+                  {%else%}
+                  {{post.body}}
+                  {%endif%}
+               </p>
+               <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
+               <h5>{{_('File contents:')}}</h5>
+               {% set files = post.list_contents()%}
+               {% if files | length > 25 %}
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  {{_('Mod preview has been stopped from rendering because the list of files is too big. If you wish to see mod contents click on a button bellow.')}}
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#previewAllMods"><i class="fas fa-eye"></i> Peek</button>
+               {%else%}
+               {% for elemnt in files %}
+               <ul class="list-group list-group-flush">
                   {% if ".exe" in elemnt %}
                   <li class="list-group-item list-group-item-warning">
-                    <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
+                     <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
                   </li>
                   {%elif".dll" or ".asi" in elemnt%}
                   <li class="list-group-item">
-                    <i style="float: right" class="fas fa-book"></i>{{elemnt}}
+                     <i style="float: right" class="fas fa-book"></i>{{elemnt}}
+                     {%else%}
+                     <div style="display:none">{{elemnt}}</div>
+                     {% endif %}
+                  </li>
+               </ul>
+               {%endfor%}
+               {%endif%}
+               </br><br>
+               <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
+               <small>{{_('File signature: ' + post.mod_file)}}</small>
+               {% if current_user.has_role('admin') %}
+               <hr>
+               <small>Administrative commands:</small>
+               <a style="color:white" type="button" class="badge badge-danger" href="{{url_for('main.deletepost', id=post.id)}}">
+               Delete post
+               </a>
+               <a style="color:white" type="button" class="badge badge-success" href="{{url_for('main.verifpost', id=post.id)}}">
+               {% if not post.verified %} {{_('Verify')}}
+               {%else%} {{_('Revoke verification')}}
+               {%endif%}
+               </a>
+               {% endif %}
+            </div>
+            </br>
+         </div>
+      </div>
+      <!-- Sidebar Widgets Column -->
+      <div class="col-md-4">
+         <!-- Side Widget -->
+         <div class="card my-4">
+            <h5 class="card-header">Post Information</h5>
+            <div class="card-body">
+               <i class="fas fa-download"></i>{{_(' <b>Downloads</b>: ' + post.number_of_downloads|string)}}
+            </div>
+         </div>
+      </div>
+   </div>
+   <h1 class="font-weight-light">Comment section:</h1>
+   {% for field, errors in form.errors.iteritems() %}
+   <div class="alert alert-danger alert-dismissible fade show">
+      {{ form[field].label }}: {{ ', '.join(errors) }}
+   </div>
+   {% endfor %}
+   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#commentModal">
+   Add a comment
+   </button>
+   <div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="commentModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">Comment content</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               {{ wtf.quick_form(form) }}
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal fade" id="editModel" tabindex="-1" role="dialog" aria-labelledby="editModel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title">Edit your post</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <form method="POST" enctype="multipart/form-data">
+                  {% if post.author.has_role('admin') and post.author != current_user %}
+                  <div class="alert alert-error">
+                     <strong>{{_('Watch out!')}}</strong> {{_('Youre admin-editing this.')}}
+                  </div>
+                  {%endif%}
+                  <div class="alert alert-warning">
+                     <strong>{{_('Warning')}}!</strong> {{_('Leave file upload fields empty unless to update them.')}}
+                  </div>
+                  {{wtf.quick_form(edit_form)}}
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   {% include "comment.html" %}
+</div>
+</section>
+<div class="modal fade" id="previewAllMods" tabindex="-1" role="dialog" aria-labelledby="previewAllMods" aria-hidden="true">
+   <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="previewAllMods">Mod Content List</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <div data-toggle="tooltip" title="Files flagged with yellow may be dangerous." data-placement="bottom" class="alert alert-warning alert-dismissible fade show" role="alert">
+               Some files might be flagged. 
+               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+               <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            {% set files = post.list_contents()%}
+            {% for elemnt in files %}
+            <ul class="list-group list-group-flush">
+               {% if ".exe" in elemnt %}
+               <li class="list-group-item list-group-item-warning">
+                  <i style="float: right" class="fas fa-running"></i>{{elemnt | lower}}
+               </li>
+               {%elif".dll" or ".asi" in elemnt%}
+               <li class="list-group-item">
+                  <i style="float: right" class="fas fa-book"></i>{{elemnt}}
                   {%else%}
                   <div style="display:none">{{elemnt}}</div>
                   {% endif %}
-                </li>
-                {%endfor%}
-              </ul>
-          </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
+               </li>
+               {%endfor%}
+            </ul>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+         </div>
       </div>
-    </div>
-  </div>
+   </div>
+</div>
 {%endblock%}

@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
     username = StringField(_l('Username'), validators=[DataRequired()])
     password = PasswordField(_l('Password'), validators=[DataRequired()])
     remember_me = BooleanField(_l('Remember Me'))
-    submit = SubmitField(_l('Sign In'))
+    submit = SubmitField(_l('Sign In'), render_kw={'class': "btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2"})
 
 
 class RegistrationForm(FlaskForm):
