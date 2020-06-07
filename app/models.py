@@ -360,7 +360,7 @@ class Post(SearchableMixin, db.Model):
         return "Error setting the file up"
 
     def does_preview_exist(self):
-        if os.path.isfile(url_for('static', filename='modprev/'+str(self.photo_mod))):
+        if os.path.exists(current_app.root_path + url_for('static', filename='modprev/'+str(self.photo_mod))):
             return True
         return False
 
