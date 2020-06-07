@@ -111,7 +111,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     token_expiration = db.Column(db.DateTime)
 
     ip = db.Column(db.String(16))
-    
+    last_ip = db.Column(db.String(16))
+
     roles = db.Table(
         'role_users',
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),

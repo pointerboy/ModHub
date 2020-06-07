@@ -29,6 +29,7 @@ def has_role(name):
 def before_request():
     if current_user.is_authenticated:
         current_user.last_seen = datetime.utcnow()
+        current_user.last_ip = request.remote_addr
         db.session.commit()
         g.search_form = SearchForm()
     g.locale = str(get_locale())
