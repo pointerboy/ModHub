@@ -32,6 +32,13 @@
                       </a>
                       {%endif%}
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('main.learningcenter') }}">
+                            <i class="fas fa-book"></i>
+                            <b>Learning Center</b>
+                            <span class="badge badge-pill badge-info">NEW!</span>
+                          </a>
+                    </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li><a class="nav-link" href="{{ url_for('main.index') }}"><i class="fas fa-home"></i> {{ _('Home') }}</a></li>

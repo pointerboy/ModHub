@@ -10,6 +10,8 @@ from app.models import User, Post, Message, Notification, Misc, Comment
 from app.translate import translate
 from app.main import bp
 
+from markdown import markdown
+
 import os
 from os import urandom
 import binascii
@@ -349,3 +351,8 @@ def notifications():
         'data': n.get_data(),
         'timestamp': n.timestamp
     } for n in notifications])
+
+@bp.route('/learningcenter')
+@login_required
+def learningcenter():
+    return render_template('learningcenter/main.html')
