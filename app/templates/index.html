@@ -5,6 +5,10 @@
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
 </br>
     <h1 class="font-weight-light">{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
+
+    <p>PRO TIP: Click on the icon below to create a post!</p><i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-minus-square fa-2x"></i>
+    
+    <div class="collapse" id="postCollapse">
     <div class="container">
         <div class="row justify-content">
             {% if request.MOBILE %}
@@ -52,6 +56,7 @@
           </div>
         </div>
         {%endif%}
+    </div>
       </div>
     </div>
     <hr>
