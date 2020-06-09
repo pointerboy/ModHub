@@ -25,7 +25,7 @@
       <div class="col-lg-8">
          <h1 class="mt-4">{{post.title}}</h1>
          <p class="lead">
-            by <a class="mt-0" href="#">{{post.author.username}}</a>
+            by <a class="mt-0" href="{{url_for('main.user', username=post.author.username)}} ">{{post.author.username}}</a>
          </p>
          <hr>
          <p>Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}</p>
