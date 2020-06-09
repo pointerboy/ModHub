@@ -2,10 +2,51 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>{{ _('Register') }}</h1>
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+
+    <h1>{{ _('Register an account!') }}</h1>
+    <div class="container">
+        <div class="row justify-content">
+          <div class="col-5">
+                {% if form %}
+                    {% for field, errors in form.errors.iteritems() %}
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            {{ form[field].label }}: {{ ', '.join(errors) }}
+                        </div>
+                    {% endfor %}
+                <form method="POST" enctype="multipart/form-data">
+                    {{ wtf.quick_form(form) }}
+                </form>
+                {%endif%}
+          </div>
+          <div class="col-7">
+                <div class="row">
+                        <h4 class="font-weight-light">{{_('Why create an account?')}} <i class="fas fa-user-circle"></i></h4>
+                        <ul class="timeline">
+                            <li>
+                                <b>{{_('Help us grow!')}}</b> <i style="color: green" class="fas fa-tree"></i>
+                                <p>{{_("We are still pretty small but with the help of yours, we can grow!")}}
+                                </p>
+                            </li>
+                            <li>
+                                <b>{{_('Various modders')}}</b> <i class="fas fa-chalkboard"></i>
+                                <p>{{_('Have access to all different types of modifications from various content creators.')}}
+                                </p>
+                            </li>
+                            <li>
+                                <b>{{_('ModHub features a learning center!')}}</b> <i style="color: green" class="fas fa-book-reader"></i>
+                                <p>{{_("Follow up latest modding courses (skin modding, plugin creation and much more) on ModHub's learning center!")}}
+                                </p>
+                            </li>
+                            <li>
+                                <b>{{_('Free Coffee!')}}</b> <i class="fas fa-coffee"></i>
+                                <p>{{_("Psst, kid. We may give you a free cup of coffee if you register. Do not wait or it will cool down.")}}
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+          </div>
         </div>
-    </div>
+    </div><br>
 {% endblock %}
