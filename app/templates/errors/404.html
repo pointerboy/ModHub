@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block app_content %}
+<div class="text-center">
     <img src="../../static/404.png">
-    <h1 style="text-align: center;">{{ _('Whoopsie! We ran out of ice-cream so we ate this page.') }}</h1>
-    <h2 style="text-align: center;"><a href="{{ url_for('main.index') }}">{{ _('Go back!') }}</a></h2>
+    <h3>{{ _('Whoopsie! We ran out of our coffee so we had to take a sip of yours!') }}</h3>
+    <p>Content you were looking does not exist or has moved to a new location.</p>
+    <h5><a href="{{ url_for('main.index') }}">{{ _('Go back!') }}</a></h5>
+</div>
 {% endblock %}

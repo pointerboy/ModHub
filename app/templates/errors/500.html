@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block app_content %}
+<div class="text-center">
+    <img src="../../static/500.png">
+    <h3>{{ _('Whoopsie! We spilled some of your coffee. Our bad. We will get you a new one soon!') }}</h3>
+    <p>There has been error while trying to display the content. Try later.</p>
+    <h5><a href="{{ url_for('main.index') }}">{{ _('Go back!') }}</a></h5>
+</div>
+{% endblock %}
