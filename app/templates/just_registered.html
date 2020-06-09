@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block app_content %}
+<div class="jumbotron text-center">
+    <h1 class="display-3">Thank You!</h1>
+    <p class="lead"><strong>Your account has been created! </strong> Here is the coffee that we promised before: </p>
+    <img width="20%" src="https://thumbs.gfycat.com/DisgustingInsecureAmurratsnake-small.gif">
+    <hr>
+    <p>
+      Having trouble? <br>
+      Contact us at <a href="mailto:support@vanilla-remastered.com">support@vanilla-remastered.com</a>
+      <br>Or reach us over Discord! <a href="https://discord.gg/ZCbXnQg"><i class="fab fa-discord"></i></a>
+    </p>
+    <p class="lead">
+      <a class="btn btn-primary btn-sm" href="{{url_for('main.index')}}" role="button">Continue to homepage</a>
+    </p>
+  </div>
+{%endblock%}
