@@ -169,7 +169,6 @@ def edit_profile():
 @login_required
 def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
-    db.session.commit()
 
     edit_form = PostEditForm()
     
