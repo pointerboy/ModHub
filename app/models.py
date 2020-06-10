@@ -347,9 +347,9 @@ class Post(SearchableMixin, db.Model):
     number_of_downloads = db.Column(db.Integer, default=0)
 
     def list_contents(self):
+        contents = []
         if self.mod_file:
             print(self.mod_file)
-            contents = []
             try:
                 file_loc = os.path.join(current_app.root_path, 'static/moduploads', self.mod_file)
                 with ZipFile(file_loc, 'r') as obj:
@@ -360,7 +360,7 @@ class Post(SearchableMixin, db.Model):
             except IOError:
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
             return contents
-        return "Error setting the file up"
+        return None
 
     def does_preview_exist(self):
         if os.path.exists(current_app.root_path + url_for('static', filename='modprev/'+str(self.photo_mod))):

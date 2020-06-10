@@ -29,9 +29,8 @@ class EditProfileForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField(_l('Title of Modification'), validators=[DataRequired()])
     post = TextAreaField(_l('Description of the modification.'), validators=[DataRequired()])
-    modFile = FileField(_('Mod File (.zip or .rar)'), validators=[FileRequired(),
-    FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
-    previewFile = FileField(_('Thumbnail'), validators=[FileRequired(), FileAllowed(['jpg', 'png', 'gif'], 
+    modFile = FileField(_('Mod File (.zip or .rar)'), validators=[FileAllowed(['zip', 'rar'], 'Only zip and rar files allowed.')])
+    previewFile = FileField(_('Thumbnail'), validators=[FileAllowed(['jpg', 'png', 'gif'], 
         "Invalid file format. We only allow following image formats: jpg, png and gif.")])
 
     branchField = SelectField('Branch', choices=[

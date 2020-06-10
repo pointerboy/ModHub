@@ -56,6 +56,7 @@
                   {%endif%}
                </p>
                <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
+              {% if post.mod_file %}
                <h5>{{_('File contents:')}}</h5>
                {% set files = post.list_contents()%}
                {% if files | length > 25 %}
@@ -83,9 +84,18 @@
                </ul>
                {%endfor%}
                {%endif%}
-               </br><br>
-               <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
-               <small>{{_('File signature: ' + post.mod_file)}}</small>
+            {%else%}
+               <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  No modification file was uploaded.
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+               </div>
+               {%endif%}
+               {% if post.mod_file %}
+                  <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
+                  <small>{{_('File signature: ' + post.mod_file)}}</small>
+               {%endif%}
                {% if current_user.has_role('admin') %}
                <hr>
                <small>Administrative commands:</small>
@@ -179,6 +189,7 @@
                <span aria-hidden="true">&times;</span>
                </button>
             </div>
+            {% if post.mod_content %}
             {% set files = post.list_contents()%}
             {% for elemnt in files %}
             <ul class="list-group list-group-flush">
@@ -194,6 +205,7 @@
                   {% endif %}
                </li>
                {%endfor%}
+            {%endif%}
             </ul>
          </div>
          <div class="modal-footer">

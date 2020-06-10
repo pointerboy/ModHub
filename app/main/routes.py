@@ -51,7 +51,9 @@ def index():
         modArchive = form.modFile.data
         modPreview = form.previewFile.data
         branch = form.branchField.data
-
+        data = None
+        mod_preview = None
+        
         if modArchive:
             data = Misc.save_and_get_mod(modArchive)
             
