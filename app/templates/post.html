@@ -26,12 +26,9 @@
          <h1 class="mt-4">{{post.title}}</h1>
          <p class="lead">
             by <a class="mt-0" href="{{url_for('main.user', username=post.author.username)}} ">{{post.author.username}}</a>
-         </p>
-         <hr>
-         <p>Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}</p>
-         <hr>
-         <img width="90%" class="img-fluid rounded" src="{{post.get_preview()}}" alt="">
-         <hr>
+         </p><hr>
+         <p>Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}</p><hr>
+         <img width="90%" class="img-fluid rounded" src="{{post.get_preview()}}" alt=""><hr>
          <div id="post-card"  class="card mb-3">
             {% if post.branch == "Release" or post.branch == "Beta Release"%}
             <div class="alert alert-info" role="alert">
