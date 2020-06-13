@@ -12,7 +12,7 @@
          <h1 class="font-weight-light">ModHub - {{post.title}}
             {% if post.branch %}{%endif%}
          </h1>
-         {% for field, errors in form.errors.iteritems() %}
+         {% for field, errors in form.errors.items() %}
          <div class="alert alert-danger alert-dismissible fade show">
             {{ form[field].label }}: {{ ', '.join(errors) }}
          </div>
@@ -119,7 +119,7 @@
       </div>
    </div>
    <h1 class="font-weight-light">Comment section:</h1>
-   {% for field, errors in form.errors.iteritems() %}
+   {% for field, errors in form.errors.items() %}
    <div class="alert alert-danger alert-dismissible fade show">
       {{ form[field].label }}: {{ ', '.join(errors) }}
    </div>

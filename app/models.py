@@ -464,7 +464,7 @@ class Misc():
         secure_filename(picture_data.filename)
 
         _, f_ext = os.path.splitext(picture_data.filename)
-        picture_file = secure_hex + f_ext
+        picture_file = str(secure_hex) + f_ext
 
         picture_data.save(os.path.join(current_app.root_path, 'static/'+location, picture_file))
         return picture_file
@@ -475,7 +475,7 @@ class Misc():
         secure_filename(mod_data.filename)
 
         _, f_ext = os.path.splitext(mod_data.filename)
-        mod_file = secure_hex + f_ext
+        mod_file = str(secure_hex) + f_ext
 
         mod_data.save(os.path.join(current_app.root_path, 'static/moduploads', mod_file))
         return mod_file
