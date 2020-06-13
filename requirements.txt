@@ -40,6 +40,10 @@ flask_uploads==0.2.1
 flask-ipban==1.0.13
 flask-dropzone==1.5.4
 flask-mobility==1.0.0
+
+#markdown stuff
+bleach==3.1.5
+markdown==3.2.2
 # requirements for Heroku
 #psycopg2==2.7.3.1
 #gunicorn==19.7.1
