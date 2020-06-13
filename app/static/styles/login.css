@@ -1,0 +1,10 @@
+.login,
+.image {
+  min-height: 100vh;
+}
+
+.bg-image {
+  background-image: url('https://media.discordapp.net/attachments/695438113174192169/719951531469701170/Untitled_design_1.png');
+  background-repeat: repeat;
+  background-position: center;
+}
