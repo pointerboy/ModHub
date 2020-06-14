@@ -13,6 +13,10 @@ from app.main import bp
 from markdown import markdown
 
 import functools
+import os	
+from os import urandom	
+import binascii
+
 def has_role(name):
     def real_decorator(f):
         def wraps(*args, **kwargs):
