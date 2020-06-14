@@ -353,3 +353,7 @@ def notifications():
 @login_required
 def learningcenter():
     return render_template('learningcenter/main.html')
+
+@bp.route('/policy')
+def policy():
+    return render_template('policy.html')
