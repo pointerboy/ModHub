@@ -146,6 +146,11 @@ def user_popup(username):
 def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
+        if not current_user.has_role('premium') and form.username.data != current_user.username:
+            flash("Only premium users can modify their usernames.")
+            return render_template('edit_profile.html', title=_('Edit Profile'),
+                           form=form)
+
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
 
