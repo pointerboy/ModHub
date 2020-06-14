@@ -147,7 +147,7 @@ def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         if not current_user.has_role('premium') and form.username.data != current_user.username:
-            flash("Only premium users can modify their usernames.")
+            flash("This function isn't available to the public just yet!")
             return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
 
