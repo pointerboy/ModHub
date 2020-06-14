@@ -53,7 +53,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     {% if current_user.is_anonymous %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}">{{ _('Login') }}</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}"><i class="fas fa-key"></i> {{ _('Login') }}</a></li>
                     {% else %}
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
