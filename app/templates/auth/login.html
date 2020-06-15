@@ -22,9 +22,9 @@
                                 <div class="form-group mb-3">
                                     {{ form.password(type="password", placeholder="Password", class="form-control rounded-pill border-0 shadow-sm px-4 text-primary")}}
                                 </div>
-                                <div class="custom-control custom-checkbox mb-3">
-                                    {{ form.remember_me(type="checkbox", class="custom-control-input")}}
-                                    <label class="custom-control-label">Remember me</label>
+                                <div class="custom-control mb-3">
+                                    {{ form.remember_me(placeholder="teststss")}}
+                                    <label>Remember me</label>
                                 </div>
                                 {{ form.submit(type="submit", class="btn btn-primary btn-block text-uppercase mb-2 rounded-pill shadow-sm")}}
                                 <div class="text-center d-flex justify-content-between mt-4"><p>{{ _("Don't have an account at ModHub?") }} <a href="{{ url_for('auth.register') }}">{{ _('Create one right away!') }}</a></p></div>
