@@ -405,6 +405,15 @@ class Post(SearchableMixin, db.Model):
         target.body_html = bleach.linkify(bleach.clean(markdown(value, output_format='html'),
                                 tags = allowed_tags, strip=True))
 
+    # Utils
+    @staticmethod
+    def can_pass_upload_limit(upl_file_size):
+        size = Misc.bytesto(upl_file_size, 'm')
+
+        if size > 150:
+            return False
+        return True
+        
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
@@ -479,3 +488,12 @@ class Misc():
 
         mod_data.save(os.path.join(current_app.root_path, 'static/moduploads', mod_file))
         return mod_file
+    
+    @staticmethod
+    def bytesto(bytes, to, bsize=1024):
+        a = {'k' : 1, 'm': 2, 'g' : 3, 't' : 4, 'p' : 5, 'e' : 6 }
+        r = float(bytes)
+        for i in range(a[to]):
+            r = r / bsize
+
+        return(r)

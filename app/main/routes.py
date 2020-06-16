@@ -49,6 +49,12 @@ def index():
         
         title = form.title.data
         modArchive = form.modFile.data
+        modSize = len(form.modFile.data.read())
+
+        if not Post.can_pass_upload_limit(modSize):
+            flash("Maximum file size is 150 MB!")
+            return redirect(url_for('main.index'))
+
         modPreview = form.previewFile.data
         branch = form.branchField.data
         data = None
