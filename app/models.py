@@ -359,6 +359,8 @@ class Post(SearchableMixin, db.Model):
                         contents.append(element)
             except IOError:
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
+            except BadZipFile:
+                contents.append("File is corrupt.")
             return contents
         return None
 
