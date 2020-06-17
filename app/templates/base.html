@@ -10,6 +10,7 @@
 <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+<div class="wrapper">
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
     <div class="container">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,10 +37,8 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('main.learningcenter') }}">
-                            <i class="fas fa-book"></i>
-                            <b>Learning Center</b>
-                            <span class="badge badge-pill badge-info">NEW!</span>
-                          </a>
+                            <i class="fas fa-book"></i> Learning Center <span class="badge badge-pill badge-info">NEW!</span>
+                         </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
@@ -67,7 +66,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                               <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}"><i class="fas fa-eye"></i> {{_('Preview')}}</a>
-                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i> 
+                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i>
                                 {{_('Edit')}}
                                 {% if usr_no_bio %}
                                 <span class="badge badge-pill badge-warning">{{_('Recommendations')}}</span>
@@ -83,7 +82,7 @@
     </nav>
 {% endblock %}
 {% block content %}
-    <div class="container">
+    <div class="container" style="padding-bottom:100px;">
         {% if current_user.is_authenticated %}
             {% with tasks = current_user.get_tasks_in_progress() %}
                 {% if tasks %}
@@ -202,12 +201,13 @@
     </script>
 
     <footer class="page-footer font-small blue-grey lighten-5">
-        <div style="background-color: #00ff7f ;">
+        <div style="background-color: #02B875;">
             <div class="container">
                 <div class="row py-4 d-flex align-items-center">
-                    <h6 class="mb-0">Vanilla Remastered - ModHub (c) 2020</h6>
+                    <h6 style="font-weight: 600;line-height: 1.2;">Vanilla Remastered - ModHub (c) 2020</h6>
                 </div>
             </div>
         </div>
     </footer>
+</div>
 {% endblock %}

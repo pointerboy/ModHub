@@ -3,40 +3,51 @@
 
 {% block app_content %}
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
-</br>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+    <h1 class="font-weight-light">{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
+    {% if request.MOBILE %}<p>Mobile uploads disabled.</p>{% else %}
+
+    <br />
+
     <div class="alert alert-primary" role="alert">
         ModHub just got launched! Feel free to report any bugs over at modhub@vanilla-remastered.com or <a href="https://support.vanilla-remastered.com">support page.</a>
     </div>
     <div class="alert alert-success" role="alert">
         We have upgraded our guideline. Check it out <a href="{{url_for('main.policy')}}">here.</a>
     </div>
-    <h1 class="font-weight-light">{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
-    {% if request.MOBILE %}<p>Mobile uploads disabled.</p>{% else %}
-    <p>PRO TIP: Click on the icon below to create a post!</p><i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-minus-square fa-2x"></i>
-    
-    <div class="collapse" id="postCollapse">
-    <div class="container">
-        <div class="row justify-content">
-          <div class="col-5">
-                {% if form %}
-                    {% for field, errors in form.errors.items() %}
-                        <div class="alert alert-danger alert-dismissible fade show">
-                            {{ form[field].label }}: {{ ', '.join(errors) }}
-                        </div>
-                    {% endfor %}
-                <form method="POST" enctype="multipart/form-data">
-                    {{ wtf.quick_form(form) }}
-                </form>
-                {%endif%}
-          </div>
-          <div class="col-7">
-                <div class="row">
+
+    <br />
+
+    <p style="color:red;">PRO TIP: Click on the icon below to create a post!</p>
+    <h3>
+        <i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-plus-square fa"></i>
+        Launch a Post
+    </h3>
+
+    <div class="w3-container">
+        <div class="collapse" id="postCollapse">
+            <div class="row justify-content">
+                <div class="col-5">
+                    {% if form %}
+                        {% for field, errors in form.errors.items() %}
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                {{ form[field].label }}: {{ ', '.join(errors) }}
+                            </div>
+                        {% endfor %}
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ wtf.quick_form(form) }}
+                    </form>
+                    {%endif%}
+                </div>
+                <div class="col-7">
+                    <div class="row">
                         <h4 class="font-weight-light">{{_('Launching a post 101')}} 🚀</h4>
                         <ul class="timeline">
                             <li>
                                 <b>{{_('Meaningful title')}}</b>
-                                <p>{{_("Add a meaningful title to your posts in order to hook users up. 
-                                    Avoid random title names such as 'mod0', 'lsmod', 'skin1'. 
+                                <p>{{_("Add a meaningful title to your posts in order to hook users up.
+                                    Avoid random title names such as 'mod0', 'lsmod', 'skin1'.
                                     Save user's time by providing a userful title.")}}
                                 </p>
                             </li>
@@ -48,7 +59,7 @@
                             </li>
                             <li>
                                 <b>{{_('Dress to impress')}}</b>
-                                <p>{{_('Be sure to include a good looking screenshot or preview of your modification. 
+                                <p>{{_('Be sure to include a good looking screenshot or preview of your modification.
                                     Make it straight to the point. Also make sure that you organize your compressed (ZIPd) file properly.')}}
                                 </p>
                             </li>
@@ -61,29 +72,29 @@
                     </div>
                 </div>
             </div>
-          </div>
         </div>
-        {%endif%}
-    </div>
-      </div>
-    </div>
-    <hr>
-    <div class="container">
+    {%endif%}
+   </div>
+   <hr>
+   <div class="container">
+        <div class="w3-panel w3-white w3-card-4">
+            <h3 class="font-weight-lighter">Recommended</h3>
+            <p class="font-weight-lighter">There are no suggestions at this time.</p>
+        </div>
+        <div class="w3-panel w3-white w3-card-4">
+            <h3 class="font-weight-light">{{_('Your feed')}}</h3>
+            {% if posts | length == 0%}
+            <p class="font-weight-light">{{_('Looks like your feed is empty! Try following someone')}}</p>
+            <img src="https://media.giphy.com/media/YOqgY2wQazNKleTJ5D/giphy.gif">
+            {%endif%}
 
-        <h5 class="font-weight-lighter">* Recommendations</h5>
-        <p class="font-weight-lighter">There are no suggestions at this time.</p>
+            {% for post in posts %}
+                {% include '_post.html' %}
+            {% endfor %}
 
-        <h2 class="font-weight-light">{{_('Your feed')}}</h2>
-        {% if posts | length == 0%}
-        <p class="font-weight-light">{{_('Looks like your feed is empty! Try following someone')}}</p>
-        <img src="https://media.giphy.com/media/YOqgY2wQazNKleTJ5D/giphy.gif">
-        {%endif%}
-
-        {% for post in posts %}
-            {% include '_post.html' %}
-        {% endfor %}
-    </div>  
-        {%include 'nextprev.html'%}
+            {%include 'nextprev.html'%}
+        </div>
+  </div>
 
     <script src="{{url_for('static', filename='javascript/welcome.js')}}"></script>
 {% endblock %}

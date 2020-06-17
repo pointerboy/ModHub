@@ -56,7 +56,7 @@ html {
 	font-family: sans-serif;
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
-	-webkit-tap-highlight-color: rgba(0, 0, 0, 0)
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 article,
@@ -72,15 +72,20 @@ section {
 	display: block
 }
 
+html, body {
+    margin:0;
+    padding:0;
+    height:100%;
+}
+
 body {
-	margin: 0;
     font-family: "Lato", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-size: 1.063rem;
 	font-weight: 400;
 	line-height: 1.5;
 	color: #343a40;
 	text-align: left;
-	background-color: #fff
+	background-color: #fff;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -581,12 +586,16 @@ pre code {
 	overflow-y: scroll
 }
 
+.wrapper {
+    min-height: 100%;
+    position: relative;
+}
+
 .container {
 	width: 100%;
-	padding-right: 15px;
-	padding-left: 15px;
 	margin-right: auto;
-	margin-left: auto
+	margin-left: auto;
+    padding: 10px;
 }
 
 @media (min-width: 576px) {
@@ -11207,7 +11216,10 @@ blockquote {
 }
 
 footer {
-	font-size: 0.930125rem
+	font-size: 0.930125rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .lead {
@@ -11406,10 +11418,6 @@ table-danger,
 .alert-light a,
 .alert-light .alert-link {
 	color: #343a40
-}
-
-.badge {
-	vertical-align: bottom
 }
 
 .list-group {

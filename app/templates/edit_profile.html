@@ -2,7 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>{{ _('Edit Profile') }}</h1>
+    <h1 style="margin-top:10px;">{{ _('Edit Profile') }}</h1>
             {% for field, errors in form.errors.items() %}
                 <div class="alert alert-danger alert-dismissible fade show">
                     {{ ', '.join(errors) }}
