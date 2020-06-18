@@ -19,11 +19,15 @@
 
     <br />
 
-    <p style="color:red;">PRO TIP: Click on the icon below to create a post!</p>
+    {% if form %}
+    <p style="color:red;">{{_('PRO TIP: Click on the icon below to create a post!')}}</p>
     <h3>
         <i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-plus-square fa"></i>
-        Launch a Post
+        {{_('Launch a Post')}}
     </h3>
+    {%else%}
+    <p style="color:red;">{{_('You must wait atleast 20 minutes before posting again')}}!</p>
+    {%endif%}
 
     <div class="w3-container">
         <div class="collapse" id="postCollapse">
@@ -35,9 +39,10 @@
                                 {{ form[field].label }}: {{ ', '.join(errors) }}
                             </div>
                         {% endfor %}
+                    {% if form %}
                     <form method="POST" enctype="multipart/form-data">
                         {{ wtf.quick_form(form) }}
-                    </form>
+                    </form> {%endif%}
                     {%endif%}
                 </div>
                 <div class="col-7">

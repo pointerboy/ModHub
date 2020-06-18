@@ -393,6 +393,15 @@ class Post(SearchableMixin, db.Model):
         db.session.commit()
         return postObj.verified
 
+    @staticmethod
+    def has_post_timer_expired(timestamp):
+        result = divmod(timestamp.days * 24 * 60 * 60 + timestamp.seconds, 60)
+        
+        if result[0] < - 20:
+            return True
+
+        return False
+
     comments = db.relationship(
             'Comment',
             backref='post',
