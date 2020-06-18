@@ -7,11 +7,11 @@
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
 <div class="container h-100">
    <div class="row h-100 align-items-center">
-      <div class="col-12 text-center">
+      <div class="col-12 text-left">
          <br>
-         <h1 class="font-weight-light">ModHub - {{post.title}}
+         <h3 class="font-weight-light">ModHub » {{post.title}}
             {% if post.branch %}{%endif%}
-         </h1>
+         </h3>
          {% for field, errors in form.errors.items() %}
          <div class="alert alert-danger alert-dismissible fade show">
             {{ form[field].label }}: {{ ', '.join(errors) }}
@@ -22,20 +22,10 @@
 </div>
 <div class="container">
    <div class="row">
-      <div class="col-lg-8">
-         <h1 class="mt-4">{{post.title}}</h1>
-         <p class="lead">
-            by <a class="mt-0" href="{{url_for('main.user', username=post.author.username)}} ">{{post.author.username}}</a>
-         </p><hr>
-         <p>Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}</p><hr>
-         <img width="90%" class="img-fluid rounded" src="{{post.get_preview()}}" alt=""><hr>
+      <div class="col-lg-7">
          <div id="post-card"  class="card mb-3">
-            {% if post.branch == "Release" or post.branch == "Beta Release"%}
-            <div class="alert alert-info2" role="alert">
-               {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}}
-            </div>
-            {%endif%}
             <div class="card-body">
+               <img width="100%" class="img-fluid rounded" src="{{post.get_preview()}}" alt="">
                {% if post.verified %}
                <img width="40%" style="float: right" src="{{url_for('static', filename='verified.jpg')}}">
                {%endif%}
@@ -43,8 +33,16 @@
                <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
                {% endif %}
                <h5 class="card-title">{{post.title}}</h5>
-               {% if post.branch %} <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
+               {% if post.branch %} <small class="text-muted">Branch:</small> <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
                {% if post.verified %} <span class="badge badge-success">Verified</span> {%endif%}
+               <p class="card-text"><small class="text-muted">
+                   <br />
+                   Posted on {{ _('%(when)s', when=moment(post.timestamp).format('LLLL'))}}
+                   <br />
+                   {{ _('Last changed %(when)s', when=moment(post.timestamp).fromNow()) }}</small>
+               </p>
+               <hr />
+               <h5 style="color:royalblue;">{{_('Description:')}}</h5>
                <p class="card-text">
                   {% if post.body_html %}
                      {{ post.body_html | safe }}
@@ -52,9 +50,9 @@
                      {{post.body}}
                   {%endif%}
                </p>
-               <p class="card-text"><small class="text-muted">{{ _('Modification was uploaded %(when)s', when=moment(post.timestamp).fromNow()) }}.</small></p>
+               <br />
               {% if post.mod_file %}
-               <h5>{{_('File contents:')}}</h5>
+               <h5 style="color:royalblue;">{{_('Included files:')}}</h5>
                {% set files = post.list_contents()%}
                {% if files | length > 25 %}
                <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -90,8 +88,8 @@
                </div>
                {%endif%}
                {% if post.mod_file %}
-                  <a style="color:white" type="button" class="btn btn-success" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
-                  <small>{{_('File signature: ' + post.mod_file)}}</small>
+                  <a style="color:white" type="button" class="w3-button w3-green" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
+                  <small class="text-muted">{{_('File signature: ' + post.mod_file)}}</small>
                {%endif%}
                {% if current_user.has_role('admin') %}
                <hr>
@@ -106,16 +104,22 @@
                </a>
                {% endif %}
             </div>
-            </br>
          </div>
       </div>
       <div class="col-md-4">
          <div class="card my-4">
             <h5 class="card-header">Post Information</h5>
             <div class="card-body">
-               <i class="fas fa-download"></i>{{_(' <b>Downloads</b>: ' + post.number_of_downloads|string)}}
+                <p><i class="fas fa-info-circle"></i> <b>Title</b>: {{post.title}}</p>
+                <p><i class="fas fa-user-circle"></i> <b>Author</b>: <a class="mt-0" href="{{url_for('main.user', username=post.author.username)}} ">{{post.author.username}}</a></p>
+                <p><i class="fas fa-arrow-circle-down"></i>{{_(' <b>Downloads</b>: ' + post.number_of_downloads|string)}}</p>
             </div>
          </div>
+         {% if post.branch == "Release" or post.branch == "Beta Release"%}
+         <div class="alert alert-info2" role="alert">
+            {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}}
+         </div>
+         {%endif%}
       </div>
    </div>
    <h1 class="font-weight-light">Comment section:</h1>
