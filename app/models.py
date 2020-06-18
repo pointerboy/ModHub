@@ -397,7 +397,7 @@ class Post(SearchableMixin, db.Model):
     def has_post_timer_expired(timestamp):
         result = divmod(timestamp.days * 24 * 60 * 60 + timestamp.seconds, 60)
         
-        if result[0] < - 20:
+        if result[0] < - current_app.config["POST_COOLDOWN_MIN"]:
             return True
 
         return False
