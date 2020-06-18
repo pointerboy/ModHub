@@ -57,6 +57,7 @@ html {
 	line-height: 1.15;
 	-webkit-text-size-adjust: 100%;
 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    height: 100%;
 }
 
 article,
@@ -72,10 +73,8 @@ section {
 	display: block
 }
 
-html, body {
-    margin:0;
-    padding:0;
-    height:100%;
+body, html {
+    margin: 0;
 }
 
 body {
@@ -86,6 +85,9 @@ body {
 	color: #343a40;
 	text-align: left;
 	background-color: #fff;
+    position: relative;
+    padding-bottom: 7rem;
+    min-height: 100%;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
@@ -586,16 +588,16 @@ pre code {
 	overflow-y: scroll
 }
 
-.wrapper {
-    min-height: 100%;
-    position: relative;
-}
-
 .container {
 	width: 100%;
 	margin-right: auto;
 	margin-left: auto;
     padding: 10px;
+}
+
+.wrapper {
+    min-height: 100%;
+    margin: 0 auto;
 }
 
 @media (min-width: 576px) {
@@ -4869,7 +4871,7 @@ input[type="button"].btn-block {
 	-webkit-box-pack: justify;
 	-ms-flex-pack: justify;
 	justify-content: space-between;
-	padding: 0.5rem 1rem
+	padding: 0.5rem 7rem
 }
 
 .navbar .container,
@@ -11215,11 +11217,19 @@ blockquote {
 	font-style: italic
 }
 
-footer {
-	font-size: 0.930125rem;
-    position: absolute;
-    bottom: 0;
+.footertext {
+    background-color: #02B875;
     width: 100%;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1rem;
+}
+
+.push {
+    height: 50px;
 }
 
 .lead {
