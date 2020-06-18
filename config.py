@@ -26,3 +26,4 @@ class Config(object):
     POSTS_PER_PAGE = 25
 
     MAX_CONTENT_LENGTH = 250 * 1024 * 1024
+    POST_COOLDOWN_MIN = 20
