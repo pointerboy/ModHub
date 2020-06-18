@@ -31,8 +31,8 @@
          <img width="90%" class="img-fluid rounded" src="{{post.get_preview()}}" alt=""><hr>
          <div id="post-card"  class="card mb-3">
             {% if post.branch == "Release" or post.branch == "Beta Release"%}
-            <div class="alert alert-info" role="alert">
-               {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}} 
+            <div class="alert alert-info2" role="alert">
+               {{_('Author of this post claims to own the modification. If you disagree, feel free to email us at <b>support@vanilla-remastered.com</b>')}}
             </div>
             {%endif%}
             <div class="card-body">
@@ -181,7 +181,7 @@
          </div>
          <div class="modal-body">
             <div data-toggle="tooltip" title="Files flagged with yellow may be dangerous." data-placement="bottom" class="alert alert-warning alert-dismissible fade show" role="alert">
-               Some files might be flagged. 
+               Some files might be flagged.
                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                <span aria-hidden="true">&times;</span>
                </button>

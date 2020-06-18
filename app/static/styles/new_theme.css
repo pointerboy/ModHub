@@ -6031,6 +6031,20 @@ a.badge-dark.focus {
 	color: #062c33
 }
 
+.alert-info2 {
+	color: #0c5460;
+	background-color: #d1ecf1;
+	border-color: #bee5eb;
+}
+
+.alert-info2 hr {
+	border-top-color: #abdde5
+}
+
+.alert-info2 .alert-link {
+	color: #062c33
+}
+
 .alert-warning {
 	color: #7d5a29;
 	background-color: #fcefdc;
@@ -11405,6 +11419,10 @@ table-danger,
 }
 
 .alert-info {
+	background-color: #17a2b8
+}
+
+.alert-info2 {
 	background-color: #17a2b8
 }
 
