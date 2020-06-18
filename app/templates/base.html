@@ -5,84 +5,87 @@
 {% endblock %}
 {% block navbar %}
 {% include 'meta/meta_dsc.html' %}
-
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/new_theme.css') }}">
-<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-<div class="wrapper">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-    <div class="container">
+<html>
+<header>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/new_theme.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/w3.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarToggler">
-                <a class="navbar-brand" href="{{ url_for('main.index') }}">
-                    <img src="https://support.vanilla-remastered.com/assets/logo-fbtuvjyk.png" width="30" height="30" class="d-inline-block align-top" alt="<logo>">
-                    ModHub
-                  </a>
-                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                    {% if current_user.is_authenticated %}
-                    {% set new_messages = current_user.new_messages() %}
-                      <a class="nav-link" href="{{ url_for('main.messages') }}">
-                        <i class="fa fa-envelope">
-                          {% if new_messages %}
-                          <span class="badge badge-pill badge-primary">{{new_messages}}</span>
-                          {%endif%}
-                        </i>
-                        Messages
-                      </a>
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarToggler">
+            <a class="navbar-brand" href="{{ url_for('main.index') }}">
+                <img src="https://support.vanilla-remastered.com/assets/logo-fbtuvjyk.png" width="30" height="30" class="d-inline-block align-top" alt="<logo>">
+                ModHub
+              </a>
+             <ul class="navbar-nav">
+                <li class="nav-item">
+                {% if current_user.is_authenticated %}
+                {% set new_messages = current_user.new_messages() %}
+                  <a class="nav-link" href="{{ url_for('main.messages') }}">
+                    <i class="fa fa-envelope">
+                      {% if new_messages %}
+                      <span class="badge badge-pill badge-primary">{{new_messages}}</span>
                       {%endif%}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.learningcenter') }}">
-                            <i class="fas fa-book"></i> Learning Center <span class="badge badge-pill badge-info">NEW!</span>
-                         </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav ml-auto">
-                    <li><a class="nav-link" href="{{ url_for('main.index') }}"><i class="fas fa-home"></i> {{ _('Home') }}</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('main.explore') }}">
-                            <i class="fa fa-globe"></i>
-                            {{ _('Explore') }}
-                        </a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    {% if current_user.is_anonymous %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}"><i class="fas fa-key"></i>{{ _('Login') }}</a></li>
-                    {% else %}
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
-                                <i class="fas fa-user"></i>
-                                {{ _('Profile') }}
+                    </i>
+                    Messages
+                  </a>
+                  {%endif%}
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.learningcenter') }}">
+                        <i class="fas fa-book"></i> Learning Center <span class="badge badge-pill badge-info">NEW!</span>
+                     </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li><a class="nav-link" href="{{ url_for('main.index') }}"><i class="fas fa-home"></i> {{ _('Home') }}</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('main.explore') }}">
+                        <i class="fa fa-globe"></i>
+                        {{ _('Explore') }}
+                    </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav">
+                {% if current_user.is_anonymous %}
+                    <li class="nav-item"><a class="nav-link" href="{{ url_for('auth.login') }}"><i class="fas fa-key"></i>{{ _('Login') }}</a></li>
+                {% else %}
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown">
+                            <i class="fas fa-user"></i>
+                            {{ _('Profile') }}
 
-                                {% if current_user.about_me == None %}
-                                {% set usr_no_bio = True %}
-                                    <span class="badge badge-pill badge-warning">1</span>
-                                {%endif%}
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}"><i class="fas fa-eye"></i> {{_('Preview')}}</a>
-                              <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i>
-                                {{_('Edit')}}
-                                {% if usr_no_bio %}
-                                <span class="badge badge-pill badge-warning">{{_('Recommendations')}}</span>
-                                {%endif%}
-                            </a>
-                              <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-power-off"></i> {{_('Log out')}}</a>
-                            </div>
-                        </li>
-                    {% endif %}
-                </ul>
-            </div>
+                            {% if current_user.about_me == None %}
+                            {% set usr_no_bio = True %}
+                                <span class="badge badge-pill badge-warning">1</span>
+                            {%endif%}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                          <a class="dropdown-item" href="{{ url_for('main.user', username=current_user.username) }}"><i class="fas fa-eye"></i> {{_('Preview')}}</a>
+                          <a class="dropdown-item" href="{{ url_for('main.edit_profile')}}"><i class="fas fa-user-edit"></i>
+                            {{_('Edit')}}
+                            {% if usr_no_bio %}
+                            <span class="badge badge-pill badge-warning">{{_('Recommendations')}}</span>
+                            {%endif%}
+                        </a>
+                          <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><i class="fas fa-power-off"></i> {{_('Log out')}}</a>
+                        </div>
+                    </li>
+                {% endif %}
+            </ul>
         </div>
     </nav>
+</header>
+<body>
+<div class="wrapper">
 {% endblock %}
 {% block content %}
-    <div class="container" style="padding-bottom:100px;">
+    <div class="container">
         {% if current_user.is_authenticated %}
             {% with tasks = current_user.get_tasks_in_progress() %}
                 {% if tasks %}
@@ -199,15 +202,9 @@
             });
         {% endif %}
     </script>
-
-    <footer class="page-footer font-small blue-grey lighten-5">
-        <div style="background-color: #02B875;">
-            <div class="container">
-                <div class="row py-4 d-flex align-items-center">
-                    <h6 style="font-weight: 600;line-height: 1.2;">Vanilla Remastered - ModHub (c) 2020</h6>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <div class="push"></div>
 </div>
+<div class="footertext">Vanilla Remastered - ModHub (c) 2020</div>
+</body>
+</html>
 {% endblock %}
