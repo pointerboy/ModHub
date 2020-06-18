@@ -530,7 +530,9 @@ mark,
 	border: 1px solid #ddd;
 	border-radius: 0.25rem;
 	max-width: 100%;
-	height: auto
+	height: auto;
+    min-width: 250px;
+    min-height: 150px;
 }
 
 .figure {
