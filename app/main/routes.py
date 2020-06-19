@@ -189,13 +189,13 @@ def edit_profile():
             if os.path.isfile(picture_path):
                 if not nude.is_nude(picture_path):
                     current_user.picture_id = picture_file
-                    flash(_('Your pic was changed'))
+                    flash(_('Your profile picture was changed'))
                     if user_has_pic is True:
                         os.remove(old_picture_path);
                 else:
                     flash(_('Warnning: Malicious or possibly explicit image detected'))
                     os.remove(picture_path);
-            else: flash(_('There was an error changing your pic, please contact us for info'))
+            else: flash(_('There was an error changing your picture, please contact us for info'))
         flash(_('Any changes were saved'))
 
         db.session.commit()
