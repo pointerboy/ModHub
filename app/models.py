@@ -17,7 +17,7 @@ from werkzeug import secure_filename
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
 
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipfile
 
 import os
 from os import urandom
@@ -357,10 +357,8 @@ class Post(SearchableMixin, db.Model):
                     for element in listOfFiles:
                         print(element)
                         contents.append(element)
-            except IOError:
+            except:
                 contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
-            except BadZipFile:
-                contents.append("File is corrupt.")
             return contents
         return None
 
