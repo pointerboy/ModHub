@@ -19,7 +19,7 @@
 
     <br />
 
-    {% if form != 'None' %}
+    {% if form %}
     <p style="color:red;">{{_('PRO TIP: Click on the icon below to create a post!')}}</p>
     <h3>
         <i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-plus-square fa"></i>
@@ -39,10 +39,10 @@
                                 {{ form[field].label }}: {{ ', '.join(errors) }}
                             </div>
                         {% endfor %}
-                    {% if form %}
+
                     <form method="POST" enctype="multipart/form-data">
                         {{ wtf.quick_form(form) }}
-                    </form> {%endif%}
+                    </form>
                     {%endif%}
                 </div>
                 <div class="col-7">

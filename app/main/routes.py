@@ -45,48 +45,49 @@ def before_request():
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    latest_post = Post.query.filter(Post.user_id == current_user.id).order_by(Post.timestamp.desc()).first()
-
     form = None
+    time_passed = None
+
+    latest_post = Post.query.filter(Post.user_id == current_user.id).order_by(Post.timestamp.desc()).first()
 
     if latest_post:
         time_passed = latest_post.timestamp - datetime.utcnow()
 
-        if Post.has_post_timer_expired(time_passed):
-            form = PostForm()
-            if form.validate_on_submit():
+    if time_passed is None or Post.has_post_timer_expired(time_passed):
+        form = PostForm()
+        if form.validate_on_submit():
 
-                language = guess_language(form.post.data)
-                if language == 'UNKNOWN' or len(language) > 5:
-                    language = ''
+            language = guess_language(form.post.data)
+            if language == 'UNKNOWN' or len(language) > 5:
+                language = ''
 
-                title = form.title.data
-                modArchive = form.modFile.data
-                modSize = len(form.modFile.data.read())
+            title = form.title.data
+            modArchive = form.modFile.data
+            modSize = len(form.modFile.data.read())
 
-                if not Post.can_pass_upload_limit(modSize):
-                    flash("Maximum file size is 150 MB!")
-                    return redirect(url_for('main.index'))
-
-                modPreview = form.previewFile.data
-                branch = form.branchField.data
-                data = None
-                mod_preview = None
-
-                if modArchive:
-                    data = Misc.save_and_get_mod(modArchive)
-
-                if modPreview:
-                    mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
-
-                post = Post(body=form.post.data, author=current_user,
-                            title = title, mod_file = data, photo_mod = mod_preview, language=language,
-                            branch = branch)
-
-                db.session.add(post)
-                db.session.commit()
-                flash(_('Your post is now live!'))
+            if not Post.can_pass_upload_limit(modSize):
+                flash("Maximum file size is 150 MB!")
                 return redirect(url_for('main.index'))
+
+            modPreview = form.previewFile.data
+            branch = form.branchField.data
+            data = None
+            mod_preview = None
+
+            if modArchive:
+                data = Misc.save_and_get_mod(modArchive)
+
+            if modPreview:
+                mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
+
+            post = Post(body=form.post.data, author=current_user,
+                        title = title, mod_file = data, photo_mod = mod_preview, language=language,
+                        branch = branch)
+
+            db.session.add(post)
+            db.session.commit()
+            flash(_('Your post is now live!'))
+            return redirect(url_for('main.index'))
 
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
