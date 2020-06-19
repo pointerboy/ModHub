@@ -51,7 +51,7 @@
                   {%endif%}
                </p>
                <br />
-              {% if post.mod_file %}
+              {% if is_valid_download(post.mod_file) %}
                <h5 style="color:royalblue;">{{_('Included files:')}}</h5>
                {% set files = post.list_contents()%}
                {% if files | length > 25 %}
