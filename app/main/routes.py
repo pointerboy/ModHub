@@ -11,6 +11,7 @@ from app.translate import translate
 from app.main import bp
 
 from markdown import markdown
+import markdown.extensions.fenced_code
 
 import functools
 import os
@@ -405,3 +406,12 @@ def learningcenter():
 @bp.route('/policy')
 def policy():
     return render_template('policy.html')
+
+@bp.route('/changelog')
+def changelog():
+    changelog_file = open(os.path.join(current_app.root_path, 'static', 'CHANGELOG.md'), "r")
+    
+    md_template_string = markdown.markdown(
+        changelog_file.read(), extensions=["fenced_code"]
+    )
+    return render_template('revision/revision.html', items=md_template_string)
