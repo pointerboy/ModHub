@@ -87,7 +87,7 @@
                   </button>
                </div>
                {%endif%}
-               {% if post.mod_file %}
+               {% if is_valid_download(post.mod_file) %}
                   <a style="color:white" type="button" class="w3-button w3-green" href="{{url_for('main.download', filename=post.mod_file) }}">Download</a>
                   <small class="text-muted">{{_('File signature: ' + post.mod_file)}}</small>
                {%endif%}
