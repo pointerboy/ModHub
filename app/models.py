@@ -17,7 +17,7 @@ from werkzeug import secure_filename
 from app import db, login
 from app.search import add_to_index, remove_from_index, query_index
 
-from zipfile import ZipFile, BadZipfile
+from zipfile import ZipFile
 
 import os
 from os import urandom
