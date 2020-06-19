@@ -13,9 +13,11 @@ from app.main import bp
 from markdown import markdown
 
 import functools
-import os	
-from os import urandom	
+import os
+from os import urandom
 import binascii
+
+import nude
 
 from datetime import datetime, timedelta
 
@@ -50,11 +52,11 @@ def index():
     if Post.has_post_timer_expired(time_passed):
         form = PostForm()
         if form.validate_on_submit():
-            
+
             language = guess_language(form.post.data)
             if language == 'UNKNOWN' or len(language) > 5:
                 language = ''
-            
+
             title = form.title.data
             modArchive = form.modFile.data
             modSize = len(form.modFile.data.read())
@@ -67,22 +69,22 @@ def index():
             branch = form.branchField.data
             data = None
             mod_preview = None
-            
+
             if modArchive:
                 data = Misc.save_and_get_mod(modArchive)
-                
+
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
 
             post = Post(body=form.post.data, author=current_user,
                         title = title, mod_file = data, photo_mod = mod_preview, language=language,
                         branch = branch)
-                    
+
             db.session.add(post)
             db.session.commit()
             flash(_('Your post is now live!'))
             return redirect(url_for('main.index'))
-            
+
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
         page, current_app.config['POSTS_PER_PAGE'], False)
@@ -138,7 +140,7 @@ def explore():
     return render_template('explore.html', title=_('Explore'),
                            posts=posts.items, next_url=next_url,
                            prev_url=prev_url)
-                           
+
 @bp.route('/user/<username>')
 @login_required
 def user(username):
@@ -173,12 +175,30 @@ def edit_profile():
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
 
+        user_has_pic = False
+
         if form.profile_pic.data:
+            #old
+            if current_user.picture_id:
+                old_picture_path = os.path.join(current_app.root_path, 'static/profile_pics', current_user.picture_id)
+                if os.path.isfile(old_picture_path):
+                    user_has_pic = True
+            #for new
             picture_file = Misc.save_and_get_picture(form.profile_pic.data, 'profile_pics')
-            current_user.picture_id = picture_file
+            picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_file)
+            if os.path.isfile(picture_path):
+                if not nude.is_nude(picture_path):
+                    current_user.picture_id = picture_file
+                    flash(_('Your pic was changed'))
+                    if user_has_pic is True:
+                        os.remove(old_picture_path);
+                else:
+                    flash(_('Warnning: Malicious or possibly explicit image detected'))
+                    os.remove(picture_path);
+            else: flash(_('There was an error changing your pic, please contact us for info'))
+        flash(_('Any changes were saved'))
 
         db.session.commit()
-        flash(_('Your changes have been saved.'))
         return redirect(url_for('main.edit_profile'))
     elif request.method == 'GET':
         form.username.data = current_user.username
@@ -193,7 +213,7 @@ def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
 
     edit_form = PostEditForm()
-    
+
     if edit_form.validate_on_submit():
         if post_object.author == current_user:
 
@@ -204,17 +224,17 @@ def post_view(postid):
             branch = edit_form.branchField.data
 
             if modArchive:
-                data = Misc.save_and_get_mod(modArchive) 
+                data = Misc.save_and_get_mod(modArchive)
                 post_object.mod_file = data
                 print(data)
 
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
                 post_object.photo_mod = mod_preview
-            
+
             if body:
                 post_object.body = body
-            if title: 
+            if title:
                 post_object.title = title
             if branch:
                 post_object.branch = branch
@@ -230,7 +250,7 @@ def post_view(postid):
             new_comment = Comment()
 
             new_comment.author_id = current_user.id
-            
+
             new_comment.body = form.body.data
             new_comment.post_id = postid
 
@@ -245,7 +265,7 @@ def post_view(postid):
             else:
                 flash("Comment has been added.")
             return redirect(url_for('main.post_view', postid=postid))
-        
+
     comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
 
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,
