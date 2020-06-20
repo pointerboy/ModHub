@@ -6,7 +6,7 @@ from flask_babel import _, get_locale
 from guess_language import guess_language
 from app import db, current_app
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm, PostEditForm
-from app.models import User, Post, Message, Notification, Misc, Comment
+from app.models import User, Post, Message, Notification, Misc, Comment, Changelog
 from app.translate import translate
 from app.main import bp
 
@@ -409,9 +409,7 @@ def policy():
 
 @bp.route('/changelog')
 def changelog():
-    changelog_file = open(os.path.join(current_app.root_path, 'static', 'CHANGELOG.md'), "r")
-    
     md_template_string = markdown.markdown(
-        changelog_file.read(), extensions=["fenced_code"]
+        Changelog.get_changelog(), extensions=["fenced_code"]
     )
     return render_template('revision/revision.html', items=md_template_string)

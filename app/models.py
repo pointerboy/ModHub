@@ -506,3 +506,9 @@ class Misc():
             r = r / bsize
 
         return(r)
+
+class Changelog():
+    @staticmethod
+    def get_changelog():
+        file = open(os.path.join(current_app.root_path, 'static', 'CHANGELOG.md'), "r")
+        return file.read()
