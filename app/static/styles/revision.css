@@ -1,0 +1,22 @@
+
+@font-face {
+    font-family: 'Menlo Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Menlo Regular'), url('fontfaces/Menlo-Regular.woff') format('woff');
+}
+
+body{
+    color: white;
+    background-color: #202121;
+}
+
+#main{
+    text-align: center;
+}
+
+h1{
+    font-family:'Menlo Regular';
+    font-weight:normal;
+    font-size:42px
+}
