@@ -401,15 +401,15 @@ def notifications():
 @bp.route('/learningcenter')
 @login_required
 def learningcenter():
-    return render_template('learningcenter/main.html')
+    return render_template('learningcenter/main.html', title="Learning Center")
 
 @bp.route('/policy')
 def policy():
-    return render_template('policy.html')
+    return render_template('policy.html', title="Guideline")
 
 @bp.route('/changelog')
 def changelog():
     md_template_string = markdown.markdown(
         Changelog.get_changelog(), extensions=["fenced_code"]
     )
-    return render_template('revision/revision.html', items=md_template_string)
+    return render_template('revision/revision.html', title="Devlog", items=md_template_string)
