@@ -363,7 +363,7 @@ class Post(SearchableMixin, db.Model):
         return None
 
     def does_preview_exist(self):
-        if os.path.exists(current_app.root_path + url_for('static', filename='modprev/'+str(self.photo_mod))):
+        if os.path.isfile(os.path.join(current_app.root_path,  'static/modprev', str(self.photo_mod))):
             return True
         return False
 
