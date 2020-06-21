@@ -41,7 +41,7 @@ def before_request():
         g.search_form = SearchForm()
     g.locale = str(get_locale())
 
-
+ 
 @bp.route('/', methods=['GET', 'POST'])
 @bp.route('/index', methods=['GET', 'POST'])
 @login_required
@@ -64,12 +64,6 @@ def index():
 
             title = form.title.data
             modArchive = form.modFile.data
-            modSize = len(form.modFile.data.read())
-
-            if not Post.can_pass_upload_limit(modSize):
-                flash("Maximum file size is 150 MB!")
-                return redirect(url_for('main.index'))
-
             modPreview = form.previewFile.data
             branch = form.branchField.data
             data = None
@@ -81,6 +75,7 @@ def index():
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
 
+            print(data)
             post = Post(body=form.post.data, author=current_user,
                         title = title, mod_file = data, photo_mod = mod_preview, language=language,
                         branch = branch)
@@ -89,7 +84,7 @@ def index():
             db.session.commit()
             flash(_('Your post will be live any minute now! You can now edit your post directly from the Explore page. However, you must wait 20 minutes before another post could be made!'), 'thumbsup')
 
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.post_view'))
 
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
@@ -217,7 +212,6 @@ def edit_profile():
 @login_required
 def post_view(postid):
     post_object = Post.query.filter(Post.id == postid).first_or_404()
-
     edit_form = PostEditForm()
 
     if edit_form.validate_on_submit():
