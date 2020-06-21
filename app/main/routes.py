@@ -267,7 +267,7 @@ def post_view(postid):
             return redirect(url_for('main.post_view', postid=postid))
 
     page = request.args.get('page', 1, type=int)
-    comments = post_object.comments.order_by(Comment.timestamp.asc()).paginate(
+    comments = post_object.comments.order_by(Comment.timestamp.desc()).paginate(
         page, current_app.config['COMMENTS_PER_PAGE'], False)
     next_url = url_for('main.post_view', postid=postid, page=comments.next_num) \
         if comments.has_next else None
