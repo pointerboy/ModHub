@@ -23,7 +23,7 @@ class Config(object):
     ELASTICSEARCH_URL = os.environ.get('ELASTICSEARCH_URL')
     TEMPLATES_AUTO_RELOAD = True
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
-    POSTS_PER_PAGE = 25
+    POSTS_PER_PAGE = 15
     COMMENTS_PER_PAGE = 10
 
     MAX_CONTENT_LENGTH = 250 * 1024 * 1024
