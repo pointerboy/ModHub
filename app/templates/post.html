@@ -5,6 +5,8 @@
 <meta name="theme-color" content="#20ba6d">
 <meta name="application-name" content="Vanilla Remastered - {{post.title}}">
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
+<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/comment.css') }}">
+
 <div class="container h-100">
    <div class="row h-100 align-items-center">
       <div class="col-12 text-left">
@@ -172,7 +174,15 @@
          </div>
       </div>
    </div>
-   {% include "comment.html" %}
+   {% for comment in comments%}
+      {% include "comment.html" %}
+   {%endfor%}
+   {% if prev_url %}
+    <a href="{{ prev_url }}">Newer comments</a>
+   {% endif %}
+   {% if next_url %}
+    <a href="{{ next_url }}">Older comments</a>
+   {% endif %}
 </div>
 </section>
 <div class="modal fade" id="previewAllMods" tabindex="-1" role="dialog" aria-labelledby="previewAllMods" aria-hidden="true">

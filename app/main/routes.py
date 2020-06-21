@@ -266,10 +266,16 @@ def post_view(postid):
                 flash("Comment has been added.", 'info')
             return redirect(url_for('main.post_view', postid=postid))
 
-    comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
+    page = request.args.get('page', 1, type=int)
+    comments = post_object.comments.order_by(Comment.timestamp.asc()).paginate(
+        page, current_app.config['COMMENTS_PER_PAGE'], False)
+    next_url = url_for('main.post_view', postid=postid, page=comments.next_num) \
+        if comments.has_next else None
+    prev_url = url_for('main.post_view', postid=postid,page=comments.prev_num) \
+        if comments.has_prev else None
 
     return render_template('post.html', post=post_object, title=_('Mod ')+post_object.title,
-    form=form, comments=comments, edit_form=edit_form)
+    form=form, comments=comments.items, next_url=next_url, prev_url=prev_url, edit_form=edit_form)
 
 
 @bp.route('/moderation/commentregulation/<int:id>')

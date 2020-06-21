@@ -1,66 +1,59 @@
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous"> <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/comment.css') }}">
 
-{% if post.comments.count() > 0 %}
-    {% for comment in post.comments %}
-    <div class="container">
-            <div class="row">
-            <div class="comments-container">
-                <ul id="comments-list" class="comments-list">
-                    <li>
-                        <div class="comment-main-level">
-                            <div class="comment-avatar"><img src="{{comment.author.avatar(1)}}" alt="User avatar."></div>
-                            <div class="comment-box">
-                                <div class="comment-head">
-                                    <h6 class="comment-name by-author">
-                                        <a href="{{url_for('main.user', username=comment.author.username)}}">{{comment.author.username}}</a>
-                                    </h6>
-                                    {% if comment.author.id == post.author.id %}
-                                        <span style="color:white" class="badge badge-success">Author</span>
-                                    {%endif%}
+<div class="container">
+    <div class="row">
+    <div class="comments-container">
+        <ul id="comments-list" class="comments-list">
+            <li>
+                <div class="comment-main-level">
+                    <div class="comment-avatar"><img src="{{comment.author.avatar(1)}}" alt="User avatar."></div>
+                    <div class="comment-box">
+                        <div class="comment-head">
+                            <h6 class="comment-name by-author">
+                                <a href="{{url_for('main.user', username=comment.author.username)}}">{{comment.author.username}}</a>
+                            </h6>
+                            {% if comment.author.id == post.author.id %}
+                                <span style="color:white" class="badge badge-success">Author</span>
+                            {%endif%}
 
-                                    <i>
-                                        {% if comment.author.has_role('admin')%}
-                                        <span style="color:white" class="badge badge-danger">Administrator</span>
-                                        {%endif%}
-									</i>
-									<i>
-										{% if current_user.has_role('admin')%}
-										<a href="{{url_for('main.commentregulation', id=comment.id)}}">
-											{% if comment.disabled %}
-												Enable Comment
-											{% else %}
-												Disable Comment 
-											{% endif %}
-										</a>
-                                        {%endif%}
-                                    </i>
+                            <i>
+                                {% if comment.author.has_role('admin')%}
+                                <span style="color:white" class="badge badge-danger">Administrator</span>
+                                {%endif%}
+                            </i>
+                            <i>
+                                {% if current_user.has_role('admin')%}
+                                <a href="{{url_for('main.commentregulation', id=comment.id)}}">
+                                    {% if comment.disabled %}
+                                        Enable Comment
+                                    {% else %}
+                                        Disable Comment 
+                                    {% endif %}
+                                </a>
+                                {%endif%}
+                            </i>
 
-                                    <i>
-                                        {{ _('%(when)s', when=moment(comment.timestamp).fromNow()) }}.
-                                    </i>
-                                </div>
-                                <div id="{{comment.id}}" class="comment-content">
-									{% if comment.disabled %}
-										<div class="alert alert-danger alert-dismissible fade show">
-											{{_('This comment has been disabled by an administrator.')}}
-										</div>
-									{% else%}
-										{% if comment.body_html %}
-											{{ comment.body_html | safe }}
-										{%else%}
-											{{comment.body}}
-										{%endif%}        
-									{%endif%}                            
-                                </div>
-                            </div>
+                            <i>
+                                {{ _('%(when)s', when=moment(comment.timestamp).fromNow()) }}.
+                            </i>
                         </div>
-                    </li>
-                </ul>
-            </div>
-            </div>
-        </div>
-    {% endfor %}
-{%else%}
-    <p>No comments yet.</p>
-{% endif %}
+                        <div id="{{comment.id}}" class="comment-content">
+                            {% if comment.disabled %}
+                                <div class="alert alert-danger alert-dismissible fade show">
+                                    {{_('This comment has been disabled by an administrator.')}}
+                                </div>
+                            {% else%}
+                                {% if comment.body_html %}
+                                    {{ comment.body_html | safe }}
+                                {%else%}
+                                    {{comment.body}}
+                                {%endif%}        
+                            {%endif%}                            
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    </div>
+</div>

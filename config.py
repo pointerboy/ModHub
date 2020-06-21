@@ -24,6 +24,7 @@ class Config(object):
     TEMPLATES_AUTO_RELOAD = True
     REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
     POSTS_PER_PAGE = 25
+    COMMENTS_PER_PAGE = 10
 
     MAX_CONTENT_LENGTH = 250 * 1024 * 1024
     POST_COOLDOWN_MIN = 20
