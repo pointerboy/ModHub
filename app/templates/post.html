@@ -32,7 +32,8 @@
                {% if post.author == current_user or current_user.has_role('admin') %}
                <i data-toggle="modal" data-target="#editModel" class="fas fa-edit"></i> Edit post
                {% endif %}
-               <h5 class="card-title">{{post.title}}</h5>
+               <br>
+               
                {% if post.branch %} <small class="text-muted">Branch:</small> <span class="badge badge-dark">{{post.branch}}</span> {%endif%}
                {% if post.verified %} <span class="badge badge-success">Verified</span> {%endif%}
                <p class="card-text"><small class="text-muted">
