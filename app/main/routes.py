@@ -87,7 +87,8 @@ def index():
 
             db.session.add(post)
             db.session.commit()
-            flash(_('Your post is now live!'))
+            flash(_('Your post will be live any minute now! You can now edit your post directly from the Explore page. However, you must wait 20 minutes before another post could be made!'), 'thumbsup')
+
             return redirect(url_for('main.index'))
 
     page = request.args.get('page', 1, type=int)
@@ -120,7 +121,7 @@ def download(filename):
 @has_role('admin')
 def deletepost(id):
     Post.delete_post(id)
-    flash(_('The post is now deleted!'))
+    flash(_('The post is now deleted!'), 'info')
     return redirect(url_for('main.explore'))
 
 @bp.route('/admin/postverif/<id>', methods=['GET', 'POST'])
@@ -128,9 +129,9 @@ def deletepost(id):
 @has_role('admin')
 def verifpost(id):
     if Post.verif_post(id):
-        flash(_('This post is now verified!'))
+        flash(_('This post is now verified!'), 'info')
     else:
-        flash(_('Post verification token has been removed!'))
+        flash(_('Post verification token has been removed!'), 'info')
     return redirect(url_for('main.post_view', postid=id))
 
 @bp.route('/explore')
@@ -173,7 +174,7 @@ def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
         if not current_user.has_role('premium') and form.username.data != current_user.username:
-            flash("This function isn't available to the public just yet!")
+            flash("This function isn't available to the public just yet!", 'error')
             return render_template('edit_profile.html', title=_('Edit Profile'),
                            form=form)
 
@@ -194,14 +195,14 @@ def edit_profile():
             if os.path.isfile(picture_path):
                 if not nude.is_nude(picture_path):
                     current_user.picture_id = picture_file
-                    flash(_('Your profile picture was changed'))
+                    flash(_('Your profile picture was changed'), 'info')
                     if user_has_pic is True:
                         os.remove(old_picture_path);
                 else:
-                    flash(_('Warnning: Malicious or possibly explicit image detected'))
+                    flash(_('Warnning: Malicious or possibly explicit image detected'), 'error')
                     os.remove(picture_path);
-            else: flash(_('There was an error changing your picture, please contact us for info'))
-        flash(_('Any changes were saved'))
+            else: flash(_('There was an error changing your picture, please contact us for info'), 'error')
+        flash(_('Any changes were saved'), 'info')
 
         db.session.commit()
         return redirect(url_for('main.edit_profile'))
@@ -265,10 +266,10 @@ def post_view(postid):
                 db.session.add(new_comment)
                 db.session.commit()
             except Exception as e:
-                flash('Error adding your comment: %s' % str(e))
+                flash('Error adding your comment: %s' % str(e), 'error')
                 db.session.rollback()
             else:
-                flash("Comment has been added.")
+                flash("Comment has been added.", 'info')
             return redirect(url_for('main.post_view', postid=postid))
 
     comments = post_object.comments.order_by(Comment.timestamp.asc()).all()
@@ -289,14 +290,14 @@ def commentregulation(id):
 def follow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(_('User %(username)s not found.', username=username))
+        flash(_('User %(username)s not found.', username=username), 'error')
         return redirect(url_for('main.index'))
     if user == current_user:
-        flash(_('You cannot follow yourself!'))
+        flash(_('You cannot follow yourself!'), 'error')
         return redirect(url_for('main.user', username=username))
     current_user.follow(user)
     db.session.commit()
-    flash(_('You are following %(username)s!', username=username))
+    flash(_('You are following %(username)s!', username=username), 'info')
     return redirect(url_for('main.user', username=username))
 
 
@@ -305,14 +306,14 @@ def follow(username):
 def unfollow(username):
     user = User.query.filter_by(username=username).first()
     if user is None:
-        flash(_('User %(username)s not found.', username=username))
+        flash(_('User %(username)s not found.', username=username), 'error')
         return redirect(url_for('main.index'))
     if user == current_user:
-        flash(_('You cannot unfollow yourself!'))
+        flash(_('You cannot unfollow yourself!'), 'error')
         return redirect(url_for('main.user', username=username))
     current_user.unfollow(user)
     db.session.commit()
-    flash(_('You are not following %(username)s.', username=username))
+    flash(_('You are not following %(username)s.', username=username), 'info')
     return redirect(url_for('main.user', username=username))
 
 
@@ -351,7 +352,7 @@ def send_message(recipient):
         db.session.add(msg)
         user.add_notification('unread_message_count', user.new_messages())
         db.session.commit()
-        flash(_('Your message has been sent.'))
+        flash(_('Your message has been sent.'), 'info')
         return redirect(url_for('main.user', username=recipient))
     return render_template('send_message.html', title=_('Send Message'),
                            form=form, recipient=recipient)
@@ -379,7 +380,7 @@ def messages():
 @login_required
 def export_posts():
     if current_user.get_task_in_progress('export_posts'):
-        flash(_('An export task is currently in progress'))
+        flash(_('An export task is currently in progress'), 'error')
     else:
         current_user.launch_task('export_posts', _('Exporting posts...'))
         db.session.commit()

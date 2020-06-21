@@ -101,10 +101,23 @@
                 {% endif %}
             {% endwith %}
         {% endif %}
-        {% with messages = get_flashed_messages() %}
+        {% with messages = get_flashed_messages(with_categories=True) %}
             {% if messages %}
-                {% for message in messages %}
+                {% for category, message in messages %}
+                {% if category == 'thumbsup' %}
+                    <div class="alert alert-success" role="alert">
+                        <h4 class="alert-heading">Well done!</h4>
+                        <p>{{message}}</p>
+                        <hr>
+                        <p class="mb-0">If you have any issues contact us at modhub@vanilla-remastered.com</p>
+                    </div>
+                {%endif%}
+                {%if category == 'error' %}
+                    <div class="alert alert-danger" role="alert">{{ message }}</div>
+                {%endif%}
+                {% if category == 'info' %}
                     <div class="alert alert-info" role="alert">{{ message }}</div>
+                {%endif%}
                 {% endfor %}
             {% endif %}
         {% endwith %}
