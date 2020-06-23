@@ -42,3 +42,5 @@ instance/*.*
 
 app/static/moduploads/*.*
 app/static/modprev/*.*
+
+app/templates/learningcenter/*.*
