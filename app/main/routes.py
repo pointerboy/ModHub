@@ -88,9 +88,8 @@ def index():
             # TODO: Configure for production domain
             try:
                 embed = DiscordEmbed(title=title, description=form.post.data, color=242424)
-                print(current_user.avatar(1))
                 embed.set_thumbnail(url='')
-                embed.set_author(name="New post has been made!", url="https://discordapp.com", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
+                embed.set_author(name="New post was made!", url="https://discordapp.com", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
                 embed.add_embed_field(name='Author', value=current_user.username)
                 embed.add_embed_field(name='Modification File', value=data)
 
