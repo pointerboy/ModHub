@@ -20,6 +20,8 @@ from redis import Redis
 
 from config import Config
 
+from discord_webhook import DiscordWebhook, DiscordEmbed
+
 db = SQLAlchemy()
 migrate = Migrate()
 login = LoginManager()
@@ -31,7 +33,7 @@ moment = Moment()
 babel = Babel()
 dropzone = Dropzone()
 ip_ban = IpBan(ban_seconds=100)
-
+dischook = DiscordWebhook(url='https://discordapp.com/api/webhooks/724856505391775815/PWq_CfR4spFbNTa_3e4DqUNTnhq81M35OeVFI3A-iyjCoWl4L2I0i96Y-7cPC4EhF0dw')
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -106,6 +108,5 @@ def create_app(config_class=Config):
 @babel.localeselector
 def get_locale():
     return request.accept_languages.best_match(current_app.config['LANGUAGES'])
-
 
 from app import models

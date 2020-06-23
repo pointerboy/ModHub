@@ -4,7 +4,7 @@ from flask import render_template, flash, redirect, url_for, request, g, \
 from flask_login import current_user, login_required
 from flask_babel import _, get_locale
 from guess_language import guess_language
-from app import db, current_app
+from app import db, current_app, dischook
 from app.main.forms import EditProfileForm, PostForm, SearchForm, MessageForm, CommentForm, PostEditForm
 from app.models import User, Post, Message, Notification, Misc, Comment, Changelog
 from app.translate import translate
@@ -21,6 +21,7 @@ import binascii
 import nude
 
 from datetime import datetime, timedelta
+from discord_webhook import DiscordEmbed
 
 def has_role(name):
     def real_decorator(f):
@@ -84,7 +85,29 @@ def index():
             db.session.commit()
             flash(_('Your post will be live any minute now! You can now edit your post directly from the Explore page. However, you must wait 20 minutes before another post could be made!'), 'thumbsup')
 
-            return redirect(url_for('main.post_view'))
+            # TODO: Configure for production domain
+            try:
+                embed = DiscordEmbed(title=title, description=form.post.data, color=242424)
+                print(current_user.avatar(1))
+                embed.set_thumbnail(url='')
+                embed.set_author(name="New post has been made!", url="https://discordapp.com", icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
+                embed.add_embed_field(name='Author', value=current_user.username)
+                embed.add_embed_field(name='Modification File', value=data)
+
+                if current_user.has_role('premium'):
+                    embed.add_embed_field(name='Rank status',value='🥇')
+                
+                if current_user.has_role('admin'):
+                    embed.add_embed_field(name='Verified Status', value='✅')
+
+                embed.set_timestamp()
+
+                dischook.add_embed(embed)
+                dischook.execute()
+            except:
+                flash(_("Failed to share to Discord. Don't worry. This does not affect your post."), 'error')
+
+            return redirect(url_for('main.index'))
 
     page = request.args.get('page', 1, type=int)
     posts = current_user.followed_posts().paginate(
