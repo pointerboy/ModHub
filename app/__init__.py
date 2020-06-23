@@ -33,7 +33,7 @@ moment = Moment()
 babel = Babel()
 dropzone = Dropzone()
 ip_ban = IpBan(ban_seconds=100)
-dischook = DiscordWebhook(url='https://discordapp.com/api/webhooks/724856505391775815/PWq_CfR4spFbNTa_3e4DqUNTnhq81M35OeVFI3A-iyjCoWl4L2I0i96Y-7cPC4EhF0dw')
+dischook = DiscordWebhook(url='https://discordapp.com/api/webhooks/724979451041153044/ul_55NLuQCNAcY6rXto0kHBu3WQJf8xQOyZJ4qHBNppS4lHu5TGKrnIl2NcD5JgHtJnw')
 
 def create_app(config_class=Config):
     app = Flask(__name__)
