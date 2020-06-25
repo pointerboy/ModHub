@@ -29,10 +29,8 @@
   </div>
   <div class="card-body">
       <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>{{ _('Uploaded %(when)s',
-        username=user_link, when=moment(post.timestamp).fromNow()) }}.</div>
-      <a class="card-link" href="#">
-          <h5 class="card-title">{{post.title}}</h5>
-      </a>
+          username=user_link, when=moment(post.timestamp).fromNow()) }}.</div>
+      <h5 class="card-title">{{post.title}}</h5>
       <p class="card-text">
         {% if post.body_html %}
           {{ post.body_html | safe}}
