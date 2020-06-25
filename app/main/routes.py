@@ -187,6 +187,10 @@ def user_popup(username):
 def edit_profile():
     form = EditProfileForm(current_user.username)
     if form.validate_on_submit():
+        if current_user.ip != current_user.last_ip:
+            flash("Failed to save settings due to a security issue", 'error')
+            return redirect(url_for('main.index'))
+
         if not current_user.has_role('premium') and form.username.data != current_user.username:
             flash("This function isn't available to the public just yet!", 'error')
             return render_template('edit_profile.html', title=_('Edit Profile'),
