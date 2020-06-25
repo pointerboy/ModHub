@@ -15,12 +15,9 @@ import markdown.extensions.fenced_code
 
 import functools
 import os
-from os import urandom
-import binascii
 
 import nude
 
-from datetime import datetime, timedelta
 from discord_webhook import DiscordEmbed
 
 def has_role(name):
@@ -78,8 +75,8 @@ def index():
 
             print(data)
             post = Post(body=form.post.data, author=current_user,
-                        title = title, mod_file = data, photo_mod = mod_preview, language=language,
-                        branch = branch)
+                        title=title, mod_file=data, photo_mod=mod_preview, language=language,
+                        branch=branch)
 
             db.session.add(post)
             db.session.commit()
