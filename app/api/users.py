@@ -4,14 +4,28 @@ from app import db
 from app.api import bp
 from app.api.auth import token_auth
 from app.api.errors import bad_request
-from app.models import User
+from app.models import User, Post, Comment
 
+
+@bp.route('/open/posts/', methods=['GET'])
+def get_post_count():
+    data = db.session.query(Post).count()
+    return jsonify(data)
+
+@bp.route('/open/users/', methods=['GET'])
+def get_user_count():
+    data = db.session.query(User).count()
+    return jsonify(data)
+
+@bp.route('/open/comments/', methods=['GET'])
+def get_comment_count():
+    data = db.session.query(Comment).count()
+    return jsonify(data)
 
 @bp.route('/users/<int:id>', methods=['GET'])
 @token_auth.login_required
 def get_user(id):
     return jsonify(User.query.get_or_404(id).to_dict())
-
 
 @bp.route('/users', methods=['GET'])
 @token_auth.login_required
