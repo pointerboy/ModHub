@@ -362,7 +362,7 @@ class Post(SearchableMixin, db.Model):
                         print(element)
                         contents.append(element)
             except:
-                contents.append("Server sided error occurred. File was modified or deleted. We can't find it on our side.")
+                contents.append("The list of files cannot be processed.")
             return contents
         return None
 
