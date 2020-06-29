@@ -178,6 +178,10 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
         return self.followed.filter(
             followers.c.followed_id == user.id).count() > 0
 
+    def is_online(self):
+        """A user is online if they were last seen less than 2 minutes ago."""
+        return (datetime.utcnow() - self.last_seen).total_seconds() < 2 * 60
+
     def followed_posts(self):
         followed = Post.query.join(
             followers, (followers.c.followed_id == Post.user_id)).filter(

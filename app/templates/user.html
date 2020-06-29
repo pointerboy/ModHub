@@ -7,8 +7,13 @@
                         <div class="row">
                             <div class="col-12 col-lg-8 col-md-3">
                                 <h3 class="mb-0 text-truncated">{{ user.username }}</h3>
-                                <p class="lead">{{ _('%(username)s was last seen %(when)s',
-                                    username=user_link, when=moment(user.last_seen).fromNow()) }}.</p>
+                                <p class="lead">
+                                    {% if user.is_online() %}
+                                        <b style="color: #20ba6d">Online</b>
+                                    {%else%}
+                                        {{ _('%(username)s was last seen %(when)s',
+                                        username=user_link, when=moment(user.last_seen).fromNow()) }}.</p>
+                                    {%endif%}
                                 <p>
                                 {% if user.about_me %}
                                     {{user.about_me}}
