@@ -85,7 +85,6 @@ def index():
             db.session.commit()
             flash(_('Your post will be live any minute now! You can now edit your post directly from the Explore page. However, you must wait 20 minutes before another post could be made!'), 'thumbsup')
 
-            # TODO: Configure for production domain
             try:
                 embed = DiscordEmbed(title=title, description=form.post.data, color=242424)
                 embed.set_thumbnail(url='')
