@@ -49,11 +49,11 @@ def index():
 
     latest_post = Post.query.filter(Post.user_id == current_user.id).order_by(Post.timestamp.desc()).first()
 
-    if latest_post.number_of_downloads >= 5:
-        flash("Bravo! Your latest post got over five downloads and made it onto hot list.")
-
     if latest_post:
         time_passed = latest_post.timestamp - datetime.utcnow()
+
+        if latest_post.number_of_downloads >= 5:
+            flash("Bravo! Your latest post got over five downloads and made it onto hot list.")
 
     if time_passed is None or Post.has_post_timer_expired(time_passed):
         form = PostForm()
