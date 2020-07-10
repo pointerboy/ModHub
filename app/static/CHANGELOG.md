@@ -1,3 +1,7 @@
+<b>Friday, July 10, 2020</b>
+<hr>
+- Added a notification when user's post reaches over five downloads.
+- Added a 'HOT' badge to posts that have over five downloads.
 <b>Monday, June 29, 2020</b>
 <hr>
 - Added a user online status. 
