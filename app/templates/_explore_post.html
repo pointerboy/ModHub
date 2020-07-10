@@ -1,6 +1,9 @@
 <div class="col-lg-4 col-md-5 col-6">
   <a href="{{url_for('main.post_view', postid=post.id)}}" class="d-block mb-4 h-100">
       <div class="img-container">
+        {% if post.number_of_downloads >= 5%}
+          <span class="badge badge-danger badge-pill">HOT</span>
+        {% endif %}
         <img class="img-fluid img-thumbnail" src="{{post.get_preview()}}" alt="">
         <div class="overlay">
           <span><b>{{post.title}}</b></span>
