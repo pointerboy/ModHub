@@ -1,3 +1,7 @@
+<b>Saturday, July 11, 2020</b>
+<hr>
+- Minor changes to the registration.
+<br><br>
 <b>Friday, July 10, 2020</b>
 <hr>
 - Added a notification when user's post reaches over five downloads. <br>
