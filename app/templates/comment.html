@@ -13,12 +13,12 @@
                                 <a href="{{url_for('main.user', username=comment.author.username)}}">{{comment.author.username}}</a>
                             </h6>
                             {% if comment.author.id == post.author.id %}
-                                <span style="color:white" class="badge badge-success">Author</span>
+                                <span class="badge badge-pill badge-outline-primary">Author</span>
                             {%endif%}
 
                             <i>
                                 {% if comment.author.has_role('admin')%}
-                                <span style="color:white" class="badge badge-danger">Administrator</span>
+                                <span class="badge badge-pill badge-outline-danger">Administrator</span>
                                 {%endif%}
                             </i>
                             <i>
