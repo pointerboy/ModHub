@@ -114,9 +114,12 @@ def index():
         if posts.has_next else None
     prev_url = url_for('main.index', page=posts.prev_num) \
         if posts.has_prev else None
+
+    recommendations = Post.query.filter(Post.number_of_downloads >= 1).all()
+    
     return render_template('index.html', title=_('Home'), form=form,
                            posts=posts.items, next_url=prev_url,
-                           prev_url=next_url)
+                           prev_url=next_url, recommendations=recommendations)
 
 
 @bp.route('/download/<filename>', methods=['GET', 'POST'])
