@@ -115,7 +115,7 @@ def index():
     prev_url = url_for('main.index', page=posts.prev_num) \
         if posts.has_prev else None
 
-    recommendations = Post.query.filter(Post.number_of_downloads >= 1).all()
+    recommendations = Post.query.filter(Post.number_of_downloads >= 5).all()
     
     return render_template('index.html', title=_('Home'), form=form,
                            posts=posts.items, next_url=prev_url,
