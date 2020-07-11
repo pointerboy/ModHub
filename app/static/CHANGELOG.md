@@ -1,6 +1,9 @@
 <b>Saturday, July 11, 2020</b>
 <hr>
 - Minor changes to the registration.
+
+<br>
+- Recommendations now work. You will get customized recommendations in your feed.
 <br><br>
 <b>Friday, July 10, 2020</b>
 <hr>
