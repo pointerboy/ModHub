@@ -46,7 +46,7 @@
                </p>
                <hr />
                <h5 style="color:royalblue;">{{_('Description:')}}</h5>
-               <p class="card-text">
+               <p style="white-space: pre-wrap;" class="card-text">
                   {% if post.body_html %}
                      {{ post.body_html | safe }}
                   {%else%}
