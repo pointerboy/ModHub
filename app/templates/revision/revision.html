@@ -2,10 +2,11 @@
 {% block app_content %}
 <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/revision.css') }}">
 <h1 id="main">modhub devlog</h1>
-<h4 id="main">brought by pointerboy and h20</h4><hr>
 
 <div class="card">
     <div class="card-body" style="font-family:'Menlo Regular'; background-color: #202124">
     <ul> {{items|safe}}</ul>
 </div>
+
+<h1 style="color:black" id="main">kudos to h2o for contribution</h1>
 {% endblock %}
