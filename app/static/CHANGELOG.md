@@ -1,3 +1,8 @@
+<b>W, July 15, 2020</b>
+<hr>
+=> Changed listing file content error message (clearity).<br>
+- Post page now supports post description spacing. <br>
+- New comment badges.<br><br> 
 <b>Saturday, July 11, 2020</b>
 <hr>
 - Minor changes to the registration.
