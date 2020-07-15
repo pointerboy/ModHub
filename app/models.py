@@ -362,7 +362,7 @@ class Post(SearchableMixin, db.Model):
                         print(element)
                         contents.append(element)
             except:
-                contents.append("The list of files cannot be processed.")
+                contents.append("The list of files cannot be processed. You can still download the file.")
             return contents
         return None
 
