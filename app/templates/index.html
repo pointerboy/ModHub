@@ -2,8 +2,7 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-<link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='styles/mainpage.css') }}">
 
     <h1 class="font-weight-light">{{ _('Hello, %(username)s!', username=current_user.username) }}</h1>
     {% if request.MOBILE %}<p>ModHub works best on desktop as of right now.</p>{% else %}
@@ -17,10 +16,7 @@
         We have upgraded our guideline. Check it out <a href="{{url_for('main.policy')}}">here.</a>
     </div>
 
-    <br />
-
     {% if form %}
-    <p style="color:red;">{{_('PRO TIP: Click on the icon below to create a post!')}}</p>
     <h3>
         <i data-toggle="collapse" href="#postCollapse" role="button" aria-expanded="false" aria-controls="postCollapse" class="fas fa-plus-square fa"></i>
         {{_('Launch a Post')}}
@@ -79,33 +75,44 @@
             </div>
         </div>
     {%endif%}
-   </div>
-   <hr>
-   <div class="w3-container">
-        <div class="w3-panel w3-white w3-card-4">
-            <h3 class="font-weight-lighter">Recommended</h3>
-            {% if not recommendations %}
-            <p class="font-weight-lighter">There are no suggestions at this time.</p>
-        {%else%}
-            {% for post in recommendations %}
-                {% include '_post.html' %}
-            {%endfor%}
-        {%endif%}
-        </div>
-        <div class="w3-panel w3-white w3-card-4">
-            <h3 class="font-weight-light">{{_('Your feed')}}</h3>
-            {% if posts | length == 0%}
-            <p class="font-weight-light">{{_('Looks like your feed is empty! Try following someone')}}</p>
-            <img src="https://media.giphy.com/media/YOqgY2wQazNKleTJ5D/giphy.gif">
-            {%endif%}
 
+    <main role="main" class="container">
+        <div class="d-flex align-items-center p-3 my-3 text-white-50 bg-green rounded box-shadow">
+          <img class="mr-3" src="{{ url_for('static', filename='feed.svg')}}" width="48" height="48">
+          <div class="lh-100">
+            <h6 class="mb-0 text-white lh-100">ModHub</h6>
+            <small>Welcome to your feed!</small>
+          </div>
+        </div>
+  
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h6 class="border-bottom border-gray pb-2 mb-0">Recommendations</h6>
+          {% if not recommendations %}<p class="media text-muted pt-3">There are no suggestions at this time.</p>
+          {%else%}
             {% for post in posts %}
-                {% include '_post.html' %}
-            {% endfor %}
+            {% include 'new_recommend_post.html' %}
+            {%endfor%}
+          {%endif%}
 
-            {%include 'nextprev.html'%}
+          <small class="d-block text-right mt-3">
+              Suggestions are based on number of downloads.
+          </small>
         </div>
-  </div>
+  
+        <div class="my-3 p-3 bg-white rounded box-shadow">
+          <h6 class="border-bottom border-gray pb-2 mb-0">Your feed</h6>
+            {% for post in posts %}
+            {% include 'new_feed_post.html' %}
+            {% endfor %}
+            
+          <small class="d-block text-right mt-3">
+            <a href="{{url_for('main.explore')}}">All posts</a>
+          </small>
+        </div>
+    </main>
 
+    {% include 'nextprev.html' %}
+    
+   </div>
     <script src="{{url_for('static', filename='javascript/welcome.js')}}"></script>
 {% endblock %}
