@@ -139,6 +139,9 @@ def download(filename):
 @login_required
 @has_role('admin')
 def deletepost(id):
+    if current_user.has_role('admin') and current_user.ip != request.remote_addr:
+        return "Failed to delete the post. Denied."
+        
     Post.delete_post(id)
     flash(_('The post is now deleted!'), 'info')
     return redirect(url_for('main.explore'))
@@ -147,6 +150,9 @@ def deletepost(id):
 @login_required
 @has_role('admin')
 def verifpost(id):
+    if current_user.has_role('admin') and current_user.ip != request.remote_addr:
+        return "Failed to delete the post. Denied."
+
     if Post.verif_post(id):
         flash(_('This post is now verified!'), 'info')
     else:
