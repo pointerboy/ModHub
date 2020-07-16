@@ -1,3 +1,7 @@
+<b>Thursday, 16, 2020</b>
+<hr>
+- New front page user interface. <br>
+- Removed devlog static badge. <br><br>
 <b>W, July 15, 2020</b>
 <hr>
 => Changed listing file content error message (clearity).<br>
