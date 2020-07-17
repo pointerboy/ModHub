@@ -14,6 +14,8 @@ class EditProfileForm(FlaskForm):
 
     profile_pic = FileField(_l('New profile picture'), validators=[FileAllowed(['jpg', 'png'], 'Invalid file set for the profile picture. We support jpg and png.')])
 
+    vk_username = StringField(_l('VK Username'), validators=[Length(max=18)])
+    
     submit = SubmitField(_l('Submit'))
     def __init__(self, original_username, *args, **kwargs):
         super(EditProfileForm, self).__init__(*args, **kwargs)
@@ -24,7 +26,7 @@ class EditProfileForm(FlaskForm):
             user = User.query.filter_by(username=self.username.data).first()
             if user is not None:
                 raise ValidationError(_('Please use a different username.'))
-
+    
 
 class PostForm(FlaskForm):
     title = StringField(_l('Title of Modification'), validators=[DataRequired()])

@@ -20,6 +20,11 @@
                                 {% else %}
                                     <p class="lead">{{_('No bio added.')}}</p>
                                 {%endif%}
+
+                                {% if user.vk_username %}
+                                    <br>
+                                    VK Username: {{ user.vk_username }}
+                                {%endif%}
                                 </p>
                                 <p> 
                                     {% if user.posts.count() < 5 %}

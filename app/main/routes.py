@@ -200,7 +200,7 @@ def edit_profile():
     if form.validate_on_submit():
         if current_user.ip != current_user.last_ip:
             flash("Failed to save settings due to a security issue", 'error')
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.edit_profile'))
 
         if not current_user.has_role('premium') and form.username.data != current_user.username:
             flash("This function isn't available to the public just yet!", 'error')
@@ -209,6 +209,9 @@ def edit_profile():
 
         current_user.username = form.username.data
         current_user.about_me = form.about_me.data
+
+        if form.vk_username.data is not None:
+            current_user.vk_username = form.vk_username.data
 
         user_has_pic = False
 
