@@ -3,7 +3,7 @@ from flask_babel import _
 from flask_login import login_user, logout_user, current_user
 from werkzeug.urls import url_parse
 
-from app import db, ip_ban
+from app import db
 from app.auth import bp
 from app.auth.email import send_password_reset_email
 from app.auth.forms import LoginForm, RegistrationForm, \
@@ -20,7 +20,6 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is None or not user.check_password(form.password.data):
             flash(_('Invalid username or password'), 'error')
-            ip_ban.add()            
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
         next_page = request.args.get('next')
