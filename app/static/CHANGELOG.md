@@ -1,3 +1,7 @@
+<b>Friday, 17, 2020</b>
+<hr>
+- Added a optional VK username field. You can now add your VK Social profile if you'd like to.
+<br><br>
 <b>Thursday, 16, 2020</b>
 <hr>
 - New front page user interface. <br>
