@@ -1,7 +1,10 @@
 <b>Friday, 17, 2020</b>
 <hr>
-- Added a optional VK username field. You can now add your VK Social profile if you'd like to.
-<br><br>
+- Added a optional VK username field. You can now add your VK Social profile if you'd like to.<br><br>
+- Added a <i style="color: orange" class="fas fa-star"></i> next to News Feed most popular uploads. <br>
+* Redesigned old user post style cards.<br>
+=> Applied a small security patch for admins.<br>
+<br>
 <b>Thursday, 16, 2020</b>
 <hr>
 - New front page user interface. <br>
