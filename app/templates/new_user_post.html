@@ -1,0 +1,16 @@
+<div class="media text-muted pt-3">
+    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <div class="text-muted h7 mb-2"> <i class="fa fa-clock-o"></i>{{ _('Posted %(when)s',
+            username=user_link, when=moment(post.timestamp).fromNow()) }}.</div>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <strong style="color: var(--green)"><a href="{{url_for('main.post_view', postid=post.id)}}">{{post.title}}</a></strong>
+        <strong style="color: var(--green)"><a href="{{url_for('main.post_view', postid=post.id)}}">{{post.body[:10]}} ...</a></strong>
+        {% if post.number_of_downloads >= 2 %}
+        <i style="color: orange" class="fas fa-star fa-2x"></i>
+        {%elif post.mod_file%}
+        <a href="{{url_for('main.download', filename=post.mod_file) }}"><i class="fas fa-cloud-download-alt"></i></a>
+        {% endif %}
+      </div>
+      <span class="d-block"><a href="{{ url_for('main.user', username=post.author.username) }}">@{{post.author.username}}</a></span>
+    </div>
+</div>
