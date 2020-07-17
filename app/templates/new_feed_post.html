@@ -6,7 +6,7 @@
         {% if post.number_of_downloads >= 2 %}
         <i style="color: orange" class="fas fa-star fa-2x"></i>
         {%elif post.mod_file%}
-        <a href="{{url_for('main.download', filename=post.mod_file) }}"><i class="fas fa-cloud-download-alt"></i></a>
+        <a href="{{url_for('main.download', filename=post.mod_file) }}"><i class="fas fa-cloud-download-alt fa-2x"></i></a>
         {% endif %}
       </div>
       <span class="d-block"><a href="{{ url_for('main.user', username=post.author.username) }}">@{{post.author.username}}</a></span>
