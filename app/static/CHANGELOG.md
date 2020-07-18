@@ -1,3 +1,7 @@
+<b>Saturday, 18, 2020</b>
+<hr>
+- Minor administrator update.
+<br>
 <b>Friday, 17, 2020</b>
 <hr>
 - Added a optional VK username field. You can now add your VK Social profile if you'd like to.<br><br>
