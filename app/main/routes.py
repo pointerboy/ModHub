@@ -218,25 +218,18 @@ def edit_profile():
         user_has_pic = False
 
         if form.profile_pic.data:
-            #old
             if current_user.picture_id:
                 old_picture_path = os.path.join(current_app.root_path, 'static/profile_pics', current_user.picture_id)
                 if os.path.isfile(old_picture_path):
                     user_has_pic = True
-            #for new
             picture_file = Misc.save_and_get_picture(form.profile_pic.data, 'profile_pics')
             picture_path = os.path.join(current_app.root_path, 'static/profile_pics', picture_file)
             if os.path.isfile(picture_path):
-                if not nude.is_nude(picture_path):
-                    current_user.picture_id = picture_file
-                    flash(_('Your profile picture was changed'), 'info')
-                    if user_has_pic is True:
-                        os.remove(old_picture_path);
-                else:
-                    flash(_('Warnning: Malicious or possibly explicit image detected'), 'error')
-                    os.remove(picture_path);
+                current_user.picture_id = picture_file
+                flash(_('Your profile picture was changed'), 'info')
+                if user_has_pic is True:
+                    os.remove(old_picture_path);
             else: flash(_('There was an error changing your picture, please contact us for info'), 'error')
-        flash(_('Any changes were saved'), 'info')
 
         db.session.commit()
         return redirect(url_for('main.edit_profile'))
