@@ -17,7 +17,7 @@ import functools
 import os
 
 import nude
-
+import shutil
 from discord_webhook import DiscordEmbed
 
 def has_role(name):
@@ -71,7 +71,8 @@ def index():
             mod_preview = None
 
             if modArchive:
-                data = Misc.save_and_get_mod(modArchive)
+                replaced_title = title.replace(" ", "_")
+                data = Misc.save_and_get_mod(modArchive, replaced_title)
 
             if modPreview:
                 mod_preview = Misc.save_and_get_picture(modPreview, 'modprev')
@@ -256,7 +257,8 @@ def post_view(postid):
             branch = edit_form.branchField.data
 
             if modArchive:
-                data = Misc.save_and_get_mod(modArchive)
+                replaced_title = title.replace(" ", "_")
+                data = Misc.save_and_get_mod(modArchive, replaced_title)
                 post_object.mod_file = data
                 print(data)
 

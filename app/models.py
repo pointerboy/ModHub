@@ -113,6 +113,8 @@ class User(UserMixin, PaginatedAPIMixin, db.Model):
     ip = db.Column(db.String(16))
     last_ip = db.Column(db.String(16))
 
+    vk_username = db.Column(db.String(18))
+    
     roles = db.Table(
         'role_users',
         db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -492,12 +494,12 @@ class Misc():
         return picture_file
 
     @staticmethod
-    def save_and_get_mod(mod_data):
-        secure_hex =  binascii.hexlify(os.urandom(12))
+    def save_and_get_mod(mod_data, post_title):
+        secure_hex =  binascii.hexlify(os.urandom(1))
         secure_filename(mod_data.filename)
 
         _, f_ext = os.path.splitext(mod_data.filename)
-        mod_file = str(secure_hex) + f_ext
+        mod_file = "modhub_" + post_title + str(secure_hex) + f_ext
 
         mod_data.save(os.path.join(current_app.root_path, 'static/moduploads', mod_file))
         return mod_file
