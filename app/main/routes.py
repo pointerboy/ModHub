@@ -100,7 +100,9 @@ def index():
 
                 embed.set_timestamp()
 
+                embed.add_embed_field(value='@724868498957795401')
                 dischook.add_embed(embed)
+
                 dischook.execute()
             except:
                 flash(_("Failed to share to Discord. Don't worry. This does not affect your post."), 'error')
@@ -451,3 +453,11 @@ def changelog():
         Changelog.get_changelog(), extensions=["fenced_code"]
     )
     return render_template('revision/revision.html', title="Devlog", items=md_template_string)
+
+
+@bp.route('/admin/members')
+@login_required
+@has_role('admin')
+def members():
+    users = User.query.all()
+    return render_template('users.html', users=users)

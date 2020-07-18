@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block app_content %}
+<div class="container mt-3">
+    <h2>User List</h2>
+    <p>Brief look at members of ModHub.</p>  
+    <input class="form-control" id="searchInput" type="text" placeholder="Search..">
+    <br>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Nickname</th>
+          <th>Email</th>
+          <th>Posts</th>
+          <th>Comments</th>
+          <th>Last online</th>
+        </tr>
+      </thead>
+      <tbody id="userTable">
+        {% for user in users %}
+        <tr>
+          <td>{{user.username}}</td>
+          <td>{{user.email}}</td>
+          <td>{{user.posts.count()}}</td>
+          <td>{{user.comments.count()}}</td>
+          <td>{{ _('%(username)s %(when)s',
+            username=user_link, when=moment(user.last_seen).fromNow()) }}.</td>
+        </tr>
+        {%endfor%}
+      </tbody>
+    </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+<script>
+    $(document).ready(function(){
+        $('#searchInput').on("keyup", function(){
+            var value = $(this).val().toLowerCase();
+            $('#userTable tr').filter(function(){
+                $(this).toggle($(this).text().toLowerCase().indexOf(value)>-1)
+            });
+        });
+    });
+</script>
+{% endblock %}
