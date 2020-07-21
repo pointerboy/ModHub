@@ -16,7 +16,6 @@ import markdown.extensions.fenced_code
 import functools
 import os
 
-import nude
 import shutil
 from discord_webhook import DiscordEmbed
 
