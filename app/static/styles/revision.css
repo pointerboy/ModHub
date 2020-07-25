@@ -12,11 +12,17 @@ body{
 }
 
 #main{
-    text-align: center;
+    background-color: #202121;
 }
 
 h1{
-    font-family:'Menlo Regular';
+    font-family: 'Inter', sans-serif;
     font-weight:normal;
     font-size:42px
+}
+
+#code-text{
+    font-family: 'Menlo Regular';
+    font-weight:normal;
+    font-size:16px
 }
