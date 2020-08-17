@@ -1,5 +1,0 @@
----
-    deployment:
-        tasks:
-            - export DEPLOYPATH=/home/vanilla/modhub_production/
-            - /bin/cp -R * $DEPLOYPATH
