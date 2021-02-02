@@ -43,7 +43,7 @@ flask-mobility==1.0.0
 wtforms-validators==1.00
 
 #markdown stuff
-bleach==3.1.5
+bleach==3.3.0
 markdown==3.2.2
 # requirements for Heroku
 #psycopg2==2.7.3.1
