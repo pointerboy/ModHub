@@ -29,4 +29,4 @@ class Config(object):
     MAX_CONTENT_LENGTH = 250 * 1024 * 1024
     POST_COOLDOWN_MIN = 20
 
-    DISCORD_WEBHOOK_URL = os.environ.get('DISCORD_HOOK_URL') or 'https://discordapp.com/api/webhooks/724856505391775815/PWq_CfR4spFbNTa_3e4DqUNTnhq81M35OeVFI3A-iyjCoWl4L2I0i96Y-7cPC4EhF0dw'
+    DISCORD_WEBHOOK_URL = os.environ.get('DISCORD_HOOK_URL')
