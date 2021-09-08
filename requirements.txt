@@ -52,7 +52,7 @@ markdown==3.2.2
 # For nudepy
 nudepy == 0.5
 cython == 0.29.20
-pillow == 8.2.0
+pillow == 8.3.2
 
 #discord
 discord-webhook == 0.8.0
